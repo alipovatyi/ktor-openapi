@@ -8,6 +8,10 @@ allprojects {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(libs.ktor.server.core)

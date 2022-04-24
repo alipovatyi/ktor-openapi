@@ -11,6 +11,7 @@ application {
 }
 
 dependencies {
+    implementation(project(":"))
     implementation(kotlin("stdlib"))
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
