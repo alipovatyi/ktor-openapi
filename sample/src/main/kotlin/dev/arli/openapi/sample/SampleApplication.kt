@@ -44,6 +44,8 @@ fun main() {
                     url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
                 }
             }
+
+            server(Url("/v3")) {}
         }
     }.start(wait = true)
 }

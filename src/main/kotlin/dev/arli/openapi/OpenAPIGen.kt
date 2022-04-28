@@ -4,6 +4,8 @@ import dev.arli.openapi.generator.ContactJsonGenerator
 import dev.arli.openapi.generator.InfoJsonGenerator
 import dev.arli.openapi.generator.LicenseJsonGenerator
 import dev.arli.openapi.generator.OpenAPIJsonGenerator
+import dev.arli.openapi.generator.ServerJsonGenerator
+import dev.arli.openapi.generator.ServerVariableJsonGenerator
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
@@ -18,8 +20,13 @@ val OpenAPIGen = createApplicationPlugin(
         contactJsonGenerator = contactJsonGenerator,
         licenseJsonGenerator = licenseJsonGenerator
     )
+    val serverVariableJsonGenerator = ServerVariableJsonGenerator()
+    val serverJsonGenerator = ServerJsonGenerator(
+        serverVariableJsonGenerator = serverVariableJsonGenerator
+    )
     val openAPIJsonGenerator = OpenAPIJsonGenerator(
-        infoJsonGenerator = infoJsonGenerator
+        infoJsonGenerator = infoJsonGenerator,
+        serverJsonGenerator = serverJsonGenerator
     )
 
     on(MonitoringEvent(ApplicationStarted)) {

@@ -1,9 +1,10 @@
 package dev.arli.openapi
 
 import dev.arli.openapi.model.InfoObject
+import dev.arli.openapi.model.ServerObject
 import io.ktor.http.Url
-import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
 
 internal class OpenAPIGenConfigurationTest {
 
@@ -32,6 +33,25 @@ internal class OpenAPIGenConfigurationTest {
                 title = "Title"
                 description = "Description"
                 termsOfService = Url("http://localhost/")
+            }
+        }
+
+        assertEquals(expectedConfiguration, actualConfiguration)
+    }
+
+    @Test
+    fun `Should add server object`() {
+        val expectedConfiguration = OpenAPIGenConfiguration(
+            servers = listOf(
+                ServerObject(
+                    url = Url("http://localhost/server"),
+                    description = "Server description"
+                )
+            )
+        )
+        val actualConfiguration = OpenAPIGenConfiguration().apply {
+            server(Url("http://localhost/server")) {
+                description = "Server description"
             }
         }
 
