@@ -22,7 +22,7 @@ internal class LicenseJsonGeneratorTest {
             put("url", "http://localhost/license")
         }
 
-        assertEquals(generator.generateLicenseJson(givenLicense), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateLicenseJson(givenLicense))
     }
 
     @Test
@@ -36,6 +36,6 @@ internal class LicenseJsonGeneratorTest {
             put("url", "null")
         }
 
-        assertEquals(generator.generateLicenseJson(givenLicense), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateLicenseJson(givenLicense))
     }
 }

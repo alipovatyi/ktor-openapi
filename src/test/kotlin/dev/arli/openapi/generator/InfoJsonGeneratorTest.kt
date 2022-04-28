@@ -52,7 +52,7 @@ internal class InfoJsonGeneratorTest {
             }
         }
 
-        assertEquals(generator.generateInfoJson(givenInfo), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateInfoJson(givenInfo))
     }
 
     @Test
@@ -87,7 +87,7 @@ internal class InfoJsonGeneratorTest {
             }
         }
 
-        assertEquals(generator.generateInfoJson(givenInfo), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateInfoJson(givenInfo))
     }
 
     @Test
@@ -114,7 +114,7 @@ internal class InfoJsonGeneratorTest {
             }
         }
 
-        assertEquals(generator.generateInfoJson(givenInfo), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateInfoJson(givenInfo))
     }
 
     @Test
@@ -143,6 +143,6 @@ internal class InfoJsonGeneratorTest {
             }
         }
 
-        assertEquals(generator.generateInfoJson(givenInfo), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateInfoJson(givenInfo))
     }
 }

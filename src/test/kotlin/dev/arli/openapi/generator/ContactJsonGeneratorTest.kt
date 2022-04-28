@@ -24,7 +24,7 @@ internal class ContactJsonGeneratorTest {
             put("email", "contact@mail.com")
         }
 
-        assertEquals(generator.generateContactJson(givenContact), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateContactJson(givenContact))
     }
 
     @Test
@@ -36,6 +36,6 @@ internal class ContactJsonGeneratorTest {
         )
         val expectedJsonObject = buildJsonObject {}
 
-        assertEquals(generator.generateContactJson(givenContact), expectedJsonObject)
+        assertEquals(expectedJsonObject, generator.generateContactJson(givenContact))
     }
 }
