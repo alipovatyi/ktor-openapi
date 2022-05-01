@@ -26,7 +26,7 @@ internal class LicenseJsonGeneratorTest {
     }
 
     @Test
-    fun `Should convert null values correctly`() {
+    fun `Should exclude null values`() {
         val givenLicense = LicenseObject(
             name = "License",
             url = null
