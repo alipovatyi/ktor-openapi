@@ -3,7 +3,7 @@ package dev.arli.openapi.model
 import io.ktor.http.HttpStatusCode
 
 data class OperationObject(
-    val tags: Set<String> = emptySet(),
+    val tags: Set<TagObject> = emptySet(), // TODO
     val summary: String? = null,
     val description: String? = null,
     val externalDocs: ExternalDocumentationObject? = null,
