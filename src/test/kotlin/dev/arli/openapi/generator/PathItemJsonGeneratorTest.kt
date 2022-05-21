@@ -12,8 +12,14 @@ import org.junit.jupiter.api.Test
 internal class PathItemJsonGeneratorTest {
 
     private val externalDocumentationJsonGenerator = ExternalDocumentationJsonGenerator()
+    private val parameterJsonGenerator = ParameterJsonGenerator()
+    private val requestBodyJsonGenerator = RequestBodyJsonGenerator()
+    private val responseJsonGenerator = ResponseJsonGenerator()
     private val operationJsonGenerator = OperationJsonGenerator(
-        externalDocumentationJsonGenerator = externalDocumentationJsonGenerator
+        externalDocumentationJsonGenerator = externalDocumentationJsonGenerator,
+        parameterJsonGenerator = parameterJsonGenerator,
+        requestBodyJsonGenerator = requestBodyJsonGenerator,
+        responseJsonGenerator = responseJsonGenerator
     )
     private val generator = PathItemJsonGenerator(
         operationJsonGenerator = operationJsonGenerator
@@ -43,21 +49,29 @@ internal class PathItemJsonGeneratorTest {
             putJsonObject("get") {
                 putJsonArray("tags") {}
                 put("description", "GET operation")
+                putJsonArray("parameters") {}
+                putJsonObject("responses") {}
                 put("deprecated", false)
             }
             putJsonObject("put") {
                 putJsonArray("tags") {}
                 put("description", "PUT operation")
+                putJsonArray("parameters") {}
+                putJsonObject("responses") {}
                 put("deprecated", false)
             }
             putJsonObject("post") {
                 putJsonArray("tags") {}
                 put("description", "POST operation")
+                putJsonArray("parameters") {}
+                putJsonObject("responses") {}
                 put("deprecated", false)
             }
             putJsonObject("delete") {
                 putJsonArray("tags") {}
                 put("description", "DELETE operation")
+                putJsonArray("parameters") {}
+                putJsonObject("responses") {}
                 put("deprecated", false)
             }
         }
