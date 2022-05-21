@@ -2,8 +2,11 @@
 kotlin = "1.6.21"
 ktor = "2.0.1"
 logback = "1.2.11"
+dateTime = "0.3.3"
 
 [libraries]
+kotlin-dateTime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "dateTime" }
+
 ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty", version.ref = "ktor" }
 ktor-server-contentNegotiation = { group = "io.ktor", name = "ktor-server-content-negotiation", version.ref = "ktor" }
