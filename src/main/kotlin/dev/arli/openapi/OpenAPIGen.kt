@@ -30,8 +30,7 @@ val OpenAPIGen = createApplicationPlugin(
     )
 
     on(MonitoringEvent(ApplicationStarted)) {
-        println(">>> OpenAPIGen installed")
-        println(">>> Configuration: $pluginConfig")
-        println(">>> OpenAPI JSON: ${openAPIJsonGenerator.generate(pluginConfig)}")
+        val openAPIJson = openAPIJsonGenerator.generate(pluginConfig)
+        println(openAPIJson) // TODO: remove printing
     }
 }
