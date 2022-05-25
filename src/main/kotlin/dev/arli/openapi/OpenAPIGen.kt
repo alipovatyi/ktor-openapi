@@ -1,36 +1,33 @@
 package dev.arli.openapi
 
-import dev.arli.openapi.generator.ContactJsonGenerator
-import dev.arli.openapi.generator.InfoJsonGenerator
-import dev.arli.openapi.generator.LicenseJsonGenerator
-import dev.arli.openapi.generator.OpenAPIJsonGenerator
-import dev.arli.openapi.generator.ServerJsonGenerator
-import dev.arli.openapi.generator.ServerVariableJsonGenerator
+import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
-import io.ktor.server.application.createApplicationPlugin
+import io.ktor.server.application.BaseApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
+import io.ktor.util.AttributeKey
 
-val OpenAPIGen = createApplicationPlugin(
-    name = "OpenAPIGen",
-    createConfiguration = ::OpenAPIGenConfiguration
+class OpenAPIGen(
+    private val configuration: OpenAPIGenConfiguration
 ) {
-    val contactJsonGenerator = ContactJsonGenerator()
-    val licenseJsonGenerator = LicenseJsonGenerator()
-    val infoJsonGenerator = InfoJsonGenerator(
-        contactJsonGenerator = contactJsonGenerator,
-        licenseJsonGenerator = licenseJsonGenerator
-    )
-    val serverVariableJsonGenerator = ServerVariableJsonGenerator()
-    val serverJsonGenerator = ServerJsonGenerator(
-        serverVariableJsonGenerator = serverVariableJsonGenerator
-    )
-    val openAPIJsonGenerator = OpenAPIJsonGenerator(
-        infoJsonGenerator = infoJsonGenerator,
-        serverJsonGenerator = serverJsonGenerator
-    )
 
-    on(MonitoringEvent(ApplicationStarted)) {
-        val openAPIJson = openAPIJsonGenerator.generate(pluginConfig)
-        println(openAPIJson) // TODO: remove printing
+    companion object Plugin : BaseApplicationPlugin<ApplicationCallPipeline, OpenAPIGenConfiguration, OpenAPIGen> {
+
+        private val ApplicationStartedEvent = MonitoringEvent(ApplicationStarted)
+
+        override val key: AttributeKey<OpenAPIGen> = AttributeKey("OpenAPIGen")
+
+        override fun install(
+            pipeline: ApplicationCallPipeline,
+            configure: OpenAPIGenConfiguration.() -> Unit
+        ): OpenAPIGen {
+            val configuration = OpenAPIGenConfiguration().apply(configure)
+            val plugin = OpenAPIGen(configuration)
+
+            ApplicationStartedEvent.install(pipeline) {
+                // TODO: generate JSON & write to openapi.json
+            }
+
+            return plugin
+        }
     }
 }
