@@ -5,6 +5,5 @@ package dev.arli.openapi.annotation
 annotation class Path(
     val name: String = "",
     val description: String = "",
-    val deprecated: Boolean = false,
-    val allowEmptyValue: Boolean = false
+    val deprecated: Boolean = false
 )

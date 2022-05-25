@@ -6,6 +6,5 @@ annotation class Header(
     val name: String = "", // TODO: ignore "Accept", "Content-Type" and "Authorization"
     val description: String = "",
     val required: Boolean = false,
-    val deprecated: Boolean = false,
-    val allowEmptyValue: Boolean = false
+    val deprecated: Boolean = false
 )

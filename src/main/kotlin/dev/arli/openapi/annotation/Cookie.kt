@@ -6,6 +6,5 @@ annotation class Cookie(
     val name: String = "",
     val description: String = "",
     val required: Boolean = false,
-    val deprecated: Boolean = false,
-    val allowEmptyValue: Boolean = false
+    val deprecated: Boolean = false
 )
