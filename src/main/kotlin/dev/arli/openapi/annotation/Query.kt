@@ -4,5 +4,8 @@ package dev.arli.openapi.annotation
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Query(
     val name: String = "",
-    val required: Boolean = false
+    val description: String = "",
+    val required: Boolean = false,
+    val deprecated: Boolean = false,
+    val allowEmptyValue: Boolean = false
 )
