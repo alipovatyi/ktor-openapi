@@ -2,9 +2,9 @@ package dev.arli.openapi.generator
 
 import dev.arli.openapi.model.ContactObject
 import io.ktor.http.Url
+import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ContactJsonGeneratorTest {

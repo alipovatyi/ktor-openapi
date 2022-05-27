@@ -1,8 +1,8 @@
 package dev.arli.openapi.util
 
 import kotlin.reflect.full.createType
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class KTypeExtensionTest {
