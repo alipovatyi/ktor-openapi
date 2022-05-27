@@ -15,7 +15,9 @@ tasks.withType<Test> {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(libs.kotlin.dateTime)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.serialization)
-    testImplementation(kotlin("test-junit5"))
+    testImplementation(libs.bundles.kotlin.test)
+    testImplementation(libs.ktor.server.test)
 }
