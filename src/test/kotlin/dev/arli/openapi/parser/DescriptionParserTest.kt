@@ -1,7 +1,8 @@
 package dev.arli.openapi.parser
 
 import dev.arli.openapi.annotation.Description
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 internal class DescriptionParserTest {
