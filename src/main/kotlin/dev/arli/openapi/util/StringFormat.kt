@@ -1,6 +1,8 @@
 package dev.arli.openapi.util
 
 import kotlin.reflect.KType
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 enum class StringFormat(val key: String) {
     NO_FORMAT(""),
@@ -12,13 +14,10 @@ enum class StringFormat(val key: String) {
 }
 
 fun KType.getStringFormat(): StringFormat {
-    return when (this) {
-        DataTypes.stringType -> StringFormat.NO_FORMAT
-        DataTypes.nullableStringType -> StringFormat.NO_FORMAT
-        DataTypes.localDateType -> StringFormat.DATE
-        DataTypes.nullableLocalDateType -> StringFormat.DATE
-        DataTypes.localDateTimeType -> StringFormat.DATE_TIME
-        DataTypes.nullableLocalDateTimeType -> StringFormat.DATE_TIME
+    return when (classifier) {
+        String::class -> StringFormat.NO_FORMAT
+        LocalDate::class -> StringFormat.DATE
+        LocalDateTime::class -> StringFormat.DATE_TIME
         else -> throw IllegalArgumentException("Unsupported string type [$this]")
     }
 }
