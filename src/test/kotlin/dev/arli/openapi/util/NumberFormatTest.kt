@@ -32,10 +32,15 @@ internal class NumberFormatTest {
         @JvmStatic
         fun `Should return number format`() = listOf(
             arguments(typeOf<Int>(), NumberFormat.INT_32),
+            arguments(typeOf<Int?>(), NumberFormat.INT_32),
             arguments(typeOf<Long>(), NumberFormat.INT_64),
+            arguments(typeOf<Long?>(), NumberFormat.INT_64),
             arguments(typeOf<Double>(), NumberFormat.DOUBLE),
+            arguments(typeOf<Double?>(), NumberFormat.DOUBLE),
             arguments(typeOf<Float>(), NumberFormat.FLOAT),
-            arguments(typeOf<BigDecimal>(), NumberFormat.NO_FORMAT)
+            arguments(typeOf<Float?>(), NumberFormat.FLOAT),
+            arguments(typeOf<BigDecimal>(), NumberFormat.NO_FORMAT),
+            arguments(typeOf<BigDecimal?>(), NumberFormat.NO_FORMAT)
         )
     }
 }

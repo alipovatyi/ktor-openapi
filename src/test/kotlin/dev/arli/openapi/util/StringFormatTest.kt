@@ -33,8 +33,11 @@ internal class StringFormatTest {
         @JvmStatic
         fun `Should return string format`() = listOf(
             arguments(typeOf<String>(), StringFormat.NO_FORMAT),
+            arguments(typeOf<String?>(), StringFormat.NO_FORMAT),
             arguments(typeOf<LocalDate>(), StringFormat.DATE),
-            arguments(typeOf<LocalDateTime>(), StringFormat.DATE_TIME)
+            arguments(typeOf<LocalDate?>(), StringFormat.DATE),
+            arguments(typeOf<LocalDateTime>(), StringFormat.DATE_TIME),
+            arguments(typeOf<LocalDateTime?>(), StringFormat.DATE_TIME)
         )
     }
 }

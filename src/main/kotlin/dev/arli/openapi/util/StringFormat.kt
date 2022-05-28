@@ -14,8 +14,11 @@ enum class StringFormat(val key: String) {
 fun KType.getStringFormat(): StringFormat {
     return when (this) {
         DataTypes.stringType -> StringFormat.NO_FORMAT
+        DataTypes.nullableStringType -> StringFormat.NO_FORMAT
         DataTypes.localDateType -> StringFormat.DATE
+        DataTypes.nullableLocalDateType -> StringFormat.DATE
         DataTypes.localDateTimeType -> StringFormat.DATE_TIME
+        DataTypes.nullableLocalDateTimeType -> StringFormat.DATE_TIME
         else -> throw IllegalArgumentException("Unsupported string type [$this]")
     }
 }
