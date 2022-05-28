@@ -2,7 +2,7 @@ package dev.arli.openapi.model.property
 
 import kotlin.reflect.KType
 
-enum class IntegerFormat(val key: String) {
+enum class IntegerFormat(override val key: String) : DataFormat {
     NO_FORMAT(""),
     INT_32("int32"),
     INT_64("int64")

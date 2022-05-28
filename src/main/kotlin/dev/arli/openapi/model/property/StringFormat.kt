@@ -4,7 +4,7 @@ import kotlin.reflect.KType
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
-enum class StringFormat(val key: String) {
+enum class StringFormat(override val key: String) : DataFormat {
     NO_FORMAT(""),
     DATE("date"),
     DATE_TIME("date-time"),

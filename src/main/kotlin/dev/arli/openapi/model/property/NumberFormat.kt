@@ -3,7 +3,7 @@ package dev.arli.openapi.model.property
 import java.math.BigDecimal
 import kotlin.reflect.KType
 
-enum class NumberFormat(val key: String) {
+enum class NumberFormat(override val key: String) : DataFormat {
     NO_FORMAT(""),
     FLOAT("float"),
     DOUBLE("double")
