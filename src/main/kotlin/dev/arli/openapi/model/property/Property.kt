@@ -44,3 +44,10 @@ data class ObjectProperty(
     override val description: String?,
     override val nullable: Boolean
 ) : Property(DataType.OBJECT)
+
+data class EnumProperty(
+    override val name: String,
+    override val description: String?,
+    override val nullable: Boolean,
+    val values: Set<String>
+) : Property(DataType.STRING)

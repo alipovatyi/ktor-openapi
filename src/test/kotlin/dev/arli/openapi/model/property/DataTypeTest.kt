@@ -67,7 +67,9 @@ internal class DataTypeTest {
             arguments(typeOf<Set<*>>(), DataType.ARRAY),
             arguments(typeOf<Set<*>?>(), DataType.ARRAY),
             arguments(typeOf<Map<*, *>>(), DataType.OBJECT),
-            arguments(typeOf<Map<*, *>?>(), DataType.OBJECT)
+            arguments(typeOf<Map<*, *>?>(), DataType.OBJECT),
+            arguments(typeOf<Enum<*>>(), DataType.ENUM),
+            arguments(typeOf<Enum<*>?>(), DataType.ENUM)
         )
     }
 }

@@ -11,7 +11,8 @@ class PropertyMapper(
     private val integerPropertyMapper: IntegerPropertyMapper = IntegerPropertyMapper(),
     private val booleanPropertyMapper: BooleanPropertyMapper = BooleanPropertyMapper(),
     private val arrayPropertyMapper: ArrayPropertyMapper = ArrayPropertyMapper(),
-    private val objectPropertyMapper: ObjectPropertyMapper = ObjectPropertyMapper()
+    private val objectPropertyMapper: ObjectPropertyMapper = ObjectPropertyMapper(),
+    private val enumPropertyMapper: EnumPropertyMapper = EnumPropertyMapper()
 ) {
 
     fun map(property: KProperty<*>): Property {
@@ -22,6 +23,7 @@ class PropertyMapper(
             DataType.BOOLEAN -> booleanPropertyMapper.map(property)
             DataType.ARRAY -> arrayPropertyMapper.map(property)
             DataType.OBJECT -> objectPropertyMapper.map(property)
+            DataType.ENUM -> enumPropertyMapper.map(property)
         }
     }
 }

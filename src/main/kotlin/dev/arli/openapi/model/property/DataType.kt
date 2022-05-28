@@ -1,5 +1,6 @@
 package dev.arli.openapi.model.property
 
+import dev.arli.openapi.util.isEnum
 import java.math.BigDecimal
 import kotlin.reflect.KType
 import kotlinx.datetime.LocalDate
@@ -11,7 +12,8 @@ enum class DataType(val key: String) {
     INTEGER("integer"),
     BOOLEAN("boolean"),
     ARRAY("array"),
-    OBJECT("object")
+    OBJECT("object"),
+    ENUM("string")
 }
 
 fun KType.getDataType(): DataType {
@@ -35,6 +37,10 @@ fun KType.getDataType(): DataType {
         Set::class -> DataType.ARRAY
         // Object
         Map::class -> DataType.OBJECT
-        else -> throw IllegalArgumentException("Unsupported data type [$this]")
+        else -> when {
+            // Enum
+            isEnum -> DataType.ENUM
+            else -> throw IllegalArgumentException("Unsupported data type [$this]")
+        }
     }
 }

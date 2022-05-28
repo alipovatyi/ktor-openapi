@@ -2,6 +2,7 @@ package dev.arli.openapi.mapper
 
 import dev.arli.openapi.model.property.ArrayProperty
 import dev.arli.openapi.model.property.BooleanProperty
+import dev.arli.openapi.model.property.EnumProperty
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.IntegerProperty
 import dev.arli.openapi.model.property.NumberFormat
@@ -34,67 +35,81 @@ internal class PropertyMapperTest {
     fun `Should map property to number property`() {
         val givenProperty = TestClassWithDouble::double
 
-        val expectedStringProperty = NumberProperty(
+        val expectedNumberProperty = NumberProperty(
             name = "double",
             description = null,
             nullable = false,
             format = NumberFormat.DOUBLE
         )
 
-        assertEquals(expectedStringProperty, mapper.map(givenProperty))
+        assertEquals(expectedNumberProperty, mapper.map(givenProperty))
     }
 
     @Test
     fun `Should map property to integer property`() {
         val givenProperty = TestClassWithInt::int
 
-        val expectedStringProperty = IntegerProperty(
+        val expectedIntegerProperty = IntegerProperty(
             name = "int",
             description = null,
             nullable = false,
             format = IntegerFormat.INT_32
         )
 
-        assertEquals(expectedStringProperty, mapper.map(givenProperty))
+        assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
     }
 
     @Test
     fun `Should map property to boolean property`() {
         val givenProperty = TestClassWithBoolean::boolean
 
-        val expectedStringProperty = BooleanProperty(
+        val expectedBooleanProperty = BooleanProperty(
             name = "boolean",
             description = null,
             nullable = false
         )
 
-        assertEquals(expectedStringProperty, mapper.map(givenProperty))
+        assertEquals(expectedBooleanProperty, mapper.map(givenProperty))
     }
 
     @Test
     fun `Should map property to array property`() {
         val givenProperty = TestClassWithList::list
 
-        val expectedStringProperty = ArrayProperty(
+        val expectedArrayProperty = ArrayProperty(
             name = "list",
             description = null,
             nullable = false
         )
 
-        assertEquals(expectedStringProperty, mapper.map(givenProperty))
+        assertEquals(expectedArrayProperty, mapper.map(givenProperty))
     }
 
     @Test
     fun `Should map property to object property`() {
         val givenProperty = TestClassWithMap::map
 
-        val expectedStringProperty = ObjectProperty(
+        val expectedObjectProperty = ObjectProperty(
             name = "map",
             description = null,
             nullable = false
         )
 
-        assertEquals(expectedStringProperty, mapper.map(givenProperty))
+        assertEquals(expectedObjectProperty, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map property to enum property`() {
+        val givenProperty = TestClassWithEnum::enum
+
+        val expectedEnumProperty = EnumProperty(
+            name = "enum",
+            description = null,
+            nullable = false,
+            values = setOf("VALUE")
+        )
+
+        assertEquals(expectedEnumProperty, mapper.map(givenProperty))
     }
 
     private data class TestClassWithString(val string: String)
@@ -108,4 +123,8 @@ internal class PropertyMapperTest {
     private data class TestClassWithList(val list: List<Any>)
 
     private data class TestClassWithMap(val map: Map<String, Any>)
+
+    private data class TestClassWithEnum(val enum: TestEnum)
+
+    private enum class TestEnum { VALUE }
 }
