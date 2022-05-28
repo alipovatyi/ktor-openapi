@@ -21,6 +21,7 @@ fun KType.getDataType(): DataType {
         DataTypes.longType -> DataType.INTEGER
         DataTypes.floatType -> DataType.NUMBER
         DataTypes.doubleType -> DataType.NUMBER
+        DataTypes.bigDecimalType -> DataType.NUMBER
         DataTypes.booleanType -> DataType.BOOLEAN
         DataTypes.stringType -> DataType.STRING
         DataTypes.localDateType -> DataType.STRING
