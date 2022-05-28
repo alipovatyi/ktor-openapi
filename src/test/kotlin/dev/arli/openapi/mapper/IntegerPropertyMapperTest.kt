@@ -2,7 +2,7 @@ package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.IntegerProperty
-import dev.arli.openapi.util.NumberFormat
+import dev.arli.openapi.util.IntegerFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlinx.serialization.SerialName
@@ -20,7 +20,7 @@ internal class IntegerPropertyMapperTest {
             name = "value",
             description = null,
             nullable = false,
-            format = NumberFormat.INT_32
+            format = IntegerFormat.INT_32
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
@@ -34,7 +34,7 @@ internal class IntegerPropertyMapperTest {
             name = "value",
             description = null,
             nullable = true,
-            format = NumberFormat.INT_32
+            format = IntegerFormat.INT_32
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
@@ -48,7 +48,7 @@ internal class IntegerPropertyMapperTest {
             name = "value",
             description = null,
             nullable = false,
-            format = NumberFormat.INT_64
+            format = IntegerFormat.INT_64
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
@@ -62,7 +62,7 @@ internal class IntegerPropertyMapperTest {
             name = "value",
             description = null,
             nullable = true,
-            format = NumberFormat.INT_64
+            format = IntegerFormat.INT_64
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
@@ -76,7 +76,7 @@ internal class IntegerPropertyMapperTest {
             name = "custom-value",
             description = null,
             nullable = false,
-            format = NumberFormat.INT_32
+            format = IntegerFormat.INT_32
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))
@@ -90,7 +90,7 @@ internal class IntegerPropertyMapperTest {
             name = "value",
             description = "Description",
             nullable = false,
-            format = NumberFormat.INT_32
+            format = IntegerFormat.INT_32
         )
 
         assertEquals(expectedIntegerProperty, mapper.map(givenProperty))

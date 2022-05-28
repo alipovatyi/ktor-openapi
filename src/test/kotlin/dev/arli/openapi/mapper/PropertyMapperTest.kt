@@ -6,6 +6,7 @@ import dev.arli.openapi.model.IntegerProperty
 import dev.arli.openapi.model.NumberProperty
 import dev.arli.openapi.model.ObjectProperty
 import dev.arli.openapi.model.StringProperty
+import dev.arli.openapi.util.IntegerFormat
 import dev.arli.openapi.util.NumberFormat
 import dev.arli.openapi.util.StringFormat
 import kotlin.test.assertEquals
@@ -51,7 +52,7 @@ internal class PropertyMapperTest {
             name = "int",
             description = null,
             nullable = false,
-            format = NumberFormat.INT_32
+            format = IntegerFormat.INT_32
         )
 
         assertEquals(expectedStringProperty, mapper.map(givenProperty))

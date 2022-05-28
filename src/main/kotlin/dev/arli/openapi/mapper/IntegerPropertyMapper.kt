@@ -5,7 +5,7 @@ import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import dev.arli.openapi.util.DataType
 import dev.arli.openapi.util.getDataType
-import dev.arli.openapi.util.getNumberFormat
+import dev.arli.openapi.util.getIntegerFormat
 import kotlin.reflect.KProperty
 
 class IntegerPropertyMapper(
@@ -22,7 +22,7 @@ class IntegerPropertyMapper(
             name = propertyNameParser.parse(property),
             description = descriptionParser.parse(property),
             nullable = property.returnType.isMarkedNullable,
-            format = property.returnType.getNumberFormat()
+            format = property.returnType.getIntegerFormat()
         )
     }
 }

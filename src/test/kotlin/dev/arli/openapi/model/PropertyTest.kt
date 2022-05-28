@@ -1,6 +1,7 @@
 package dev.arli.openapi.model
 
 import dev.arli.openapi.util.DataType
+import dev.arli.openapi.util.IntegerFormat
 import dev.arli.openapi.util.NumberFormat
 import dev.arli.openapi.util.StringFormat
 import kotlin.test.assertEquals
@@ -22,7 +23,7 @@ internal class PropertyTest {
         fun `Should set correct data type`() = listOf(
             arguments(StringProperty("", null, false, StringFormat.NO_FORMAT), DataType.STRING),
             arguments(NumberProperty("", null, false, NumberFormat.NO_FORMAT), DataType.NUMBER),
-            arguments(IntegerProperty("", null, false, NumberFormat.NO_FORMAT), DataType.INTEGER),
+            arguments(IntegerProperty("", null, false, IntegerFormat.INT_32), DataType.INTEGER),
             arguments(BooleanProperty("", null, false), DataType.BOOLEAN),
             arguments(ArrayProperty("", null, false), DataType.ARRAY),
             arguments(ObjectProperty("", null, false), DataType.OBJECT)

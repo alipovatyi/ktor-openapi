@@ -1,6 +1,7 @@
 package dev.arli.openapi.model
 
 import dev.arli.openapi.util.DataType
+import dev.arli.openapi.util.IntegerFormat
 import dev.arli.openapi.util.NumberFormat
 import dev.arli.openapi.util.StringFormat
 
@@ -28,7 +29,7 @@ data class IntegerProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean,
-    val format: NumberFormat
+    val format: IntegerFormat
 ) : Property(DataType.INTEGER)
 
 data class BooleanProperty(
