@@ -1,7 +1,7 @@
 package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.Description
-import dev.arli.openapi.model.ObjectProperty
+import dev.arli.openapi.model.property.ObjectProperty
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlinx.serialization.SerialName

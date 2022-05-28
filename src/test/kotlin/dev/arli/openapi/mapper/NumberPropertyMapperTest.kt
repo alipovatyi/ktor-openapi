@@ -1,8 +1,8 @@
 package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.Description
-import dev.arli.openapi.model.NumberProperty
-import dev.arli.openapi.util.NumberFormat
+import dev.arli.openapi.model.property.NumberFormat
+import dev.arli.openapi.model.property.NumberProperty
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

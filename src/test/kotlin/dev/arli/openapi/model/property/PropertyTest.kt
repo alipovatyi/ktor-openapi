@@ -1,9 +1,5 @@
-package dev.arli.openapi.model
+package dev.arli.openapi.model.property
 
-import dev.arli.openapi.util.DataType
-import dev.arli.openapi.util.IntegerFormat
-import dev.arli.openapi.util.NumberFormat
-import dev.arli.openapi.util.StringFormat
 import kotlin.test.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments

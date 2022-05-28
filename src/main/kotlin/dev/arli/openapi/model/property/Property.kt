@@ -1,9 +1,4 @@
-package dev.arli.openapi.model
-
-import dev.arli.openapi.util.DataType
-import dev.arli.openapi.util.IntegerFormat
-import dev.arli.openapi.util.NumberFormat
-import dev.arli.openapi.util.StringFormat
+package dev.arli.openapi.model.property
 
 sealed class Property(val type: DataType) {
     abstract val name: String

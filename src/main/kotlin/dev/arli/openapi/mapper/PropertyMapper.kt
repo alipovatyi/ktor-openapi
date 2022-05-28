@@ -1,8 +1,8 @@
 package dev.arli.openapi.mapper
 
-import dev.arli.openapi.model.Property
-import dev.arli.openapi.util.DataType
-import dev.arli.openapi.util.getDataType
+import dev.arli.openapi.model.property.DataType
+import dev.arli.openapi.model.property.Property
+import dev.arli.openapi.model.property.getDataType
 import kotlin.reflect.KProperty
 
 class PropertyMapper(

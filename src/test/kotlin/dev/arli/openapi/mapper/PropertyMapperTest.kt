@@ -1,14 +1,14 @@
 package dev.arli.openapi.mapper
 
-import dev.arli.openapi.model.ArrayProperty
-import dev.arli.openapi.model.BooleanProperty
-import dev.arli.openapi.model.IntegerProperty
-import dev.arli.openapi.model.NumberProperty
-import dev.arli.openapi.model.ObjectProperty
-import dev.arli.openapi.model.StringProperty
-import dev.arli.openapi.util.IntegerFormat
-import dev.arli.openapi.util.NumberFormat
-import dev.arli.openapi.util.StringFormat
+import dev.arli.openapi.model.property.ArrayProperty
+import dev.arli.openapi.model.property.BooleanProperty
+import dev.arli.openapi.model.property.IntegerFormat
+import dev.arli.openapi.model.property.IntegerProperty
+import dev.arli.openapi.model.property.NumberFormat
+import dev.arli.openapi.model.property.NumberProperty
+import dev.arli.openapi.model.property.ObjectProperty
+import dev.arli.openapi.model.property.StringFormat
+import dev.arli.openapi.model.property.StringProperty
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 

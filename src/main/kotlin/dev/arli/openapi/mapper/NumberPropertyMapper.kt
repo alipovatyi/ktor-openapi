@@ -1,11 +1,11 @@
 package dev.arli.openapi.mapper
 
-import dev.arli.openapi.model.NumberProperty
+import dev.arli.openapi.model.property.DataType
+import dev.arli.openapi.model.property.NumberProperty
+import dev.arli.openapi.model.property.getDataType
+import dev.arli.openapi.model.property.getNumberFormat
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
-import dev.arli.openapi.util.DataType
-import dev.arli.openapi.util.getDataType
-import dev.arli.openapi.util.getNumberFormat
 import kotlin.reflect.KProperty
 
 class NumberPropertyMapper(

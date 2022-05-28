@@ -1,4 +1,4 @@
-package dev.arli.openapi.util
+package dev.arli.openapi.model.property
 
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf

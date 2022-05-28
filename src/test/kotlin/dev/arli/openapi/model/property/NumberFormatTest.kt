@@ -1,5 +1,6 @@
-package dev.arli.openapi.util
+package dev.arli.openapi.model.property
 
+import java.math.BigDecimal
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 import kotlin.test.assertEquals
@@ -9,12 +10,12 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class IntegerFormatTest {
+internal class NumberFormatTest {
 
     @ParameterizedTest
     @MethodSource
-    fun `Should return number format`(givenType: KType, expectedIntegerFormat: IntegerFormat) {
-        assertEquals(expectedIntegerFormat, givenType.getIntegerFormat())
+    fun `Should return number format`(givenType: KType, expectedNumberFormat: NumberFormat) {
+        assertEquals(expectedNumberFormat, givenType.getNumberFormat())
     }
 
     @Test
@@ -30,10 +31,12 @@ internal class IntegerFormatTest {
 
         @JvmStatic
         fun `Should return number format`() = listOf(
-            arguments(typeOf<Int>(), IntegerFormat.INT_32),
-            arguments(typeOf<Int?>(), IntegerFormat.INT_32),
-            arguments(typeOf<Long>(), IntegerFormat.INT_64),
-            arguments(typeOf<Long?>(), IntegerFormat.INT_64)
+            arguments(typeOf<Double>(), NumberFormat.DOUBLE),
+            arguments(typeOf<Double?>(), NumberFormat.DOUBLE),
+            arguments(typeOf<Float>(), NumberFormat.FLOAT),
+            arguments(typeOf<Float?>(), NumberFormat.FLOAT),
+            arguments(typeOf<BigDecimal>(), NumberFormat.NO_FORMAT),
+            arguments(typeOf<BigDecimal?>(), NumberFormat.NO_FORMAT)
         )
     }
 }

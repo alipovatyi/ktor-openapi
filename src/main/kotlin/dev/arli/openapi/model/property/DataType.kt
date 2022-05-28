@@ -1,4 +1,4 @@
-package dev.arli.openapi.util
+package dev.arli.openapi.model.property
 
 import java.math.BigDecimal
 import kotlin.reflect.KType
