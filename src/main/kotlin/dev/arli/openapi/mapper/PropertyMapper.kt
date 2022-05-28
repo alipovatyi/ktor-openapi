@@ -1,0 +1,27 @@
+package dev.arli.openapi.mapper
+
+import dev.arli.openapi.model.Property
+import dev.arli.openapi.util.DataType
+import dev.arli.openapi.util.getDataType
+import kotlin.reflect.KProperty
+
+class PropertyMapper(
+    private val stringPropertyMapper: StringPropertyMapper = StringPropertyMapper(),
+    private val numberPropertyMapper: NumberPropertyMapper = NumberPropertyMapper(),
+    private val integerPropertyMapper: IntegerPropertyMapper = IntegerPropertyMapper(),
+    private val booleanPropertyMapper: BooleanPropertyMapper = BooleanPropertyMapper(),
+    private val arrayPropertyMapper: ArrayPropertyMapper = ArrayPropertyMapper(),
+    private val objectPropertyMapper: ObjectPropertyMapper = ObjectPropertyMapper()
+) {
+
+    fun map(property: KProperty<*>): Property {
+        return when (property.returnType.getDataType()) {
+            DataType.STRING -> stringPropertyMapper.map(property)
+            DataType.NUMBER -> numberPropertyMapper.map(property)
+            DataType.INTEGER -> integerPropertyMapper.map(property)
+            DataType.BOOLEAN -> booleanPropertyMapper.map(property)
+            DataType.ARRAY -> arrayPropertyMapper.map(property)
+            DataType.OBJECT -> objectPropertyMapper.map(property)
+        }
+    }
+}
