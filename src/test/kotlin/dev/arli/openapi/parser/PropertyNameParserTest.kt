@@ -11,20 +11,20 @@ internal class PropertyNameParserTest {
 
     @Test
     fun `Should return property name if SerialName annotation is not found`() {
-        val property = TestClass::class.declaredMemberProperties.first()
+        val givenProperty = TestClass::class.declaredMemberProperties.first()
 
         val expectedName = "value"
 
-        assertEquals(expectedName, parser.parse(property))
+        assertEquals(expectedName, parser.parse(givenProperty))
     }
 
     @Test
     fun `Should return value from SerialName annotation`() {
-        val property = TestClassWithCustomSerialName::class.declaredMemberProperties.first()
+        val givenProperty = TestClassWithCustomSerialName::class.declaredMemberProperties.first()
 
         val expectedName = "custom-value"
 
-        assertEquals(expectedName, parser.parse(property))
+        assertEquals(expectedName, parser.parse(givenProperty))
     }
 
     private data class TestClass(val value: String)
