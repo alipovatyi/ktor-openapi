@@ -7,6 +7,6 @@ import kotlin.reflect.full.findAnnotation
 class DescriptionParser {
 
     fun parse(property: KProperty<*>): String? {
-        return property.findAnnotation<Description>()?.description
+        return property.findAnnotation<Description>()?.value
     }
 }
