@@ -4,8 +4,10 @@ import java.math.BigDecimal
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -16,6 +18,24 @@ internal class DataTypeTest {
     @MethodSource
     fun `Should return data type`(givenType: KType, expectedDataType: DataType) {
         assertEquals(expectedDataType, givenType.getDataType())
+    }
+
+    @Test
+    fun `Should throw exception for unsupported data type`() {
+        val givenType = typeOf<Any>()
+
+        assertFailsWith<IllegalArgumentException> {
+            givenType.getDataType()
+        }
+    }
+
+    @Test
+    fun `Should throw exception for unsupported nullable data type`() {
+        val givenType = typeOf<Any?>()
+
+        assertFailsWith<IllegalArgumentException> {
+            givenType.getDataType()
+        }
     }
 
     private companion object {
@@ -47,9 +67,7 @@ internal class DataTypeTest {
             arguments(typeOf<Set<*>>(), DataType.ARRAY),
             arguments(typeOf<Set<*>?>(), DataType.ARRAY),
             arguments(typeOf<Map<*, *>>(), DataType.OBJECT),
-            arguments(typeOf<Map<*, *>?>(), DataType.OBJECT),
-            arguments(typeOf<Any>(), DataType.OBJECT),
-            arguments(typeOf<Any?>(), DataType.OBJECT)
+            arguments(typeOf<Map<*, *>?>(), DataType.OBJECT)
         )
     }
 }

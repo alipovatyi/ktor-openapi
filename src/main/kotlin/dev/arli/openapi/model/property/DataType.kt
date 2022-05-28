@@ -35,6 +35,6 @@ fun KType.getDataType(): DataType {
         Set::class -> DataType.ARRAY
         // Object
         Map::class -> DataType.OBJECT
-        else -> DataType.OBJECT
+        else -> throw IllegalArgumentException("Unsupported data type [$this]")
     }
 }
