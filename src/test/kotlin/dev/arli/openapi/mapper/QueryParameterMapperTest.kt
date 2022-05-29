@@ -1,32 +1,32 @@
 package dev.arli.openapi.mapper
 
-import dev.arli.openapi.annotation.Path
+import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
-import dev.arli.openapi.model.property.IntegerFormat
+import dev.arli.openapi.model.property.StringFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
 
-internal class PathParameterMapperTest {
+internal class QueryParameterMapperTest {
 
-    private val mapper = PathParameterMapper()
+    private val mapper = QueryParameterMapper()
 
     @Test
-    fun `Should map path parameter with default values to parameter object`() {
+    fun `Should map query parameter with default values to parameter object`() {
         val givenProperty = TestClassWithDefaultValues::value
 
         val expectedParameterObject = ParameterObject(
             name = "value",
-            `in` = ParameterLocation.PATH,
-            required = true,
+            `in` = ParameterLocation.QUERY,
+            required = false,
             description = "",
             deprecated = false,
             schema = SchemaObject(
-                type = DataType.INTEGER,
-                format = IntegerFormat.INT_64,
+                type = DataType.STRING,
+                format = StringFormat.NO_FORMAT,
                 nullable = false,
                 description = null,
                 properties = emptyMap(),
@@ -38,18 +38,18 @@ internal class PathParameterMapperTest {
     }
 
     @Test
-    fun `Should map path parameter with custom values to parameter object`() {
+    fun `Should map query parameter with custom values to parameter object`() {
         val givenProperty = TestClassWithCustomValues::value
 
         val expectedParameterObject = ParameterObject(
             name = "custom-value",
-            `in` = ParameterLocation.PATH,
+            `in` = ParameterLocation.QUERY,
             required = true,
             description = "Description",
             deprecated = true,
             schema = SchemaObject(
-                type = DataType.INTEGER,
-                format = IntegerFormat.INT_64,
+                type = DataType.STRING,
+                format = StringFormat.NO_FORMAT,
                 nullable = false,
                 description = null,
                 properties = emptyMap(),
@@ -61,7 +61,7 @@ internal class PathParameterMapperTest {
     }
 
     @Test
-    fun `Should throw exception if Path annotation is missing`() {
+    fun `Should throw exception if Query annotation is missing`() {
         val givenProperty = TestClassWithoutAnnotation::value
 
         assertFailsWith<IllegalArgumentException> {
@@ -69,23 +69,12 @@ internal class PathParameterMapperTest {
         }
     }
 
-    @Test
-    fun `Should throw exception if property is nullable`() {
-        val givenProperty = TestClassWithNullableProperty::value
-
-        assertFailsWith<IllegalArgumentException> {
-            mapper.map(givenProperty)
-        }
-    }
-
-    private data class TestClassWithDefaultValues(@Path val value: Long)
+    private data class TestClassWithDefaultValues(@Query val value: String)
 
     private data class TestClassWithCustomValues(
-        @Path(name = "custom-value", description = "Description", deprecated = true)
-        val value: Long
+        @Query(name = "custom-value", description = "Description", required = true, deprecated = true)
+        val value: String
     )
 
-    private data class TestClassWithoutAnnotation(val value: Int)
-
-    private data class TestClassWithNullableProperty(val value: String?)
+    private data class TestClassWithoutAnnotation(val value: Long)
 }
