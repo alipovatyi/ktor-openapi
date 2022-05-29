@@ -6,8 +6,8 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 class InfoJsonGenerator(
-    private val contactJsonGenerator: ContactJsonGenerator,
-    private val licenseJsonGenerator: LicenseJsonGenerator
+    private val contactJsonGenerator: ContactJsonGenerator = ContactJsonGenerator(),
+    private val licenseJsonGenerator: LicenseJsonGenerator = LicenseJsonGenerator()
 ) {
 
     fun generateInfoJson(info: InfoObject): JsonObject {

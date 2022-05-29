@@ -12,10 +12,10 @@ import kotlinx.serialization.json.putJsonObject
 // TODO convert request body
 // TODO convert responses
 class OperationJsonGenerator(
-    private val externalDocumentationJsonGenerator: ExternalDocumentationJsonGenerator,
-    private val parameterJsonGenerator: ParameterJsonGenerator,
-    private val requestBodyJsonGenerator: RequestBodyJsonGenerator,
-    private val responseJsonGenerator: ResponseJsonGenerator
+    private val externalDocumentationJsonGenerator: ExternalDocumentationJsonGenerator = ExternalDocumentationJsonGenerator(),
+    private val parameterJsonGenerator: ParameterJsonGenerator = ParameterJsonGenerator(),
+    private val requestBodyJsonGenerator: RequestBodyJsonGenerator = RequestBodyJsonGenerator(),
+    private val responseJsonGenerator: ResponseJsonGenerator = ResponseJsonGenerator()
 ) {
 
     fun generateOperationJson(operation: OperationObject): JsonObject {

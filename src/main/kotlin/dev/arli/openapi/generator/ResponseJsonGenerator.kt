@@ -4,6 +4,7 @@ import dev.arli.openapi.model.ResponseComponent
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 
+// TODO
 class ResponseJsonGenerator {
 
     fun generateResponseJson(response: ResponseComponent): JsonObject {
