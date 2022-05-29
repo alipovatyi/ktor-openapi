@@ -22,7 +22,8 @@ internal class PropertyTest {
             arguments(IntegerProperty("", null, false, IntegerFormat.INT_32), DataType.INTEGER),
             arguments(BooleanProperty("", null, false), DataType.BOOLEAN),
             arguments(ArrayProperty("", null, false), DataType.ARRAY),
-            arguments(ObjectProperty("", null, false), DataType.OBJECT)
+            arguments(ObjectProperty("", null, false), DataType.OBJECT),
+            arguments(EnumProperty("", null, false, emptySet()), DataType.ENUM)
         )
     }
 }

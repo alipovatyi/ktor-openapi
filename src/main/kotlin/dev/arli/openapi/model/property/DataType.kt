@@ -17,7 +17,10 @@ enum class DataType(val key: String) {
 }
 
 fun KType.getDataType(): DataType {
-    return when (classifier) {
+    return if (isEnum) {
+        // Enum
+        DataType.ENUM
+    } else when (classifier) {
         // Integer
         Int::class -> DataType.INTEGER
         Long::class -> DataType.INTEGER
@@ -27,6 +30,8 @@ fun KType.getDataType(): DataType {
         BigDecimal::class -> DataType.NUMBER
         // Boolean
         Boolean::class -> DataType.BOOLEAN
+        // Enum
+        Enum::class -> DataType.ENUM
         // String
         String::class -> DataType.STRING
         LocalDate::class -> DataType.STRING
@@ -37,10 +42,6 @@ fun KType.getDataType(): DataType {
         Set::class -> DataType.ARRAY
         // Object
         Map::class -> DataType.OBJECT
-        else -> when {
-            // Enum
-            isEnum -> DataType.ENUM
-            else -> throw IllegalArgumentException("Unsupported data type [$this]")
-        }
+        else -> DataType.OBJECT
     }
 }

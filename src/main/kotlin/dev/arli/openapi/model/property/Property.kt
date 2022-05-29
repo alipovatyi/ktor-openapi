@@ -50,4 +50,4 @@ data class EnumProperty(
     override val description: String?,
     override val nullable: Boolean,
     val values: Set<String>
-) : Property(DataType.STRING)
+) : Property(DataType.ENUM)
