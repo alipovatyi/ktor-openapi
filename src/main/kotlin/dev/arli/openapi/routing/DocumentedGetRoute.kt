@@ -12,13 +12,11 @@ import io.ktor.util.pipeline.PipelineInterceptor
 // TODO: handle more parameters
 inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
     path: String = "",
-//    tags: Set<TagObject> = emptySet(),
-    tags: Set<String> = emptySet(),
+    tags: Set<String> = emptySet(), // TODO tag object
     summary: String? = null,
     description: String? = null,
     externalDocs: ExternalDocumentationObject? = null,
     operationId: String? = null,
-//    requestBody: Any? = null,
 //    responses: Any? = null,
 //    callbacks: Map<String, CallbackComponent>? = null,
     deprecated: Boolean = false,
