@@ -1,6 +1,6 @@
 package dev.arli.openapi.mapper
 
-import dev.arli.openapi.annotation.Path
+import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.SchemaObject
@@ -11,13 +11,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
 
-internal class PathParametersMapperTest {
+internal class QueryParametersMapperTest {
 
-    private val mapper = PathParametersMapper()
+    private val mapper = QueryParametersMapper()
 
     @Test
-    fun `Should map path parameters with default names to parameter components`() {
-        val givenPathParameters = setOf("param1", "param2")
+    fun `Should map query parameters with default names to parameter components`() {
         val givenProperties = listOf(
             TestClassWithDefaultNames::param1,
             TestClassWithDefaultNames::param2
@@ -26,24 +25,9 @@ internal class PathParametersMapperTest {
         val expectedParameterComponents = listOf(
             ParameterObject(
                 name = "param1",
-                `in` = ParameterLocation.PATH,
+                `in` = ParameterLocation.QUERY,
                 description = "",
-                required = true,
-                deprecated = false,
-                schema = SchemaObject(
-                    type = DataType.INTEGER,
-                    format = IntegerFormat.INT_32,
-                    nullable = false,
-                    description = null,
-                    properties = emptyMap(),
-                    enum = emptySet()
-                )
-            ),
-            ParameterObject(
-                name = "param2",
-                `in` = ParameterLocation.PATH,
-                description = "",
-                required = true,
+                required = false,
                 deprecated = false,
                 schema = SchemaObject(
                     type = DataType.STRING,
@@ -53,27 +37,12 @@ internal class PathParametersMapperTest {
                     properties = emptyMap(),
                     enum = emptySet()
                 )
-            )
-        )
-
-        assertEquals(expectedParameterComponents, mapper.map(givenPathParameters, givenProperties))
-    }
-
-    @Test
-    fun `Should map path parameters with custom names to parameter components`() {
-        val givenPathParameters = setOf("custom-param-1", "param2", "custom-param-3")
-        val givenProperties = listOf(
-            TestClassWithCustomNames::param1,
-            TestClassWithCustomNames::param2,
-            TestClassWithCustomNames::param3
-        )
-
-        val expectedParameterComponents = listOf(
+            ),
             ParameterObject(
-                name = "custom-param-1",
-                `in` = ParameterLocation.PATH,
+                name = "param2",
+                `in` = ParameterLocation.QUERY,
                 description = "",
-                required = true,
+                required = false,
                 deprecated = false,
                 schema = SchemaObject(
                     type = DataType.INTEGER,
@@ -83,12 +52,41 @@ internal class PathParametersMapperTest {
                     properties = emptyMap(),
                     enum = emptySet()
                 )
+            )
+        )
+
+        assertEquals(expectedParameterComponents, mapper.map(givenProperties))
+    }
+
+    @Test
+    fun `Should map query parameters with custom names to parameter components`() {
+        val givenProperties = listOf(
+            TestClassWithCustomNames::param1,
+            TestClassWithCustomNames::param2,
+            TestClassWithCustomNames::param3
+        )
+
+        val expectedParameterComponents = listOf(
+            ParameterObject(
+                name = "custom-param-1",
+                `in` = ParameterLocation.QUERY,
+                description = "",
+                required = false,
+                deprecated = false,
+                schema = SchemaObject(
+                    type = DataType.BOOLEAN,
+                    format = null,
+                    nullable = false,
+                    description = null,
+                    properties = emptyMap(),
+                    enum = emptySet()
+                )
             ),
             ParameterObject(
                 name = "param2",
-                `in` = ParameterLocation.PATH,
+                `in` = ParameterLocation.QUERY,
                 description = "",
-                required = true,
+                required = false,
                 deprecated = false,
                 schema = SchemaObject(
                     type = DataType.STRING,
@@ -101,13 +99,13 @@ internal class PathParametersMapperTest {
             ),
             ParameterObject(
                 name = "custom-param-3",
-                `in` = ParameterLocation.PATH,
+                `in` = ParameterLocation.QUERY,
                 description = "",
-                required = true,
+                required = false,
                 deprecated = false,
                 schema = SchemaObject(
-                    type = DataType.BOOLEAN,
-                    format = null,
+                    type = DataType.INTEGER,
+                    format = IntegerFormat.INT_32,
                     nullable = false,
                     description = null,
                     properties = emptyMap(),
@@ -116,32 +114,36 @@ internal class PathParametersMapperTest {
             )
         )
 
-        assertEquals(expectedParameterComponents, mapper.map(givenPathParameters, givenProperties))
+        assertEquals(expectedParameterComponents, mapper.map(givenProperties))
     }
 
     @Test
-    fun `Should throw an exception if Path annotation is missing for any of path parameters`() {
-        val givenPathParameters = setOf("param-1", "param-2")
+    fun `Should throw an exception if Query parameter names are not unique`() {
         val givenProperties = listOf(
-            TestClassWithoutAnnotation::param1,
-            TestClassWithoutAnnotation::param2
+            TestClassWithNonUniqueNames::param1,
+            TestClassWithNonUniqueNames::param2
         )
 
         assertFailsWith<IllegalArgumentException> {
-            mapper.map(givenPathParameters, givenProperties)
+            mapper.map(givenProperties)
         }
     }
 
-    private data class TestClassWithDefaultNames(@Path val param1: Int, @Path val param2: String)
+    private data class TestClassWithDefaultNames(@Query val param1: String, @Query val param2: Int)
 
     private data class TestClassWithCustomNames(
-        @Path("custom-param-1")
-        val param1: Int,
-        @Path
+        @Query("custom-param-1")
+        val param1: Boolean,
+        @Query
         val param2: String,
-        @Path("custom-param-3")
-        val param3: Boolean
+        @Query("custom-param-3")
+        val param3: Int
     )
 
-    private data class TestClassWithoutAnnotation(@Path val param1: String, val param2: Long)
+    private data class TestClassWithNonUniqueNames(
+        @Query(name = "param")
+        val param1: String,
+        @Query(name = "param")
+        val param2: Long
+    )
 }
