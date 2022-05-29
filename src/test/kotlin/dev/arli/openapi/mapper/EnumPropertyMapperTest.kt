@@ -89,7 +89,8 @@ internal class EnumPropertyMapperTest {
 
     @Serializable
     private enum class TestEnum {
-        @SerialName("value-1") VALUE_1,
+        @SerialName("value-1")
+        VALUE_1,
         VALUE_2
     }
 }
