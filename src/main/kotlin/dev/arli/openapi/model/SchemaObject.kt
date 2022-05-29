@@ -8,7 +8,7 @@ data class SchemaObject(
     val type: DataType,
     val format: DataFormat?,
     val nullable: Boolean,
-    val description: String?,
-    val properties: Map<String, SchemaComponent>,
-    val enum: Set<String>
+    val description: String? = null,
+    val properties: Map<String, SchemaComponent> = emptyMap(),
+    val enum: Set<String> = emptySet()
 ) : SchemaComponent
