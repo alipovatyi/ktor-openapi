@@ -21,7 +21,7 @@ class OperationJsonGenerator(
     fun generateOperationJson(operation: OperationObject): JsonObject {
         return buildJsonObject {
             putJsonArray("tags") {
-                operation.tags.forEach { tag -> add(tag.value) }
+                operation.tags.forEach { tag -> add(tag.name) }
             }
             operation.summary?.let { summary ->
                 put("summary", summary)
