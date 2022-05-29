@@ -14,11 +14,28 @@ internal class DataTypeTest {
 
     @ParameterizedTest
     @MethodSource
+    fun `Should return correct key for data type`(givenDataType: DataType, expectedKey: String) {
+        assertEquals(expectedKey, givenDataType.key)
+    }
+
+    @ParameterizedTest
+    @MethodSource
     fun `Should return data type`(givenType: KType, expectedDataType: DataType) {
         assertEquals(expectedDataType, givenType.getDataType())
     }
 
     private companion object {
+
+        @JvmStatic
+        fun `Should return correct key for data type`() = listOf(
+            arguments(DataType.STRING, "string"),
+            arguments(DataType.NUMBER, "number"),
+            arguments(DataType.INTEGER, "integer"),
+            arguments(DataType.BOOLEAN, "boolean"),
+            arguments(DataType.ARRAY, "array"),
+            arguments(DataType.OBJECT, "object"),
+            arguments(DataType.ENUM, "string")
+        )
 
         @JvmStatic
         fun `Should return data type`() = listOf(

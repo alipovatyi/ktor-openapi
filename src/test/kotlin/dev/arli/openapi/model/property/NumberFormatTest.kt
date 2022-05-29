@@ -14,6 +14,12 @@ internal class NumberFormatTest {
 
     @ParameterizedTest
     @MethodSource
+    fun `Should return correct key for number format`(givenNumberFormat: NumberFormat, expectedKey: String) {
+        assertEquals(expectedKey, givenNumberFormat.key)
+    }
+
+    @ParameterizedTest
+    @MethodSource
     fun `Should return number format`(givenType: KType, expectedNumberFormat: NumberFormat) {
         assertEquals(expectedNumberFormat, givenType.getNumberFormat())
     }
@@ -28,6 +34,13 @@ internal class NumberFormatTest {
     }
 
     private companion object{
+
+        @JvmStatic
+        fun `Should return correct key for number format`() = listOf(
+            arguments(NumberFormat.NO_FORMAT, ""),
+            arguments(NumberFormat.FLOAT, "float"),
+            arguments(NumberFormat.DOUBLE, "double")
+        )
 
         @JvmStatic
         fun `Should return number format`() = listOf(

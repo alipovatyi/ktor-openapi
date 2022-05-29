@@ -15,6 +15,12 @@ internal class StringFormatTest {
 
     @ParameterizedTest
     @MethodSource
+    fun `Should return correct key for string format`(givenStringFormat: StringFormat, expectedKey: String) {
+        assertEquals(expectedKey, givenStringFormat.key)
+    }
+
+    @ParameterizedTest
+    @MethodSource
     fun `Should return string format`(givenType: KType, expectedStringFormat: StringFormat) {
         assertEquals(expectedStringFormat, givenType.getStringFormat())
     }
@@ -29,6 +35,16 @@ internal class StringFormatTest {
     }
 
     private companion object{
+
+        @JvmStatic
+        fun `Should return correct key for string format`() = listOf(
+            arguments(StringFormat.NO_FORMAT, ""),
+            arguments(StringFormat.DATE, "date"),
+            arguments(StringFormat.DATE_TIME, "date-time"),
+            arguments(StringFormat.PASSWORD, "password"),
+            arguments(StringFormat.BYTE, "byte"),
+            arguments(StringFormat.BINARY, "binary")
+        )
 
         @JvmStatic
         fun `Should return string format`() = listOf(
