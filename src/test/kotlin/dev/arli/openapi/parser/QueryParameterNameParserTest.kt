@@ -1,15 +1,15 @@
 package dev.arli.openapi.parser
 
-import dev.arli.openapi.annotation.Path
+import dev.arli.openapi.annotation.Query
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class PathParameterNameParserTest {
+internal class QueryParameterNameParserTest {
 
-    private val parser = PathParameterNameParser()
+    private val parser = QueryParameterNameParser()
 
     @Test
-    fun `Should return property name if Path annotation is not found`() {
+    fun `Should return property name if Query annotation is not found`() {
         val givenProperty = TestClassWithoutAnnotation::value
 
         val expectedName = "value"
@@ -18,7 +18,7 @@ internal class PathParameterNameParserTest {
     }
 
     @Test
-    fun `Should return property name if Path annotation value is empty`() {
+    fun `Should return property name if Query annotation value is empty`() {
         val givenProperty = TestClassWithEmptyName::value
 
         val expectedName = "value"
@@ -27,7 +27,7 @@ internal class PathParameterNameParserTest {
     }
 
     @Test
-    fun `Should return name from Path annotation`() {
+    fun `Should return name from Query annotation`() {
         val givenProperty = TestClassWithCustomName::value
 
         val expectedName = "custom-value"
@@ -37,7 +37,7 @@ internal class PathParameterNameParserTest {
 
     private data class TestClassWithoutAnnotation(val value: String)
 
-    private data class TestClassWithEmptyName(@Path val value: String)
+    private data class TestClassWithEmptyName(@Query val value: String)
 
-    private data class TestClassWithCustomName(@Path("custom-value") val value: String)
+    private data class TestClassWithCustomName(@Query("custom-value") val value: String)
 }
