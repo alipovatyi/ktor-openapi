@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
+    id("org.jetbrains.kotlinx.kover") version "0.5.0"
 }
 
 allprojects {
@@ -9,8 +10,17 @@ allprojects {
     }
 }
 
+kover {
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO)
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
+
+    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+        includes = listOf("dev.arli.openapi.*")
+        excludes = listOf("dev.arli.openapi.sample.*")
+    }
 }
 
 dependencies {
