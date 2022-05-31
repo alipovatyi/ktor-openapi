@@ -2,6 +2,7 @@ package dev.arli.openapi.parser
 
 import dev.arli.openapi.annotation.Query
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
 
 internal class QueryParameterNameParserTest {
@@ -9,12 +10,12 @@ internal class QueryParameterNameParserTest {
     private val parser = QueryParameterNameParser()
 
     @Test
-    fun `Should return property name if Query annotation is not found`() {
+    fun `Should throw an exception if Query annotation is not found`() {
         val givenProperty = TestClassWithoutAnnotation::value
 
-        val expectedName = "value"
-
-        assertEquals(expectedName, parser.parse(givenProperty))
+        assertFailsWith<IllegalArgumentException> {
+            parser.parse(givenProperty)
+        }
     }
 
     @Test
