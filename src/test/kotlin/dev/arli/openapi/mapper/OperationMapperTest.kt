@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.model.ExternalDocumentationObject
@@ -88,6 +89,26 @@ internal class OperationMapperTest {
                         format = null,
                         nullable = false
                     )
+                ),
+                ParameterObject(
+                    name = "headerParam1",
+                    `in` = ParameterLocation.HEADER,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                ),
+                ParameterObject(
+                    name = "headerParam2",
+                    `in` = ParameterLocation.HEADER,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = true
+                    )
                 )
             ),
             requestBody = null,
@@ -108,7 +129,9 @@ internal class OperationMapperTest {
         @Path val pathParam1: String,
         @Path val pathParam2: Long,
         @Query val queryParam1: Int?,
-        @Query val queryParam2: Boolean
+        @Query val queryParam2: Boolean,
+        @Header val headerParam1: String,
+        @Header val headerParam2: String?,
     )
 
     private object TestResponse

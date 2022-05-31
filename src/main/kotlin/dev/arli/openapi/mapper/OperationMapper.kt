@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.model.ExternalDocumentationObject
@@ -15,21 +16,26 @@ import kotlin.reflect.full.hasAnnotation
 class OperationMapper(
     private val pathParametersParser: PathParametersParser = PathParametersParser(),
     private val pathParametersMapper: PathParametersMapper = PathParametersMapper(),
-    private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper()
+    private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper(),
+    private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper()
 ) {
 
     fun map(params: Params): OperationObject {
         val path = params.route.parent.toString()
         val pathParameters = pathParametersParser.parse(path)
 
-        val annotatedPathParameters = params.requestClass.declaredMemberProperties.filter { it.hasAnnotation<Path>() }
-        val annotatedQueryParameters = params.requestClass.declaredMemberProperties.filter { it.hasAnnotation<Query>() }
-
         val tags = params.tags.map { TagObject(name = it) }.toSet()
         val parameters = mutableListOf<ParameterComponent>()
 
-        parameters += pathParametersMapper.map(pathParameters, annotatedPathParameters)
-        parameters += queryParametersMapper.map(annotatedQueryParameters)
+        with(params.requestClass) {
+            val annotatedPathParameters = declaredMemberProperties.filter { it.hasAnnotation<Path>() }
+            val annotatedQueryParameters = declaredMemberProperties.filter { it.hasAnnotation<Query>() }
+            val annotatedHeaderParameters = declaredMemberProperties.filter { it.hasAnnotation<Header>() }
+
+            parameters += pathParametersMapper.map(pathParameters, annotatedPathParameters)
+            parameters += queryParametersMapper.map(annotatedQueryParameters)
+            parameters += headerParametersMapper.map(annotatedHeaderParameters)
+        }
 
         return OperationObject(
             tags = tags,
