@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
@@ -17,7 +18,8 @@ class OperationMapper(
     private val pathParametersParser: PathParametersParser = PathParametersParser(),
     private val pathParametersMapper: PathParametersMapper = PathParametersMapper(),
     private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper(),
-    private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper()
+    private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper(),
+    private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper()
 ) {
 
     fun map(params: Params): OperationObject {
@@ -31,10 +33,12 @@ class OperationMapper(
             val annotatedPathParameters = declaredMemberProperties.filter { it.hasAnnotation<Path>() }
             val annotatedQueryParameters = declaredMemberProperties.filter { it.hasAnnotation<Query>() }
             val annotatedHeaderParameters = declaredMemberProperties.filter { it.hasAnnotation<Header>() }
+            val annotatedCookieParameters = declaredMemberProperties.filter { it.hasAnnotation<Cookie>() }
 
             parameters += pathParametersMapper.map(pathParameters, annotatedPathParameters)
             parameters += queryParametersMapper.map(annotatedQueryParameters)
             parameters += headerParametersMapper.map(annotatedHeaderParameters)
+            parameters += cookieParametersMapper.map(annotatedCookieParameters)
         }
 
         return OperationObject(

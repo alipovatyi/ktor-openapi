@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
@@ -109,6 +110,26 @@ internal class OperationMapperTest {
                         format = StringFormat.NO_FORMAT,
                         nullable = true
                     )
+                ),
+                ParameterObject(
+                    name = "cookieParam1",
+                    `in` = ParameterLocation.COOKIE,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = true
+                    )
+                ),
+                ParameterObject(
+                    name = "cookieParam2",
+                    `in` = ParameterLocation.COOKIE,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
                 )
             ),
             requestBody = null,
@@ -132,6 +153,8 @@ internal class OperationMapperTest {
         @Query val queryParam2: Boolean,
         @Header val headerParam1: String,
         @Header val headerParam2: String?,
+        @Cookie val cookieParam1: String?,
+        @Cookie val cookieParam2: String
     )
 
     private object TestResponse
