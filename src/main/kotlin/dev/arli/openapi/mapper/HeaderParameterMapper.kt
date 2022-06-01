@@ -4,19 +4,23 @@ import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
-import dev.arli.openapi.parser.HeaderParameterNameParser
+import dev.arli.openapi.parser.HeaderNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
 class HeaderParameterMapper(
-    private val headerParameterNameParser: HeaderParameterNameParser = HeaderParameterNameParser(),
+    private val headerNameParser: HeaderNameParser = HeaderNameParser(),
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper()
 ) {
 
     fun map(property: KProperty<*>): ParameterComponent {
-        val name = headerParameterNameParser.parse(property)
+        val name = headerNameParser.parse(property)
         val headerAnnotation = requireNotNull(property.findAnnotation<Header>()) {
             "Header parameter [$name] must be annotated with @Header annotation"
+        }
+
+        require(name.lowercase() !in notAllowedHeaders.map { it.lowercase() }) {
+            "Header parameter [$name] is not allowed"
         }
 
         return ParameterObject(
@@ -27,5 +31,9 @@ class HeaderParameterMapper(
             deprecated = headerAnnotation.deprecated,
             schema = schemaComponentMapper.map(property)
         )
+    }
+
+    private companion object {
+        val notAllowedHeaders = listOf("Accept", "Content-Type", "Authorization")
     }
 }

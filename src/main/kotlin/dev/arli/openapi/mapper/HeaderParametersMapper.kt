@@ -1,11 +1,11 @@
 package dev.arli.openapi.mapper
 
 import dev.arli.openapi.model.ParameterComponent
-import dev.arli.openapi.parser.HeaderParameterNameParser
+import dev.arli.openapi.parser.HeaderNameParser
 import kotlin.reflect.KProperty
 
 class HeaderParametersMapper(
-    private val headerParameterNameParser: HeaderParameterNameParser = HeaderParameterNameParser(),
+    private val headerNameParser: HeaderNameParser = HeaderNameParser(),
     private val headerParameterMapper: HeaderParameterMapper = HeaderParameterMapper()
 ) {
 
@@ -14,7 +14,7 @@ class HeaderParametersMapper(
         val names = mutableSetOf<String>()
 
         annotatedProperties.forEach { headerParameterProperty ->
-            val headerParameterName = headerParameterNameParser.parse(headerParameterProperty)
+            val headerParameterName = headerNameParser.parse(headerParameterProperty)
 
             require(headerParameterName !in names) {
                 "Header parameter name [$headerParameterName] must be unique"
