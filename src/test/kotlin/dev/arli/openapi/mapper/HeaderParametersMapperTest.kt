@@ -118,7 +118,7 @@ internal class HeaderParametersMapperTest {
     }
 
     @Test
-    fun `Should throw an exception if Header parameter names are not unique`() {
+    fun `Should throw an exception if header parameter names are not unique`() {
         val givenProperties = listOf(
             TestClassWithNonUniqueNames::param1,
             TestClassWithNonUniqueNames::param2
@@ -129,21 +129,49 @@ internal class HeaderParametersMapperTest {
         }
     }
 
+    @Test
+    fun `Should throw an exception if header parameter name is Content-Type`() {
+        val givenProperties = listOf(TestClassWithContentType::param)
+
+        assertFailsWith<IllegalArgumentException> {
+            mapper.map(givenProperties)
+        }
+    }
+
+    @Test
+    fun `Should throw an exception if header parameter name is Accept`() {
+        val givenProperties = listOf(TestClassWithAccept::param)
+
+        assertFailsWith<IllegalArgumentException> {
+            mapper.map(givenProperties)
+        }
+    }
+
+    @Test
+    fun `Should throw an exception if header parameter name is Authorization`() {
+        val givenProperties = listOf(TestClassWithAuthorization::param)
+
+        assertFailsWith<IllegalArgumentException> {
+            mapper.map(givenProperties)
+        }
+    }
+
     private data class TestClassWithDefaultNames(@Header val param1: String, @Header val param2: Int)
 
     private data class TestClassWithCustomNames(
-        @Header("custom-param-1")
-        val param1: Boolean,
-        @Header
-        val param2: String,
-        @Header("custom-param-3")
-        val param3: Int
+        @Header("custom-param-1") val param1: Boolean,
+        @Header val param2: String,
+        @Header("custom-param-3") val param3: Int
     )
 
     private data class TestClassWithNonUniqueNames(
-        @Header(name = "param")
-        val param1: String,
-        @Header(name = "param")
-        val param2: Long
+        @Header(name = "param") val param1: String,
+        @Header(name = "param") val param2: Long
     )
+
+    private data class TestClassWithContentType(@Header("Content-Type") val param: String)
+
+    private data class TestClassWithAccept(@Header("Accept") val param: String)
+
+    private data class TestClassWithAuthorization(@Header("Authorization") val param: String)
 }

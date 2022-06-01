@@ -19,10 +19,6 @@ class HeaderParameterMapper(
             "Header parameter [$name] must be annotated with @Header annotation"
         }
 
-        require(name.lowercase() !in notAllowedHeaders.map { it.lowercase() }) {
-            "Header parameter [$name] is not allowed"
-        }
-
         return ParameterObject(
             name = name,
             `in` = ParameterLocation.HEADER,
@@ -31,9 +27,5 @@ class HeaderParameterMapper(
             deprecated = headerAnnotation.deprecated,
             schema = schemaComponentMapper.map(property)
         )
-    }
-
-    private companion object {
-        val notAllowedHeaders = listOf("Accept", "Content-Type", "Authorization")
     }
 }

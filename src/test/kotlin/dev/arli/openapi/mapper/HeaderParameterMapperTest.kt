@@ -69,33 +69,6 @@ internal class HeaderParameterMapperTest {
         }
     }
 
-    @Test
-    fun `Should throw an exception if header name is Content-Type`() {
-        val givenProperty = TestClassWithContentType::value
-
-        assertFailsWith<IllegalArgumentException> {
-            mapper.map(givenProperty)
-        }
-    }
-
-    @Test
-    fun `Should throw an exception if header name is Accept`() {
-        val givenProperty = TestClassWithAccept::value
-
-        assertFailsWith<IllegalArgumentException> {
-            mapper.map(givenProperty)
-        }
-    }
-
-    @Test
-    fun `Should throw an exception if header name is Authorization`() {
-        val givenProperty = TestClassWithAuthorization::value
-
-        assertFailsWith<IllegalArgumentException> {
-            mapper.map(givenProperty)
-        }
-    }
-
     private data class TestClassWithDefaultValues(@Header val value: String)
 
     private data class TestClassWithCustomValues(
@@ -104,10 +77,4 @@ internal class HeaderParameterMapperTest {
     )
 
     private data class TestClassWithoutAnnotation(val value: Long)
-
-    private data class TestClassWithContentType(@Header("Content-Type") val value: String)
-
-    private data class TestClassWithAccept(@Header("Accept") val value: String)
-
-    private data class TestClassWithAuthorization(@Header("Authorization") val value: String)
 }

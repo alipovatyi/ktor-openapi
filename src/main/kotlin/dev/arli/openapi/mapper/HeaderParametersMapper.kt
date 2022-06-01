@@ -20,11 +20,18 @@ class HeaderParametersMapper(
                 "Header parameter name [$headerParameterName] must be unique"
             }
 
-            names += headerParameterName
+            require(headerParameterName.lowercase() !in notAllowedHeaders.map { it.lowercase() }) {
+                "Header parameter [$headerParameterName] is not allowed"
+            }
 
+            names += headerParameterName
             parameters += headerParameterMapper.map(headerParameterProperty)
         }
 
         return parameters
+    }
+
+    private companion object {
+        val notAllowedHeaders = listOf("Accept", "Content-Type", "Authorization")
     }
 }
