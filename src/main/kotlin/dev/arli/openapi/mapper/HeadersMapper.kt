@@ -9,8 +9,8 @@ class HeadersMapper(
     private val headerMapper: HeaderMapper = HeaderMapper()
 ) {
 
-    fun map(annotatedProperties: List<KProperty<*>>): List<HeaderComponent> {
-        val headers = mutableListOf<HeaderComponent>()
+    fun map(annotatedProperties: List<KProperty<*>>): Map<String, HeaderComponent> {
+        val headers = mutableMapOf<String, HeaderComponent>()
         val names = mutableSetOf<String>()
 
         annotatedProperties.forEach { headerProperty ->
@@ -22,7 +22,7 @@ class HeadersMapper(
 
             if (headerName.lowercase() !in ignoredHeaders.map { it.lowercase() }) {
                 names += headerName
-                headers += headerMapper.map(headerProperty)
+                headers[headerName] = headerMapper.map(headerProperty)
             }
         }
 

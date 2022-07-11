@@ -21,8 +21,8 @@ internal class HeadersMapperTest {
             TestClassWithDefaultNames::param2
         )
 
-        val expectedHeaderComponents = listOf(
-            HeaderObject(
+        val expectedHeaderComponents = mapOf(
+            "param1" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
@@ -35,7 +35,7 @@ internal class HeadersMapperTest {
                     enum = emptySet()
                 )
             ),
-            HeaderObject(
+            "param2" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
@@ -61,8 +61,8 @@ internal class HeadersMapperTest {
             TestClassWithCustomNames::param3
         )
 
-        val expectedHeaderComponents = listOf(
-            HeaderObject(
+        val expectedHeaderComponents = mapOf(
+            "custom-param-1" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
@@ -75,7 +75,7 @@ internal class HeadersMapperTest {
                     enum = emptySet()
                 )
             ),
-            HeaderObject(
+            "param2" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
@@ -88,7 +88,7 @@ internal class HeadersMapperTest {
                     enum = emptySet()
                 )
             ),
-            HeaderObject(
+            "custom-param-3" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
@@ -113,8 +113,8 @@ internal class HeadersMapperTest {
             TestClassWithContentType::param2
         )
 
-        val expectedHeaderComponents = listOf(
-            HeaderObject(
+        val expectedHeaderComponents = mapOf(
+            "param1" to HeaderObject(
                 description = "",
                 required = false,
                 deprecated = false,
