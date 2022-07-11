@@ -34,6 +34,9 @@ class SchemaJsonGenerator {
                         schema.enum.forEach { enum -> add(enum) }
                     }
                 }
+                schema.items?.let { items ->
+                    put("items", generateSchemaJson(items))
+                }
             }
         }
     }

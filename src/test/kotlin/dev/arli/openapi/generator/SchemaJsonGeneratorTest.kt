@@ -79,6 +79,41 @@ internal class SchemaJsonGeneratorTest {
     }
 
     @Test
+    fun `Should convert array schema object with items to json object`() {
+        val givenItems = SchemaObject(
+            type = DataType.STRING,
+            format = StringFormat.DATE,
+            nullable = true,
+            description = "Date",
+            properties = emptyMap(),
+            enum = emptySet()
+        )
+        val givenSchemaObject = SchemaObject(
+            type = DataType.ARRAY,
+            format = null,
+            nullable = false,
+            description = "Description",
+            properties = emptyMap(),
+            enum = emptySet(),
+            items = givenItems
+        )
+
+        val expectedJsonObject = buildJsonObject {
+            put("type", "array")
+            put("nullable", false)
+            put("description", "Description")
+            putJsonObject("items") {
+                put("type", "string")
+                put("format", "date")
+                put("nullable", true)
+                put("description", "Date")
+            }
+        }
+
+        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+    }
+
+    @Test
     fun `Should exclude null values`() {
         val givenPropertySchema = SchemaObject(
             type = DataType.STRING,
