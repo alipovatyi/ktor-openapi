@@ -4,6 +4,7 @@ import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.Property
 import dev.arli.openapi.model.property.getDataType
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class PropertyMapper(
     private val stringPropertyMapper: StringPropertyMapper = StringPropertyMapper(),
@@ -16,7 +17,7 @@ class PropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): Property {
-        return when (property.returnType.getDataType()) {
+        return when (getDataType(property.returnType.jvmErasure)) {
             DataType.STRING -> stringPropertyMapper.map(property)
             DataType.NUMBER -> numberPropertyMapper.map(property)
             DataType.INTEGER -> integerPropertyMapper.map(property)

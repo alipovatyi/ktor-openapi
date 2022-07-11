@@ -1,8 +1,8 @@
 package dev.arli.openapi.model.property
 
-import dev.arli.openapi.util.isEnum
 import java.math.BigDecimal
-import kotlin.reflect.KType
+import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
@@ -16,11 +16,10 @@ enum class DataType(val key: String) {
     ENUM("string")
 }
 
-fun KType.getDataType(): DataType {
-    return if (isEnum) {
-        // Enum
+fun <T : Any> getDataType(clazz: KClass<T>): DataType {
+    return if (clazz.isSubclassOf(Enum::class)) {
         DataType.ENUM
-    } else when (classifier) {
+    } else when (clazz) {
         // Integer
         Int::class -> DataType.INTEGER
         Long::class -> DataType.INTEGER

@@ -7,6 +7,7 @@ import dev.arli.openapi.model.property.getStringFormat
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class StringPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
@@ -14,7 +15,7 @@ class StringPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): StringProperty {
-        require(property.returnType.getDataType() == DataType.STRING) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.STRING) {
             "Property [$property] should be of a string data type"
         }
 

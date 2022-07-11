@@ -7,6 +7,7 @@ import dev.arli.openapi.model.property.getNumberFormat
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class NumberPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
@@ -14,7 +15,7 @@ class NumberPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): NumberProperty {
-        require(property.returnType.getDataType() == DataType.NUMBER) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.NUMBER) {
             "Property [$property] should be of a number data type"
         }
 

@@ -6,6 +6,7 @@ import dev.arli.openapi.model.property.getDataType
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class ObjectPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
@@ -13,7 +14,7 @@ class ObjectPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): ObjectProperty {
-        require(property.returnType.getDataType() == DataType.OBJECT) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.OBJECT) {
             "Property [$property] should be of an object data type"
         }
 

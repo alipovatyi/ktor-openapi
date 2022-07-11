@@ -15,7 +15,7 @@ class EnumPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): EnumProperty {
-        require(property.returnType.getDataType() == DataType.ENUM) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.ENUM) {
             "Property [$property] should be of an enum type"
         }
 

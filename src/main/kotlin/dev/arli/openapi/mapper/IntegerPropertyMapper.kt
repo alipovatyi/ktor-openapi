@@ -7,6 +7,7 @@ import dev.arli.openapi.model.property.getIntegerFormat
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class IntegerPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
@@ -14,7 +15,7 @@ class IntegerPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): IntegerProperty {
-        require(property.returnType.getDataType() == DataType.INTEGER) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.INTEGER) {
             "Property [$property] should be of an integer data type"
         }
 

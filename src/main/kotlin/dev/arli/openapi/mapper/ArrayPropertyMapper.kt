@@ -6,6 +6,7 @@ import dev.arli.openapi.model.property.getDataType
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 class ArrayPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
@@ -13,7 +14,7 @@ class ArrayPropertyMapper(
 ) {
 
     fun map(property: KProperty<*>): ArrayProperty {
-        require(property.returnType.getDataType() == DataType.ARRAY) {
+        require(getDataType(property.returnType.jvmErasure) == DataType.ARRAY) {
             "Property [$property] should be of an array data type"
         }
 
