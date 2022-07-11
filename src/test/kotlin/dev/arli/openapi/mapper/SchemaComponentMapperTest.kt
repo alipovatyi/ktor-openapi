@@ -79,8 +79,8 @@ internal class SchemaComponentMapperTest {
     }
 
     @Test
-    fun `Should map array property to schema object`() {
-        val givenProperty = TestClassWithArray::value
+    fun `Should map primitive array property to schema object`() {
+        val givenProperty = TestClassWithPrimitiveArray::value
 
         val expectedSchemaObject = SchemaObject(
             type = DataType.ARRAY,
@@ -88,7 +88,53 @@ internal class SchemaComponentMapperTest {
             nullable = false,
             description = null,
             properties = emptyMap(),
-            enum = emptySet()
+            enum = emptySet(),
+            items = SchemaObject(
+                type = DataType.STRING,
+                format = null,
+                nullable = false
+            )
+        )
+
+        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map object array property to schema object`() {
+        val givenProperty = TestClassWithObjectArray::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.ARRAY,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = emptyMap(),
+            enum = emptySet(),
+            items = SchemaObject(
+                type = DataType.OBJECT,
+                format = null,
+                nullable = false,
+                description = null,
+                properties = mapOf(
+                    "property1" to SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false,
+                        description = null,
+                        properties = emptyMap(),
+                        enum = emptySet()
+                    ),
+                    "property2" to SchemaObject(
+                        type = DataType.INTEGER,
+                        format = IntegerFormat.INT_32,
+                        nullable = false,
+                        description = null,
+                        properties = emptyMap(),
+                        enum = emptySet()
+                    )
+                ),
+                enum = emptySet()
+            )
         )
 
         assertEquals(expectedSchemaObject, mapper.map(givenProperty))
@@ -119,6 +165,138 @@ internal class SchemaComponentMapperTest {
                     description = null,
                     properties = emptyMap(),
                     enum = emptySet()
+                )
+            ),
+            enum = emptySet()
+        )
+
+        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map generic primitive property to schema object`() {
+        val givenProperty = TestClassWithGenericPrimitive::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.OBJECT,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = mapOf(
+                "value" to SchemaObject(
+                    type = DataType.STRING,
+                    format = StringFormat.NO_FORMAT,
+                    nullable = false,
+                    description = null,
+                    properties = emptyMap(),
+                    enum = emptySet()
+                )
+            ),
+            enum = emptySet()
+        )
+
+        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map generic nullable primitive property to schema object`() {
+        val givenProperty = TestClassWithGenericNullablePrimitiveProperty::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.OBJECT,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = mapOf(
+                "value" to SchemaObject(
+                    type = DataType.STRING,
+                    format = StringFormat.NO_FORMAT,
+                    nullable = true,
+                    description = null,
+                    properties = emptyMap(),
+                    enum = emptySet()
+                )
+            ),
+            enum = emptySet()
+        )
+
+        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map generic object property to schema object`() {
+        val givenProperty = TestClassWithGenericObjectProperty::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.OBJECT,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = mapOf(
+                "value" to SchemaObject(
+                    type = DataType.OBJECT,
+                    format = null,
+                    nullable = false,
+                    description = null,
+                    properties = mapOf(
+                        "property1" to SchemaObject(
+                            type = DataType.STRING,
+                            format = StringFormat.NO_FORMAT,
+                            nullable = false,
+                            description = null,
+                            properties = emptyMap(),
+                            enum = emptySet()
+                        ),
+                        "property2" to SchemaObject(
+                            type = DataType.INTEGER,
+                            format = IntegerFormat.INT_32,
+                            nullable = false,
+                            description = null,
+                            properties = emptyMap(),
+                            enum = emptySet()
+                        )
+                    )
+                )
+            ),
+            enum = emptySet()
+        )
+
+        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+    }
+
+    @Test
+    fun `Should map generic nullable object property to schema object`() {
+        val givenProperty = TestClassWithGenericNullableObjectProperty::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.OBJECT,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = mapOf(
+                "value" to SchemaObject(
+                    type = DataType.OBJECT,
+                    format = null,
+                    nullable = true,
+                    description = null,
+                    properties = mapOf(
+                        "property1" to SchemaObject(
+                            type = DataType.STRING,
+                            format = StringFormat.NO_FORMAT,
+                            nullable = false,
+                            description = null,
+                            properties = emptyMap(),
+                            enum = emptySet()
+                        ),
+                        "property2" to SchemaObject(
+                            type = DataType.INTEGER,
+                            format = IntegerFormat.INT_32,
+                            nullable = false,
+                            description = null,
+                            properties = emptyMap(),
+                            enum = emptySet()
+                        )
+                    )
                 )
             ),
             enum = emptySet()
@@ -183,9 +361,21 @@ internal class SchemaComponentMapperTest {
 
     private data class TestClassWithBoolean(val value: Boolean)
 
-    private data class TestClassWithArray(val value: List<Any>)
+    private data class TestClassWithPrimitiveArray(val value: List<String>)
+
+    private data class TestClassWithObjectArray(val value: List<TestObject>)
 
     private data class TestClassWithObject(val value: TestObject)
+
+    private data class TestClassWithGenericPrimitive(val value: TestClassWithGeneric<String>)
+
+    private data class TestClassWithGenericNullablePrimitiveProperty(val value: TestClassWithGeneric<String?>)
+
+    private data class TestClassWithGenericObjectProperty(val value: TestClassWithGeneric<TestObject>)
+
+    private data class TestClassWithGenericNullableObjectProperty(val value: TestClassWithGeneric<TestObject?>)
+
+    private data class TestClassWithGeneric<T>(val value: T)
 
     private data class TestClassWithEnum(val value: TestEnum)
 
