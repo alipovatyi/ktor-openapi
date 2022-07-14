@@ -8,9 +8,6 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-// TODO convert parameters
-// TODO convert request body
-// TODO convert responses
 class OperationJsonGenerator(
     private val externalDocumentationJsonGenerator: ExternalDocumentationJsonGenerator = ExternalDocumentationJsonGenerator(),
     private val parameterJsonGenerator: ParameterJsonGenerator = ParameterJsonGenerator(),
@@ -45,7 +42,8 @@ class OperationJsonGenerator(
             }
             putJsonObject("responses") {
                 operation.responses.forEach { (statusCode, response) ->
-                    put(statusCode.value.toString(), responseJsonGenerator.generateResponseJson(response))
+                    val key = statusCode?.value?.toString() ?: "default"
+                    put(key, responseJsonGenerator.generateResponseJson(response))
                 }
             }
             put("deprecated", operation.deprecated)
