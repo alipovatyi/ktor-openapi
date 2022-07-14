@@ -32,6 +32,7 @@ class ResponseMapper(
             headers += headersMapper.map(annotatedHeaders)
 
             annotatedContent.forEach { contentProperty ->
+                // TODO: handle sealed classes
                 val contentAnnotation = requireNotNull(contentProperty.findAnnotation<Content>()) {
                     "Content [${contentProperty.name}] must be annotated with @Content annotation"
                 }
