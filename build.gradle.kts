@@ -30,4 +30,5 @@ dependencies {
     implementation(libs.ktor.server.serialization)
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.ktor.server.test)
+    testImplementation(libs.truth)
 }
