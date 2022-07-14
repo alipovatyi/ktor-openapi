@@ -4,6 +4,7 @@ import dev.arli.openapi.generator.OpenAPIJsonGenerator
 import dev.arli.openapi.mapper.OperationMapper
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
+import dev.arli.openapi.model.Response
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
@@ -31,6 +32,7 @@ class OpenAPIGen(
         description: String?,
         externalDocs: ExternalDocumentationObject?,
         operationId: String?,
+        responses: List<Response<*>>,
         deprecated: Boolean
     ) {
         val path = route.parent.toString()
@@ -45,6 +47,7 @@ class OpenAPIGen(
             description = description,
             externalDocs = externalDocs,
             operationId = operationId,
+            responses = responses,
             deprecated = deprecated
         )
         val operation = operationMapper.map(routeToOperationParams)

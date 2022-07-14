@@ -8,6 +8,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.application
 import io.ktor.server.routing.get
 import io.ktor.util.pipeline.PipelineInterceptor
+import dev.arli.openapi.model.Response as ResponseModel
 
 // TODO: handle more parameters
 inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
@@ -19,6 +20,7 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
     operationId: String? = null,
 //    responses: Any? = null,
 //    callbacks: Map<String, CallbackComponent>? = null,
+    responses: List<ResponseModel<*>> = emptyList(),
     deprecated: Boolean = false,
 //    security: List<SecurityRequirementObject> = emptyList(),
 //    servers: List<ServerObject> = emptyList()
@@ -37,6 +39,7 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
             description = description,
             externalDocs = externalDocs,
             operationId = operationId,
+            responses = responses,
             deprecated = deprecated
         )
     }
