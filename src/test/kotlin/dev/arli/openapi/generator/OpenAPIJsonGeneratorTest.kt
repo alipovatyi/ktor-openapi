@@ -1,16 +1,21 @@
 package dev.arli.openapi.generator
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.OpenAPIGenConfiguration
+import dev.arli.openapi.model.MediaType
+import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.PathItemObject
+import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
+import dev.arli.openapi.model.property.StringFormat
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -53,7 +58,7 @@ internal class OpenAPIJsonGeneratorTest {
                     summary = "Find pet by ID",
                     description = "Returns a single pet",
                     externalDocs = null,
-                    operationId = null,
+                    operationId = "getPetById",
                     parameters = listOf(
                         ParameterObject(
                             name = "petId",
@@ -66,7 +71,90 @@ internal class OpenAPIJsonGeneratorTest {
                                 nullable = false
                             )
                         )
-                    )
+                    ),
+                    responses = mapOf(
+                        HttpStatusCode.OK to ResponseObject(
+                            description = "successful operation",
+                            content = mapOf(
+                                MediaType.APPLICATION_JSON to MediaTypeObject(
+                                    schema = SchemaObject(
+                                        type = DataType.OBJECT,
+                                        format = null,
+                                        nullable = false,
+                                        properties = mapOf(
+                                            "id" to SchemaObject(
+                                                type = DataType.INTEGER,
+                                                format = IntegerFormat.INT_64,
+                                                nullable = false
+                                            ),
+                                            "name" to SchemaObject(
+                                                type = DataType.STRING,
+                                                format = StringFormat.NO_FORMAT,
+                                                nullable = false
+                                            ),
+                                            "category" to SchemaObject(
+                                                type = DataType.OBJECT,
+                                                format = null,
+                                                nullable = false,
+                                                properties = mapOf(
+                                                    "id" to SchemaObject(
+                                                        type = DataType.INTEGER,
+                                                        format = IntegerFormat.INT_64,
+                                                        nullable = false
+                                                    ),
+                                                    "name" to SchemaObject(
+                                                        type = DataType.STRING,
+                                                        format = StringFormat.NO_FORMAT,
+                                                        nullable = false
+                                                    )
+                                                )
+                                            ),
+                                            "photoUrls" to SchemaObject(
+                                                type = DataType.ARRAY,
+                                                format = null,
+                                                nullable = false,
+                                                items = SchemaObject(
+                                                    type = DataType.STRING,
+                                                    format = StringFormat.NO_FORMAT,
+                                                    nullable = false
+                                                )
+                                            ),
+                                            "tags" to SchemaObject(
+                                                type = DataType.ARRAY,
+                                                format = null,
+                                                nullable = false,
+                                                items = SchemaObject(
+                                                    type = DataType.OBJECT,
+                                                    format = null,
+                                                    nullable = false,
+                                                    properties = mapOf(
+                                                        "id" to SchemaObject(
+                                                            type = DataType.INTEGER,
+                                                            format = IntegerFormat.INT_64,
+                                                            nullable = false
+                                                        ),
+                                                        "name" to SchemaObject(
+                                                            type = DataType.STRING,
+                                                            format = StringFormat.NO_FORMAT,
+                                                            nullable = false
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            "status" to SchemaObject(
+                                                type = DataType.ENUM,
+                                                format = null,
+                                                nullable = false,
+                                                description = "pet status in the store",
+                                                enum = setOf("available","pending","sold")
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    deprecated = false
                 )
             )
         )
@@ -100,6 +188,7 @@ internal class OpenAPIJsonGeneratorTest {
                         }
                         put("summary", "Find pet by ID")
                         put("description", "Returns a single pet")
+                        put("operationId", "getPetById")
                         putJsonArray("parameters") {
                             addJsonObject {
                                 put("name", "petId")
@@ -114,7 +203,91 @@ internal class OpenAPIJsonGeneratorTest {
                                 }
                             }
                         }
-                        putJsonObject("responses") {}
+                        putJsonObject("responses") {
+                            putJsonObject("200") {
+                                put("description", "successful operation")
+                                putJsonObject("content") {
+                                    putJsonObject("application/json") {
+                                        // TODO
+//                                        putJsonArray("required") {
+//                                            add("name")
+//                                            add("photoUrls")
+//                                        }
+                                        putJsonObject("schema") {
+                                            put("type", "object")
+                                            put("nullable", false)
+                                            putJsonObject("properties") {
+                                                putJsonObject("id") {
+                                                    put("type", "integer")
+                                                    put("format", "int64")
+                                                    put("nullable", false)
+                                                }
+                                                putJsonObject("name") {
+                                                    put("type", "string")
+                                                    put("format", "")
+                                                    put("nullable", false)
+                                                }
+                                                putJsonObject("category") {
+                                                    put("type", "object")
+                                                    put("nullable", false)
+                                                    putJsonObject("properties") {
+                                                        putJsonObject("id") {
+                                                            put("type", "integer")
+                                                            put("format", "int64")
+                                                            put("nullable", false)
+                                                        }
+                                                        putJsonObject("name") {
+                                                            put("type", "string")
+                                                            put("format", "")
+                                                            put("nullable", false)
+                                                        }
+                                                    }
+                                                }
+                                                putJsonObject("photoUrls") {
+                                                    put("type", "array")
+                                                    put("nullable", false)
+                                                    putJsonObject("items") {
+                                                        put("type", "string")
+                                                        put("format", "")
+                                                        put("nullable", false)
+                                                    }
+                                                }
+                                                putJsonObject("tags") {
+                                                    put("type", "array")
+                                                    put("nullable", false)
+                                                    putJsonObject("items") {
+                                                        put("type", "object")
+                                                        put("nullable", false)
+                                                        putJsonObject("properties") {
+                                                            putJsonObject("id") {
+                                                                put("type", "integer")
+                                                                put("format", "int64")
+                                                                put("nullable", false)
+                                                            }
+                                                            putJsonObject("name") {
+                                                                put("type", "string")
+                                                                put("format", "")
+                                                                put("nullable", false)
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                putJsonObject("status") {
+                                                    put("type", "string")
+                                                    put("nullable", false)
+                                                    put("description", "pet status in the store")
+                                                    putJsonArray("enum") {
+                                                        add("available")
+                                                        add("pending")
+                                                        add("sold")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         put("deprecated", false)
                     }
                 }
@@ -126,6 +299,6 @@ internal class OpenAPIJsonGeneratorTest {
             pathItems = givenPathItems
         )
 
-        assertEquals(expectedJsonObject, actualJsonObject)
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 }
