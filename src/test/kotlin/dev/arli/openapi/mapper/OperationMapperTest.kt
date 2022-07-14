@@ -1,18 +1,27 @@
 package dev.arli.openapi.mapper
 
+import dev.arli.openapi.annotation.Content
 import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
+import dev.arli.openapi.annotation.Response
 import dev.arli.openapi.model.ExternalDocumentationObject
+import dev.arli.openapi.model.MediaType
+import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
+import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.TagObject
+import dev.arli.openapi.model.defaultResponse
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.StringFormat
+import dev.arli.openapi.model.response
+import dev.arli.openapi.model.responses
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
 import io.ktor.server.routing.RootRouteSelector
 import io.ktor.server.routing.Route
@@ -37,6 +46,10 @@ internal class OperationMapperTest {
                 url = Url("http://localhost/external-docs")
             ),
             operationId = "operation-id",
+            responses = responses(
+                defaultResponse<TestResponse>(),
+                response<TestResponseNotFound>(HttpStatusCode.NotFound)
+            ),
             deprecated = false
         )
 
@@ -133,7 +146,36 @@ internal class OperationMapperTest {
                 )
             ),
             requestBody = null,
-            responses = emptyMap(),
+            responses = mapOf(
+                null to ResponseObject(
+                    description = "Successful operation",
+                    headers = emptyMap(),
+                    content = mapOf(
+                        MediaType.APPLICATION_JSON to MediaTypeObject(
+                            schema = SchemaObject(
+                                type = DataType.INTEGER,
+                                format = IntegerFormat.INT_32,
+                                nullable = false
+                            )
+                        )
+                    ),
+                    links = emptyMap()
+                ),
+                HttpStatusCode.NotFound to ResponseObject(
+                    description = "Element not found",
+                    headers = emptyMap(),
+                    content = mapOf(
+                        MediaType.APPLICATION_JSON to MediaTypeObject(
+                            schema = SchemaObject(
+                                type = DataType.STRING,
+                                format = StringFormat.NO_FORMAT,
+                                nullable = false
+                            )
+                        )
+                    ),
+                    links = emptyMap()
+                )
+            ),
             deprecated = false
         )
 
@@ -157,5 +199,9 @@ internal class OperationMapperTest {
         @Cookie val cookieParam2: String
     )
 
-    private object TestResponse
+    @Response(description = "Successful operation")
+    private data class TestResponse(@Content val content: Int)
+
+    @Response(description = "Element not found")
+    private data class TestResponseNotFound(@Content val message: String)
 }

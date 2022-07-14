@@ -9,6 +9,7 @@ import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
+import dev.arli.openapi.model.Response
 import io.ktor.server.routing.Route
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
@@ -19,7 +20,8 @@ class OperationMapper(
     private val pathParametersMapper: PathParametersMapper = PathParametersMapper(),
     private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper(),
     private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper(),
-    private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper()
+    private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper(),
+    private val responseMapper: ResponseMapper = ResponseMapper()
 ) {
 
     fun map(params: Params): OperationObject {
@@ -28,6 +30,7 @@ class OperationMapper(
 
         val tags = params.tags.map { TagObject(name = it) }.toSet()
         val parameters = mutableListOf<ParameterComponent>()
+        val responses = params.responses.associate { it.statusCode to responseMapper.map(it.responseClass) }
 
         with(params.requestClass) {
             val annotatedPathParameters = declaredMemberProperties.filter { it.hasAnnotation<Path>() }
@@ -48,6 +51,7 @@ class OperationMapper(
             externalDocs = params.externalDocs,
             operationId = params.operationId,
             parameters = parameters,
+            responses = responses,
             deprecated = params.deprecated
         )
     }
@@ -61,6 +65,7 @@ class OperationMapper(
         val description: String?,
         val externalDocs: ExternalDocumentationObject?,
         val operationId: String?,
+        val responses: List<Response<*>>,
         val deprecated: Boolean
     )
 }
