@@ -1,13 +1,18 @@
 package dev.arli.openapi.generator
 
+import dev.arli.openapi.model.HeaderObject
+import dev.arli.openapi.model.MediaType
+import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.ResponseObject
+import dev.arli.openapi.model.SchemaObject
+import dev.arli.openapi.model.property.DataType
+import dev.arli.openapi.model.property.StringFormat
 import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
 
-// TODO
 internal class ResponseJsonGeneratorTest {
 
     private val generator = ResponseJsonGenerator()
@@ -15,17 +20,37 @@ internal class ResponseJsonGeneratorTest {
     @Test
     fun `Should convert response object to json object`() {
         val givenResponseObject = ResponseObject(
-            description = "Successful operation",
-            headers = mapOf(),
-            content = mapOf(),
-            links = mapOf()
+            description = "Description",
+            headers = mapOf("Authorization" to HeaderObject()),
+            content = mapOf(
+                MediaType.APPLICATION_JSON to MediaTypeObject(
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.DATE,
+                        nullable = false
+                    )
+                )
+            ),
+            links = emptyMap() // TODO
         )
 
         val expectedJsonObject = buildJsonObject {
-            put("description", "")
-            putJsonObject("headers") {}
-            putJsonObject("content") {}
-            putJsonObject("links") {}
+            put("description", "Description")
+            putJsonObject("headers") {
+                putJsonObject("Authorization") {
+                    put("required", false)
+                    put("deprecated", false)
+                }
+            }
+            putJsonObject("content") {
+                putJsonObject("application/json") {
+                    putJsonObject("schema") {
+                        put("type", "string")
+                        put("format", "date")
+                        put("nullable", false)
+                    }
+                }
+            }
         }
 
         assertEquals(expectedJsonObject, generator.generateResponseJson(givenResponseObject))
@@ -33,129 +58,6 @@ internal class ResponseJsonGeneratorTest {
 
     @Test
     fun `Should convert reference object to json object`() {
-
+        // TODO
     }
 }
-
-/*
-"responses": {
-  "200": {
-    "description": "Successful operation",
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "nullable": false,
-          "properties": {
-            "data": {
-              "type": "object",
-              "nullable": false,
-              "properties": {
-                "category": {
-                  "type": "object",
-                  "nullable": true,
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "format": "int64",
-                      "nullable": true
-                    },
-                    "name": {
-                      "type": "string",
-                      "format": "",
-                      "nullable": true
-                    }
-                  }
-                },
-                "id": {
-                  "type": "integer",
-                  "format": "int64",
-                  "nullable": true
-                },
-                "name": {
-                  "type": "string",
-                  "format": "",
-                  "nullable": false
-                },
-                "photoUrls": {
-                  "type": "array",
-                  "nullable": false,
-                  "items": {
-                    "type": "object",
-                    "nullable": false,
-                    "properties": {
-                      "alt": {
-                        "type": "string",
-                        "format": "",
-                        "nullable": true
-                      },
-                      "url": {
-                        "type": "string",
-                        "format": "",
-                        "nullable": false
-                      }
-                    }
-                  }
-                },
-                "status": {
-                  "type": "string",
-                  "nullable": true,
-                  "enum": [
-                    "available",
-                    "pending",
-                    "sold"
-                  ]
-                },
-                "tags": {
-                  "type": "array",
-                  "nullable": true,
-                  "items": {
-                    "type": "object",
-                    "nullable": false,
-                    "properties": {
-                      "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "nullable": true
-                      },
-                      "name": {
-                        "type": "string",
-                        "format": "",
-                        "nullable": true
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "404": {
-    "description": "Not found",
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "nullable": false,
-          "properties": {
-            "error": {
-              "type": "object",
-              "nullable": false,
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "format": "",
-                  "nullable": false
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
- */
