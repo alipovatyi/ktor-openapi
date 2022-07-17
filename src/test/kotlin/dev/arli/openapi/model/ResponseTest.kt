@@ -1,69 +1,107 @@
 package dev.arli.openapi.model
 
+import com.google.common.truth.Truth.assertThat
+import dev.arli.openapi.model.Example.Companion.example
+import dev.arli.openapi.model.Response.Companion.defaultResponse
+import dev.arli.openapi.model.Response.Companion.response
 import io.ktor.http.HttpStatusCode
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ResponseTest {
 
     @Test
-    fun `Should create response`() {
+    fun `Should create response with single example`() {
         val expectedResponse = Response(
             statusCode = HttpStatusCode.Created,
-            example = TestResponseClass("String example 1"),
-            examples = listOf(
-                TestResponseClass("String example 2"),
-                TestResponseClass("String example 3")
-            ),
-            responseClass = TestResponseClass::class
+            example = "Example",
+            examples = Examples(),
+            responseClass = TestResponse::class
         )
 
-        val actualResponse = response(
-            statusCode = HttpStatusCode.Created,
-            example = TestResponseClass("String example 1"),
-            examples = listOf(
-                TestResponseClass("String example 2"),
-                TestResponseClass("String example 3")
-            )
-        )
+        val actualResponse = response<TestResponse>(HttpStatusCode.Created) {
+            example = "Example"
+        }
 
-        assertEquals(expectedResponse, actualResponse)
+        assertThat(actualResponse).isEqualTo(expectedResponse)
     }
 
     @Test
-    fun `Should create default response with no status code`() {
+    fun `Should create response with multiple examples`() {
+        val expectedResponse = Response(
+            statusCode = HttpStatusCode.Created,
+            example = null,
+            examples = Examples(
+                examples = mapOf(
+                    "example-1" to example("Example 1"),
+                    "example-2" to example("Example 2")
+                )
+            ),
+            responseClass = TestResponse::class
+        )
+
+        val actualResponse = response<TestResponse>(HttpStatusCode.Created) {
+            examples {
+                example("example-1", value = "Example 1")
+                example("example-2", value = "Example 2")
+            }
+        }
+
+        assertThat(actualResponse).isEqualTo(expectedResponse)
+    }
+
+    @Test
+    fun `Should create response with default values`() {
+        val expectedResponse = Response(
+            statusCode = HttpStatusCode.Created,
+            example = null,
+            examples = Examples(),
+            responseClass = TestResponse::class
+        )
+
+        val actualResponse = response<TestResponse>(HttpStatusCode.Created)
+
+        assertThat(actualResponse).isEqualTo(expectedResponse)
+    }
+
+    @Test
+    fun `Should create default response with no status code and single example`() {
         val expectedResponse = Response(
             statusCode = null,
-            example = TestResponseClass("String example 1"),
-            examples = listOf(
-                TestResponseClass("String example 2"),
-                TestResponseClass("String example 3")
-            ),
-            responseClass = TestResponseClass::class
+            example = "Example",
+            examples = Examples(),
+            responseClass = TestResponse::class
         )
 
-        val actualResponse = defaultResponse(
-            example = TestResponseClass("String example 1"),
-            examples = listOf(
-                TestResponseClass("String example 2"),
-                TestResponseClass("String example 3")
-            )
-        )
+        val actualResponse = defaultResponse<TestResponse> {
+            example = "Example"
+        }
 
-        assertEquals(expectedResponse, actualResponse)
+        assertThat(actualResponse).isEqualTo(expectedResponse)
     }
 
     @Test
-    fun `Should create list of responses`() {
-        val givenResponse1 = response<String>(statusCode = HttpStatusCode.OK)
-        val givenResponse2 = response<TestResponseClass>(statusCode = HttpStatusCode.OK)
+    fun `Should create default response with no status code and multiple examples`() {
+        val expectedResponse = Response(
+            statusCode = null,
+            example = null,
+            examples = Examples(
+                examples = mapOf(
+                    "example-1" to example(value = "Example 1"),
+                    "example-2" to example(value = "Example 2")
+                )
+            ),
+            responseClass = TestResponse::class
+        )
 
-        val expectedResponses = listOf(givenResponse1, givenResponse2)
+        val actualResponse = defaultResponse<TestResponse> {
+            examples {
+                example("example-1", value = "Example 1")
+                example("example-2", value = "Example 2")
+            }
+        }
 
-        val actualResponses = responses(givenResponse1, givenResponse2)
-
-        assertEquals(expectedResponses, actualResponses)
+        assertThat(actualResponse).isEqualTo(expectedResponse)
     }
 
-    private data class TestResponseClass(val value: String)
+    private object TestResponse
 }
