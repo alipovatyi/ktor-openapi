@@ -30,7 +30,7 @@ class OperationMapper(
 
         val tags = params.tags.map { TagObject(name = it) }.toSet()
         val parameters = mutableListOf<ParameterComponent>()
-        val responses = params.responses.associate { it.statusCode to responseMapper.map(it.responseClass) }
+        val responses = params.responses.associate { it.statusCode to responseMapper.map(it) }
 
         with(params.requestClass) {
             val annotatedPathParameters = declaredMemberProperties.filter { it.hasAnnotation<Path>() }

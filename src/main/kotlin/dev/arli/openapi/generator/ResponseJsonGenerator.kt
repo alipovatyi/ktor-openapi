@@ -25,7 +25,7 @@ class ResponseJsonGenerator(
                 }
                 putJsonObject("content") {
                     response.content.forEach { (mediaType, mediaTypeObject) ->
-                        put(mediaType.key, mediaTypeJsonGenerator.generateMediaTypeJson(mediaTypeObject))
+                        put(mediaType.key, mediaTypeJsonGenerator.generateMediaTypeJson(mediaType, mediaTypeObject))
                     }
                 }
                 if (response.links.isNotEmpty()) {

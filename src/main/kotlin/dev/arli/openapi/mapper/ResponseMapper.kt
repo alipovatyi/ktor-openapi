@@ -8,24 +8,24 @@ import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.ResponseComponent
 import dev.arli.openapi.model.ResponseObject
-import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
+import dev.arli.openapi.model.Response as ResponseModel
 
 class ResponseMapper(
     private val headersMapper: HeadersMapper = HeadersMapper(),
     private val mediaTypeMapper: MediaTypeMapper = MediaTypeMapper()
 ) {
 
-    fun map(responseClass: KClass<*>): ResponseComponent {
-        val responseAnnotation = requireNotNull(responseClass.findAnnotation<Response>()) {
-            "Response [${responseClass.simpleName}] must be annotated with @Response annotation"
+    fun <T : Any> map(response: ResponseModel<T>): ResponseComponent {
+        val responseAnnotation = requireNotNull(response.responseClass.findAnnotation<Response>()) {
+            "Response [${response.responseClass.simpleName}] must be annotated with @Response annotation"
         }
         val headers = mutableMapOf<String, HeaderComponent>()
         val content = mutableMapOf<MediaType, MediaTypeObject>()
 
-        with(responseClass) {
+        with(response.responseClass) {
             val annotatedHeaders = declaredMemberProperties.filter { it.hasAnnotation<Header>() }
             val annotatedContent = declaredMemberProperties.filter { it.hasAnnotation<Content>() }
 
@@ -36,7 +36,7 @@ class ResponseMapper(
                 val contentAnnotation = requireNotNull(contentProperty.findAnnotation<Content>()) {
                     "Content [${contentProperty.name}] must be annotated with @Content annotation"
                 }
-                content[contentAnnotation.mediaType] = mediaTypeMapper.map(contentProperty)
+                content[contentAnnotation.mediaType] = mediaTypeMapper.map(contentProperty, response)
             }
         }
 

@@ -1,17 +1,19 @@
 package dev.arli.openapi.mapper
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.annotation.Content
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Response
 import dev.arli.openapi.model.HeaderObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
+import dev.arli.openapi.model.Response.Companion.defaultResponse
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class ResponseMapperTest {
 
@@ -19,7 +21,7 @@ internal class ResponseMapperTest {
 
     @Test
     fun `Should map response class to response object with headers`() {
-        val givenClass = TestClassWithHeaders::class
+        val givenResponse = defaultResponse<TestClassWithHeaders>()
 
         val expectedResponseObject = ResponseObject(
             description = "Description",
@@ -45,12 +47,12 @@ internal class ResponseMapperTest {
             links = emptyMap()
         )
 
-        assertEquals(expectedResponseObject, mapper.map(givenClass))
+        assertThat(mapper.map(givenResponse)).isEqualTo(expectedResponseObject)
     }
 
     @Test
     fun `Should map response class to response object with content`() {
-        val givenClass = TestClassWithContent::class
+        val givenResponse = defaultResponse<TestClassWithContent>()
 
         val expectedMediaType1 = MediaTypeObject(
             schema = SchemaObject(
@@ -83,12 +85,16 @@ internal class ResponseMapperTest {
             links = emptyMap()
         )
 
-        assertEquals(expectedResponseObject, mapper.map(givenClass))
+        assertThat(mapper.map(givenResponse)).isEqualTo(expectedResponseObject)
     }
 
     @Test
     fun `Should throw an exception if Response annotation is not found`() {
+        val givenResponse = defaultResponse<TestClassWithoutHeader>()
 
+        assertThrows<IllegalArgumentException> {
+            mapper.map(givenResponse)
+        }
     }
 
     @Response(description = "Description")
@@ -102,6 +108,8 @@ internal class ResponseMapperTest {
         @Content val content1: TestContent,
         @Content(mediaType = MediaType.APPLICATION_FORM) val content2: String
     )
+
+    private object TestClassWithoutHeader
 
     private data class TestContent(val value: String)
 }

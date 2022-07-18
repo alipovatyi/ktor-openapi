@@ -1,10 +1,11 @@
 package dev.arli.openapi.generator
 
+import com.google.common.truth.Truth.assertThat
+import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
@@ -16,6 +17,7 @@ internal class MediaTypeJsonGeneratorTest {
 
     @Test
     fun `Should convert media type object to json object`() {
+        val givenMediaType = MediaType.APPLICATION_JSON
         val givenMediaTypeObject = MediaTypeObject(
             schema = SchemaObject(
                 type = DataType.OBJECT,
@@ -47,6 +49,8 @@ internal class MediaTypeJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateMediaTypeJson(givenMediaTypeObject))
+        val actualJsonObject = generator.generateMediaTypeJson(givenMediaType, givenMediaTypeObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 }

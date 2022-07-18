@@ -13,14 +13,12 @@ import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.ResponseObject
+import dev.arli.openapi.model.Responses.Companion.responses
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.TagObject
-import dev.arli.openapi.model.defaultResponse
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.StringFormat
-import dev.arli.openapi.model.response
-import dev.arli.openapi.model.responses
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
 import io.ktor.server.routing.RootRouteSelector
@@ -46,10 +44,10 @@ internal class OperationMapperTest {
                 url = Url("http://localhost/external-docs")
             ),
             operationId = "operation-id",
-            responses = responses(
-                defaultResponse<TestResponse>(),
+            responses = responses {
+                defaultResponse<TestResponse>()
                 response<TestResponseNotFound>(HttpStatusCode.NotFound)
-            ),
+            },
             deprecated = false
         )
 
