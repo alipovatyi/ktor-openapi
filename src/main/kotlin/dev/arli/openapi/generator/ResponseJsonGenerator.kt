@@ -14,7 +14,7 @@ class ResponseJsonGenerator(
 
     fun generateResponseJson(response: ResponseComponent): JsonObject {
         return buildJsonObject {
-            if (response is ResponseObject) {
+            if (response is ResponseObject<*>) {
                 put("description", response.description)
                 if (response.headers.isNotEmpty()) {
                     putJsonObject("headers") {

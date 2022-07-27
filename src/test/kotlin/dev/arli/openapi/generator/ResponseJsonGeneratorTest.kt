@@ -1,5 +1,6 @@
 package dev.arli.openapi.generator
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.HeaderObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
@@ -7,7 +8,6 @@ import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
@@ -23,7 +23,7 @@ internal class ResponseJsonGeneratorTest {
             description = "Description",
             headers = mapOf("Authorization" to HeaderObject()),
             content = mapOf(
-                MediaType.APPLICATION_JSON to MediaTypeObject(
+                MediaType.APPLICATION_JSON to MediaTypeObject<String>(
                     schema = SchemaObject(
                         type = DataType.STRING,
                         format = StringFormat.DATE,
@@ -53,7 +53,7 @@ internal class ResponseJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateResponseJson(givenResponseObject))
+        assertThat(generator.generateResponseJson(givenResponseObject)).isEqualTo(expectedJsonObject)
     }
 
     @Test

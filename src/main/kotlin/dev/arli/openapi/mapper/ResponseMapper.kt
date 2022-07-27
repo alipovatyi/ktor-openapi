@@ -18,12 +18,12 @@ class ResponseMapper(
     private val mediaTypeMapper: MediaTypeMapper = MediaTypeMapper()
 ) {
 
-    fun <T : Any> map(response: ResponseModel<T>): ResponseComponent {
+    fun <RESPONSE : Any, CONTENT> map(response: ResponseModel<RESPONSE, CONTENT>): ResponseComponent {
         val responseAnnotation = requireNotNull(response.responseClass.findAnnotation<Response>()) {
             "Response [${response.responseClass.simpleName}] must be annotated with @Response annotation"
         }
         val headers = mutableMapOf<String, HeaderComponent>()
-        val content = mutableMapOf<MediaType, MediaTypeObject>()
+        val content = mutableMapOf<MediaType, MediaTypeObject<CONTENT>>()
 
         with(response.responseClass) {
             val annotatedHeaders = declaredMemberProperties.filter { it.hasAnnotation<Header>() }

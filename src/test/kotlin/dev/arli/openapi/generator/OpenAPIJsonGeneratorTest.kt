@@ -73,7 +73,7 @@ internal class OpenAPIJsonGeneratorTest {
                         )
                     ),
                     responses = mapOf(
-                        HttpStatusCode.OK to ResponseObject(
+                        HttpStatusCode.OK to ResponseObject<Any>(
                             description = "successful operation",
                             content = mapOf(
                                 MediaType.APPLICATION_JSON to MediaTypeObject(

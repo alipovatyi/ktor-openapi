@@ -14,11 +14,13 @@ import io.ktor.server.routing.HttpMethodRouteSelector
 import io.ktor.server.routing.Route
 import io.ktor.util.AttributeKey
 import kotlin.reflect.KClass
+import kotlinx.serialization.json.Json
 
 class OpenAPIGen(
     private val configuration: OpenAPIGenConfiguration,
     private val openAPIJsonGenerator: OpenAPIJsonGenerator = OpenAPIJsonGenerator(),
-    private val operationMapper: OperationMapper = OperationMapper()
+    private val operationMapper: OperationMapper = OperationMapper(),
+    val json: Json = configuration.json
 ) {
 
     private val pathItems = mutableMapOf<String, PathItemObject>()
@@ -32,7 +34,7 @@ class OpenAPIGen(
         description: String?,
         externalDocs: ExternalDocumentationObject?,
         operationId: String?,
-        responses: List<Response<*>>,
+        responses: List<Response<*, *>>,
         deprecated: Boolean
     ) {
         val path = route.parent.toString()

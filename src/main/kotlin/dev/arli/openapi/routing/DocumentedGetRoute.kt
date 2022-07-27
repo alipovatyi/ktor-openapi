@@ -2,13 +2,14 @@ package dev.arli.openapi.routing
 
 import dev.arli.openapi.OpenAPIGen
 import dev.arli.openapi.model.ExternalDocumentationObject
+import dev.arli.openapi.model.Responses
+import dev.arli.openapi.model.ResponsesBuilder
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.pluginOrNull
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.application
 import io.ktor.server.routing.get
 import io.ktor.util.pipeline.PipelineInterceptor
-import dev.arli.openapi.model.Response as ResponseModel
 
 // TODO: handle more parameters
 inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
@@ -18,9 +19,8 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
     description: String? = null,
     externalDocs: ExternalDocumentationObject? = null,
     operationId: String? = null,
-//    responses: Any? = null,
 //    callbacks: Map<String, CallbackComponent>? = null,
-    responses: List<ResponseModel<*>> = emptyList(),
+    responses: ResponsesBuilder = {},
     deprecated: Boolean = false,
 //    security: List<SecurityRequirementObject> = emptyList(),
 //    servers: List<ServerObject> = emptyList()
@@ -39,7 +39,7 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
             description = description,
             externalDocs = externalDocs,
             operationId = operationId,
-            responses = responses,
+            responses = Responses.Builder(plugin.json).apply(responses).build(),
             deprecated = deprecated
         )
     }

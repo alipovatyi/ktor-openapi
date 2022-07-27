@@ -6,12 +6,13 @@ import dev.arli.openapi.model.ExampleObject
 
 class ExampleMapper {
 
-    fun map(example: Example): ExampleComponent {
+    fun <T> map(example: Example<T>): ExampleComponent {
         return ExampleObject(
             summary = example.summary,
             description = example.description,
             value = example.value,
-            externalValue = null // TODO
+            externalValue = null, // TODO
+            valueJson = example.valueJson
         )
     }
 }

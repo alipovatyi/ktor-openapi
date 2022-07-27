@@ -2,46 +2,39 @@ package dev.arli.openapi.model
 
 import io.ktor.http.HttpStatusCode
 import kotlin.reflect.KClass
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 
-data class Response<T : Any>(
-    val responseClass: KClass<T>,
+typealias ResponseBuilder<RESPONSE, CONTENT> = Response.Builder<RESPONSE, CONTENT>.() -> Unit
+
+data class Response<RESPONSE : Any, CONTENT> internal constructor(
+    val responseClass: KClass<RESPONSE>,
     val statusCode: HttpStatusCode?,
-    val example: Any?,
-    val examples: Map<String, Example>
+    val example: CONTENT?,
+    val exampleJson: JsonElement?,
+    val examples: Examples<CONTENT>
 ) {
 
-    private constructor(builder: Builder<T>) : this(
-        responseClass = builder.responseClass,
-        statusCode = builder.statusCode,
-        example = builder.example,
-        examples = builder.examples
-    )
-
-    data class Builder<T : Any>(
-        internal val responseClass: KClass<T>,
+    class Builder<RESPONSE : Any, CONTENT>(
+        private val json: Json,
+        internal val responseClass: KClass<RESPONSE>,
         internal val statusCode: HttpStatusCode?,
-        var example: Any? = null,
-        var examples: Examples = Examples(emptyMap())
     ) {
-        inline fun examples(builder: Examples.Builder.() -> Unit) {
-            examples = Examples.examples(builder)
+        var example: CONTENT? = null
+        var examples: Examples<CONTENT> = Examples(emptyMap())
+
+        fun examples(builder: ExamplesBuilder<CONTENT>) {
+            examples = Examples.Builder<CONTENT>(json).apply(builder).build()
         }
 
-        fun build(): Response<T> {
-            return Response(this)
-        }
-    }
-
-    companion object {
-        inline fun <reified T : Any> defaultResponse(builder: Builder<T>.() -> Unit = {}): Response<T> {
-            return Builder(responseClass = T::class, statusCode = null).apply(builder).build()
-        }
-
-        inline fun <reified T : Any> response(
-            statusCode: HttpStatusCode,
-            builder: Builder<T>.() -> Unit = {}
-        ): Response<T> {
-            return Builder(responseClass = T::class, statusCode = statusCode).apply(builder).build()
+        fun build(exampleJson: JsonElement?): Response<RESPONSE, CONTENT> {
+            return Response(
+                responseClass = responseClass,
+                statusCode = statusCode,
+                example = example,
+                exampleJson = exampleJson,
+                examples = examples
+            )
         }
     }
 }

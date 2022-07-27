@@ -3,8 +3,11 @@ package dev.arli.openapi
 import dev.arli.openapi.model.InfoObject
 import dev.arli.openapi.model.ServerObject
 import io.ktor.http.Url
+import io.ktor.serialization.kotlinx.json.DefaultJson
+import kotlinx.serialization.json.Json
 
 data class OpenAPIGenConfiguration(
+    var json: Json = DefaultJson,
     val openAPIVersion: String = "3.0.3",
     var info: InfoObject? = null,
     var servers: List<ServerObject> = emptyList()

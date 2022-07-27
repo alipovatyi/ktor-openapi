@@ -1,11 +1,13 @@
 package dev.arli.openapi.generator
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
+import dev.arli.openapi.model.ResponseComponent
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.TagObject
@@ -13,7 +15,6 @@ import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -56,8 +57,8 @@ internal class OperationJsonGeneratorTest {
                 )
             ),
             requestBody = null, // TODO
-            responses = mapOf(
-                null to ResponseObject(
+            responses = mapOf<HttpStatusCode?, ResponseComponent>(
+                null to ResponseObject<String>(
                     description = "Default response",
                     content = mapOf(
                         MediaType.APPLICATION_JSON to MediaTypeObject(
@@ -69,7 +70,7 @@ internal class OperationJsonGeneratorTest {
                         )
                     )
                 ),
-                HttpStatusCode.NotFound to ResponseObject(
+                HttpStatusCode.NotFound to ResponseObject<String>(
                     description = "Not found",
                     content = mapOf(
                         MediaType.APPLICATION_JSON to MediaTypeObject(
@@ -140,7 +141,7 @@ internal class OperationJsonGeneratorTest {
             put("deprecated", true)
         }
 
-        assertEquals(expectedJsonObject, generator.generateOperationJson(givenOperation))
+        assertThat(generator.generateOperationJson(givenOperation)).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -159,6 +160,6 @@ internal class OperationJsonGeneratorTest {
             put("deprecated", false)
         }
 
-        assertEquals(expectedJsonObject, generator.generateOperationJson(givenOperation))
+        assertThat(generator.generateOperationJson(givenOperation)).isEqualTo(expectedJsonObject)
     }
 }

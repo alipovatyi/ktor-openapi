@@ -9,11 +9,12 @@ class MediaTypeMapper(
     private val exampleMapper: ExampleMapper = ExampleMapper()
 ) {
 
-    fun map(kProperty: KProperty<*>, response: Response<*>): MediaTypeObject {
+    fun <CONTENT> map(kProperty: KProperty<*>, response: Response<*, CONTENT>): MediaTypeObject<CONTENT> {
         return MediaTypeObject(
             schema = schemaComponentMapper.map(kProperty),
             example = response.example,
-            examples = response.examples.mapValues { exampleMapper.map(it.value) }
+            examples = response.examples.mapValues { exampleMapper.map(it.value) },
+            exampleJson = response.exampleJson
         )
     }
 }

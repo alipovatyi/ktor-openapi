@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.annotation.Content
 import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
@@ -13,7 +14,7 @@ import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.ResponseObject
-import dev.arli.openapi.model.Responses.Companion.responses
+import dev.arli.openapi.model.Responses
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
@@ -24,11 +25,12 @@ import io.ktor.http.Url
 import io.ktor.server.routing.RootRouteSelector
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.route
-import kotlin.test.assertEquals
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 
 internal class OperationMapperTest {
 
+    private val json = Json
     private val mapper = OperationMapper()
 
     @Test
@@ -44,10 +46,10 @@ internal class OperationMapperTest {
                 url = Url("http://localhost/external-docs")
             ),
             operationId = "operation-id",
-            responses = responses {
-                defaultResponse<TestResponse>()
-                response<TestResponseNotFound>(HttpStatusCode.NotFound)
-            },
+            responses = Responses.Builder(json = json).apply {
+                defaultResponse<TestResponse, Int>()
+                response<TestResponseNotFound, String>(HttpStatusCode.NotFound)
+            }.build(),
             deprecated = false
         )
 
@@ -145,7 +147,7 @@ internal class OperationMapperTest {
             ),
             requestBody = null,
             responses = mapOf(
-                null to ResponseObject(
+                null to ResponseObject<Int>(
                     description = "Successful operation",
                     headers = emptyMap(),
                     content = mapOf(
@@ -159,7 +161,7 @@ internal class OperationMapperTest {
                     ),
                     links = emptyMap()
                 ),
-                HttpStatusCode.NotFound to ResponseObject(
+                HttpStatusCode.NotFound to ResponseObject<String>(
                     description = "Element not found",
                     headers = emptyMap(),
                     content = mapOf(
@@ -177,7 +179,7 @@ internal class OperationMapperTest {
             deprecated = false
         )
 
-        assertEquals(expectedParameterObject, mapper.map(givenParams))
+        assertThat(mapper.map(givenParams)).isEqualTo(expectedParameterObject)
     }
 
     private fun createRoute(path: String): Route {

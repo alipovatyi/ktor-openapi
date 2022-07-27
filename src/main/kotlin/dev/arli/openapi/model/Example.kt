@@ -1,30 +1,27 @@
 package dev.arli.openapi.model
 
-data class Example(
-    val value: Any,
-    val summary: String?,
-    val description: String?
+import kotlinx.serialization.json.JsonElement
+
+typealias ExampleBuilder<T> = Example.Builder<T>.() -> Unit
+
+data class Example<T> internal constructor(
+    val value: T,
+    val valueJson: JsonElement,
+    val description: String?,
+    val summary: String?
 ) {
 
-    private constructor(builder: Builder) : this(
-        value = builder.value,
-        summary = builder.summary,
-        description = builder.description
-    )
-
-    data class Builder(
-        internal val value: Any,
-        var summary: String? = null,
+    class Builder<T>(private val value: T) {
         var description: String? = null
-    ) {
-        fun build(): Example {
-            return Example(this)
-        }
-    }
+        var summary: String? = null
 
-    companion object {
-        inline fun example(value: Any, builder: Builder.() -> Unit = {}): Example {
-            return Builder(value = value).apply(builder).build()
+        fun build(valueJson: JsonElement): Example<T> {
+            return Example(
+                value = value,
+                valueJson = valueJson,
+                description = description,
+                summary = summary
+            )
         }
     }
 }

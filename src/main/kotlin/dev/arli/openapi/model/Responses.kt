@@ -1,34 +1,47 @@
 package dev.arli.openapi.model
 
 import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
+
+typealias ResponsesBuilder = Responses.Builder.() -> Unit
 
 data class Responses(
-    private val responses: List<Response<*>> = emptyList()
-) : List<Response<*>> by responses {
+    private val responses: List<Response<*, *>>
+) : List<Response<*, *>> by responses {
 
-    private constructor(builder: Builder) : this(responses = builder.responses)
+    data class Builder(val json: Json) {
+        val responses: MutableList<Response<*, *>> = mutableListOf()
 
-    data class Builder(val responses: MutableList<Response<*>> = mutableListOf()) {
-
-        inline fun <reified T : Any> defaultResponse(builder: Response.Builder<T>.() -> Unit = {}) {
-            responses.add(Response.defaultResponse(builder))
+        inline fun <reified RESPONSE : Any, reified CONTENT> defaultResponse(
+            builder: ResponseBuilder<RESPONSE, CONTENT> = {}
+        ) {
+            val responseBuilder = Response.Builder<RESPONSE, CONTENT>(
+                json = json,
+                responseClass = RESPONSE::class,
+                statusCode = null
+            ).apply(builder)
+            val exampleJson = responseBuilder.example?.let(json::encodeToJsonElement)
+            val response = responseBuilder.build(exampleJson)
+            responses.add(response)
         }
 
-        inline fun <reified T : Any> response(
+        inline fun <reified RESPONSE : Any, reified CONTENT> response(
             statusCode: HttpStatusCode,
-            builder: Response.Builder<T>.() -> Unit = {}
+            builder: ResponseBuilder<RESPONSE, CONTENT> = {}
         ) {
-            responses.add(Response.response(statusCode, builder))
+            val responseBuilder = Response.Builder<RESPONSE, CONTENT>(
+                json = json,
+                responseClass = RESPONSE::class,
+                statusCode = statusCode
+            ).apply(builder)
+            val exampleJson = responseBuilder.example?.let(json::encodeToJsonElement)
+            val response = responseBuilder.build(exampleJson)
+            responses.add(response)
         }
 
         fun build(): Responses {
-            return Responses(this)
-        }
-    }
-
-    companion object {
-        inline fun responses(builder: Builder.() -> Unit): Responses {
-            return Builder().apply(builder).build()
+            return Responses(responses = responses)
         }
     }
 }

@@ -7,9 +7,9 @@ import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterComponent
+import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
-import dev.arli.openapi.model.Response
 import io.ktor.server.routing.Route
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
@@ -65,7 +65,7 @@ class OperationMapper(
         val description: String?,
         val externalDocs: ExternalDocumentationObject?,
         val operationId: String?,
-        val responses: List<Response<*>>,
+        val responses: List<Response<*, *>>,
         val deprecated: Boolean
     )
 }

@@ -1,21 +1,18 @@
 package dev.arli.openapi.generator
 
-import dev.arli.openapi.generator.serializer.DynamicLookupSerializer
 import dev.arli.openapi.model.ExampleObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.putJsonObject
 
 class MediaTypeJsonGenerator(
-    private val json: Json = Json,
-    private val dynamicLookupSerializer: DynamicLookupSerializer = DynamicLookupSerializer(),
-    private val schemaJsonGenerator: SchemaJsonGenerator = SchemaJsonGenerator()
+    private val schemaJsonGenerator: SchemaJsonGenerator = SchemaJsonGenerator(),
+    private val exampleJsonGenerator: ExampleJsonGenerator = ExampleJsonGenerator()
 ) {
 
-    fun generateMediaTypeJson(mediaType: MediaType, mediaTypeObject: MediaTypeObject): JsonObject {
+    fun <T> generateMediaTypeJson(mediaType: MediaType, mediaTypeObject: MediaTypeObject<T>): JsonObject {
         return buildJsonObject {
             mediaTypeObject.schema?.let { schema ->
                 put("schema", schemaJsonGenerator.generateSchemaJson(schema))
@@ -23,24 +20,13 @@ class MediaTypeJsonGenerator(
             if (mediaTypeObject.examples.isNotEmpty()) {
                 putJsonObject("examples") {
                     mediaTypeObject.examples.forEach { (name, example) ->
-                        putJsonObject(name) {
-                            val exampleValue = (example as? ExampleObject<*>)?.value
-                            if (mediaType == MediaType.APPLICATION_JSON && exampleValue != null) {
-                                put("value", json.encodeToJsonElement(dynamicLookupSerializer, exampleValue))
-                            } else {
-                                // TODO support other media types
-                            }
+                        if (example is ExampleObject<*>) {
+                            put(name, exampleJsonGenerator.generateExampleJson(mediaType, example))
                         }
                     }
                 }
             } else {
-                mediaTypeObject.example?.let { example ->
-                    if (mediaType == MediaType.APPLICATION_JSON) {
-                        put("example", json.encodeToJsonElement(dynamicLookupSerializer, example))
-                    } else {
-                        // TODO support other media types
-                    }
-                }
+                mediaTypeObject.exampleJson?.let { exampleJson -> put("example", exampleJson) }
             }
         }
     }

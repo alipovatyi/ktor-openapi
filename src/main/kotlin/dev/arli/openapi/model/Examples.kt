@@ -1,29 +1,25 @@
 package dev.arli.openapi.model
 
-data class Examples(
-    private val examples: Map<String, Example> = emptyMap()
-) : Map<String, Example> by examples {
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
 
-    private constructor(builder: Builder) : this(examples = builder.examples)
+typealias ExamplesBuilder<T> = Examples.Builder<T>.() -> Unit
 
-    data class Builder(val examples: MutableMap<String, Example> = mutableMapOf()) {
+data class Examples<T> internal constructor(
+    private val examples: Map<String, Example<T>>
+) : Map<String, Example<T>> by examples {
 
-        inline fun example(
-            name: String,
-            value: Any,
-            builder: Example.Builder.() -> Unit = {}
-        ) {
-            examples[name] = Example.example(value, builder)
-        }
+    class Builder<T>(val json: Json) {
+        val examples: MutableMap<String, Example<T>> = mutableMapOf()
 
-        fun build(): Examples {
-            return Examples(this)
+        fun build(): Examples<T> {
+            return Examples(examples)
         }
     }
+}
 
-    companion object {
-        inline fun examples(builder: Builder.() -> Unit): Examples {
-            return Builder().apply(builder).build()
-        }
-    }
+inline fun <reified T> Examples.Builder<T>.example(name: String, value: T, builder: ExampleBuilder<T> = {}) {
+    val valueJson = json.encodeToJsonElement(value)
+    val example = Example.Builder(value).apply(builder).build(valueJson)
+    examples[name] = example
 }
