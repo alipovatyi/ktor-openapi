@@ -4,12 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.ExampleObject
 import dev.arli.openapi.model.Examples
 import dev.arli.openapi.model.MediaTypeObject
-import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.example
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
-import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
@@ -24,10 +22,8 @@ internal class MediaTypeMapperTest {
 
     @Test
     fun `Should map media type property to media type object`() {
-        val givenProperty = TestResponse::content
-        val givenResponse = Response(
-            responseClass = TestResponse::class,
-            statusCode = HttpStatusCode.OK,
+        val givenParams = MediaTypeMapper.Params(
+            kProperty = TestResponse::content,
             example = TestContent(1),
             exampleJson = JsonPrimitive(1),
             examples = Examples.Builder<TestContent>(json = json).apply {
@@ -63,9 +59,7 @@ internal class MediaTypeMapperTest {
             )
         )
 
-        val actualMediaTypeObject = mapper.map(givenProperty, givenResponse)
-
-        assertThat(actualMediaTypeObject).isEqualTo(expectedMediaTypeObject)
+        assertThat(mapper.map(givenParams)).isEqualTo(expectedMediaTypeObject)
     }
 
     private data class TestResponse(val content: TestContent)

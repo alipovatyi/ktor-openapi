@@ -36,7 +36,13 @@ class ResponseMapper(
                 val contentAnnotation = requireNotNull(contentProperty.findAnnotation<Content>()) {
                     "Content [${contentProperty.name}] must be annotated with @Content annotation"
                 }
-                content[contentAnnotation.mediaType] = mediaTypeMapper.map(contentProperty, response)
+                val mediaTypeParams = MediaTypeMapper.Params(
+                    kProperty = contentProperty,
+                    example = response.example,
+                    exampleJson = response.exampleJson,
+                    examples = response.examples
+                )
+                content[contentAnnotation.mediaType] = mediaTypeMapper.map(mediaTypeParams)
             }
         }
 
