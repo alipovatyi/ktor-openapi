@@ -25,7 +25,7 @@ class OperationMapper(
 ) {
 
     fun map(params: Params): OperationObject {
-        val path = params.route.parent.toString()
+        val path = params.route.parent.toString().removeSuffix("/")
         val pathParameters = pathParametersParser.parse(path)
 
         val tags = params.tags.map { TagObject(name = it) }.toSet()

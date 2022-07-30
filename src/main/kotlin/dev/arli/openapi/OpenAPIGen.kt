@@ -37,7 +37,7 @@ class OpenAPIGen(
         responses: List<Response<*, *>>,
         deprecated: Boolean
     ) {
-        val path = route.parent.toString()
+        val path = route.parent.toString().removeSuffix("/")
         val pathItem = pathItems.getOrDefault(path, PathItemObject())
         val method = (route.selector as HttpMethodRouteSelector).method
         val routeToOperationParams = OperationMapper.Params(
