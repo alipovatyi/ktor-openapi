@@ -4,6 +4,7 @@ import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
+import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterComponent
@@ -12,6 +13,7 @@ import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
 import io.ktor.server.routing.Route
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 
@@ -21,6 +23,7 @@ class OperationMapper(
     private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper(),
     private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper(),
     private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper(),
+    private val requestBodyMapper: RequestBodyMapper = RequestBodyMapper(),
     private val responseMapper: ResponseMapper = ResponseMapper()
 ) {
 
@@ -31,6 +34,7 @@ class OperationMapper(
         val tags = params.tags.map { TagObject(name = it) }.toSet()
         val parameters = mutableListOf<ParameterComponent>()
         val responses = params.responses.associate { it.statusCode to responseMapper.map(it) }
+        val requestBodyProperty: KProperty<*>?
 
         with(params.requestClass) {
             val annotatedPathParameters = declaredMemberProperties.filter { it.hasAnnotation<Path>() }
@@ -42,6 +46,8 @@ class OperationMapper(
             parameters += queryParametersMapper.map(annotatedQueryParameters)
             parameters += headerParametersMapper.map(annotatedHeaderParameters)
             parameters += cookieParametersMapper.map(annotatedCookieParameters)
+
+            requestBodyProperty = declaredMemberProperties.firstOrNull { it.hasAnnotation<RequestBody>() }
         }
 
         return OperationObject(
@@ -51,6 +57,7 @@ class OperationMapper(
             externalDocs = params.externalDocs,
             operationId = params.operationId,
             parameters = parameters,
+            requestBody = requestBodyProperty?.let(requestBodyMapper::map),
             responses = responses,
             deprecated = params.deprecated
         )

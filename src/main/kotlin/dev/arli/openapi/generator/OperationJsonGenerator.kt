@@ -38,7 +38,7 @@ class OperationJsonGenerator(
                 }
             }
             operation.requestBody?.let { requestBody ->
-                put("request", requestBodyJsonGenerator.generateRequestBodyJson(requestBody))
+                put("requestBody", requestBodyJsonGenerator.generateRequestBodyJson(requestBody))
             }
             putJsonObject("responses") {
                 operation.responses.forEach { (statusCode, response) ->

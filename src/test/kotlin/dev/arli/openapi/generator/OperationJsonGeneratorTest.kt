@@ -7,6 +7,7 @@ import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
+import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.ResponseComponent
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
@@ -56,7 +57,26 @@ internal class OperationJsonGeneratorTest {
                     `in` = ParameterLocation.QUERY
                 )
             ),
-            requestBody = null, // TODO
+            requestBody = RequestBodyObject<Any>(
+                description = null,
+                content = mapOf(
+                    MediaType.APPLICATION_JSON to MediaTypeObject(
+                        schema = SchemaObject(
+                            type = DataType.OBJECT,
+                            format = null,
+                            nullable = false,
+                            properties = mapOf(
+                                "value" to SchemaObject(
+                                    type = DataType.STRING,
+                                    format = StringFormat.NO_FORMAT,
+                                    nullable = false
+                                )
+                            )
+                        )
+                    )
+                ),
+                required = true
+            ),
             responses = mapOf<HttpStatusCode?, ResponseComponent>(
                 null to ResponseObject<String>(
                     description = "Default response",
@@ -111,7 +131,24 @@ internal class OperationJsonGeneratorTest {
                     put("deprecated", false)
                 }
             }
-//            putJsonObject("request") {} // TODO
+            putJsonObject("requestBody") {
+                putJsonObject("content") {
+                    putJsonObject("application/json") {
+                        putJsonObject("schema") {
+                            put("type", "object")
+                            put("nullable", false)
+                            putJsonObject("properties") {
+                                putJsonObject("value") {
+                                    put("type", "string")
+                                    put("format", "")
+                                    put("nullable", false)
+                                }
+                            }
+                        }
+                    }
+                }
+                put("required", true)
+            }
             putJsonObject("responses") {
                 putJsonObject("default") {
                     put("description", "Default response")
