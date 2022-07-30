@@ -10,7 +10,7 @@ data class OperationObject(
     val operationId: String? = null,
     val parameters: List<ParameterComponent> = emptyList(),
     val requestBody: RequestBodyComponent? = null,
-    val responses: Map<HttpStatusCode?, ResponseComponent> = emptyMap(), // REQUIRED // TODO handle `default`
+    val responses: Map<HttpStatusCode?, ResponseComponent> = emptyMap(), // REQUIRED
 //    val callbacks: Map<String, CallbackComponent> = emptyMap(), // TODO
     val deprecated: Boolean = false,
 //    val security: List<SecurityRequirementObject> = emptyList(), // TODO
