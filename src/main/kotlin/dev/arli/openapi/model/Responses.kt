@@ -7,7 +7,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 typealias ResponsesBuilder = Responses.Builder.() -> Unit
 
 data class Responses(
-    private val responses: List<Response<*, *>>
+    private val responses: List<Response<*, *>> = emptyList()
 ) : List<Response<*, *>> by responses {
 
     data class Builder(val json: Json) {

@@ -6,7 +6,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 typealias ExamplesBuilder<T> = Examples.Builder<T>.() -> Unit
 
 data class Examples<T> internal constructor(
-    private val examples: Map<String, Example<T>>
+    private val examples: Map<String, Example<T>> = emptyMap()
 ) : Map<String, Example<T>> by examples {
 
     class Builder<T>(val json: Json) {
