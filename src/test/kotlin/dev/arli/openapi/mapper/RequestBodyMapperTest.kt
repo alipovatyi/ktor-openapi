@@ -105,6 +105,54 @@ internal class RequestBodyMapperTest {
     }
 
     @Test
+    fun `Should map application json request body class to request body`() {
+        val givenProperty = TestClassWithApplicationJson::requestBody
+        val givenRequestBodyExamples: RequestBodyExamples? = null
+
+        val expectedRequestBodyObject = RequestBodyObject(
+            description = null,
+            content = mapOf(
+                MediaType.APPLICATION_JSON to MediaTypeObject<String>(
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                )
+            ),
+            required = false
+        )
+
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
+    }
+
+    @Test
+    fun `Should map application form request body class to request body`() {
+        val givenProperty = TestClassWithApplicationForm::requestBody
+        val givenRequestBodyExamples: RequestBodyExamples? = null
+
+        val expectedRequestBodyObject = RequestBodyObject(
+            description = null,
+            content = mapOf(
+                MediaType.APPLICATION_FORM to MediaTypeObject<String>(
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                )
+            ),
+            required = false
+        )
+
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
+    }
+
+    @Test
     fun `Should throw an exception if RequestBody annotation is not found`() {
         val givenProperty = TestClassWithoutAnnotation::requestBody
 
@@ -141,10 +189,11 @@ internal class RequestBodyMapperTest {
 
     private data class TestClassWithoutAnnotation(val requestBody: String)
     private data class TestClassWithoutMediaType(@RequestBody(mediaType = []) val requestBody: String)
+    private data class TestClassWithApplicationJson(@RequestBody(MediaType.APPLICATION_JSON) val requestBody: String)
     private data class TestClassWithApplicationXml(@RequestBody(MediaType.APPLICATION_XML) val requestBody: String)
     private data class TestClassWithApplicationForm(@RequestBody(MediaType.APPLICATION_FORM) val requestBody: String)
     private data class TestClassWithApplicationPdf(@RequestBody(MediaType.APPLICATION_PDF) val requestBody: String)
-    private data class TestClassWithMultipartForm(@RequestBody(MediaType.APPLICATION_FORM) val requestBody: String)
+    private data class TestClassWithMultipartForm(@RequestBody(MediaType.MULTIPART_FORM) val requestBody: String)
     private data class TestClassWithImagePng(@RequestBody(MediaType.IMG_PNG) val requestBody: String)
     private data class TestClassWithTextPlain(@RequestBody(MediaType.TEXT_PLAIN) val requestBody: String)
     private data class TestClassWithTextHtml(@RequestBody(MediaType.TEXT_HTML) val requestBody: String)
@@ -154,7 +203,6 @@ internal class RequestBodyMapperTest {
         @JvmStatic
         fun `Should throw an exception if media type is not supported`() = listOf(
             arguments(TestClassWithApplicationXml::requestBody),
-            arguments(TestClassWithApplicationForm::requestBody),
             arguments(TestClassWithApplicationPdf::requestBody),
             arguments(TestClassWithMultipartForm::requestBody),
             arguments(TestClassWithImagePng::requestBody),

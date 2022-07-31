@@ -18,6 +18,12 @@ data class RequestBodyExamples internal constructor(
             examples[MediaType.APPLICATION_JSON] = mediaTypeExamplesBuilder.build(exampleJson)
         }
 
+        inline fun <reified T> applicationForm(builder: MediaTypeExamplesBuilder<T>) {
+            val mediaTypeExamplesBuilder = MediaTypeExamples.Builder<T>(json = json).apply(builder)
+            val exampleJson = mediaTypeExamplesBuilder.example?.let(json::encodeToJsonElement)
+            examples[MediaType.APPLICATION_FORM] = mediaTypeExamplesBuilder.build(exampleJson)
+        }
+
         // TODO: support other media types
 
         fun build(): RequestBodyExamples {
