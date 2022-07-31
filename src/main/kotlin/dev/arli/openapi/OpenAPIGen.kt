@@ -6,6 +6,7 @@ import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
+import dev.arli.openapi.util.getPath
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
@@ -39,7 +40,7 @@ class OpenAPIGen(
         responses: List<Response<*, *>>,
         deprecated: Boolean
     ) {
-        val path = route.parent.toString().removeSuffix("/")
+        val path = route.getPath()
         val pathItem = pathItems.getOrDefault(path, PathItemObject())
         val method = (route.selector as HttpMethodRouteSelector).method
         val routeToOperationParams = OperationMapper.Params(

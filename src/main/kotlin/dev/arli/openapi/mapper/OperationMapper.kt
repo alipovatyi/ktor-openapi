@@ -12,6 +12,7 @@ import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
+import dev.arli.openapi.util.getPath
 import io.ktor.server.routing.Route
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -29,7 +30,7 @@ class OperationMapper(
 ) {
 
     fun map(params: Params): OperationObject {
-        val path = params.route.parent.toString().removeSuffix("/")
+        val path = params.route.getPath()
         val pathParameters = pathParametersParser.parse(path)
 
         val tags = params.tags.map { TagObject(name = it) }.toSet()
