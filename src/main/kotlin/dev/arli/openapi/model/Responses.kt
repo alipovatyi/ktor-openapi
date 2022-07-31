@@ -41,7 +41,7 @@ data class Responses(
         }
 
         fun build(): Responses {
-            return Responses(responses = responses)
+            return Responses(responses = responses.toList())
         }
     }
 }

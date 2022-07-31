@@ -2,7 +2,7 @@ package dev.arli.openapi.mapper
 
 import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.ExampleObject
-import dev.arli.openapi.model.Examples
+import dev.arli.openapi.model.MediaTypeExamples
 import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.example
@@ -24,12 +24,11 @@ internal class MediaTypeMapperTest {
     fun `Should map media type property to media type object`() {
         val givenParams = MediaTypeMapper.Params(
             kProperty = TestResponse::content,
-            example = TestContent(1),
-            exampleJson = JsonPrimitive(1),
-            examples = Examples.Builder<TestContent>(json = json).apply {
+            mediaTypeExamples = MediaTypeExamples.Builder<TestContent>(json = json).apply {
+                example = TestContent(1)
                 example(name = "example-2", value = TestContent(2))
                 example(name = "example-3", value = TestContent(3))
-            }.build()
+            }.build(exampleJson = JsonPrimitive(1))
         )
 
         val expectedMediaTypeObject = MediaTypeObject(

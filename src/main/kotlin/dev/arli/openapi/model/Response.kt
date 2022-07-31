@@ -10,30 +10,30 @@ typealias ResponseBuilder<RESPONSE, CONTENT> = Response.Builder<RESPONSE, CONTEN
 data class Response<RESPONSE : Any, CONTENT> internal constructor(
     val responseClass: KClass<RESPONSE>,
     val statusCode: HttpStatusCode?,
-    val example: CONTENT?,
-    val exampleJson: JsonElement?,
-    val examples: Examples<CONTENT>
+    val mediaTypeExamples: MediaTypeExamples<CONTENT>
 ) {
 
     class Builder<RESPONSE : Any, CONTENT>(
-        private val json: Json,
+        json: Json,
         internal val responseClass: KClass<RESPONSE>,
-        internal val statusCode: HttpStatusCode?,
+        internal val statusCode: HttpStatusCode?
     ) {
-        var example: CONTENT? = null
-        var examples: Examples<CONTENT> = Examples(emptyMap())
+        private val mediaTypeExamplesBuilder: MediaTypeExamples.Builder<CONTENT> = MediaTypeExamples.Builder(json)
+        var example: CONTENT?
+            get() = mediaTypeExamplesBuilder.example
+            set(value) {
+                mediaTypeExamplesBuilder.example = value
+            }
 
-        fun examples(builder: ExamplesBuilder<CONTENT>) {
-            examples = Examples.Builder<CONTENT>(json).apply(builder).build()
+        fun examples(builder: MediaTypeExamplesBuilder<CONTENT>) {
+            mediaTypeExamplesBuilder.apply(builder)
         }
 
         fun build(exampleJson: JsonElement?): Response<RESPONSE, CONTENT> {
             return Response(
                 responseClass = responseClass,
                 statusCode = statusCode,
-                example = example,
-                exampleJson = exampleJson,
-                examples = examples
+                mediaTypeExamples = mediaTypeExamplesBuilder.build(exampleJson)
             )
         }
     }

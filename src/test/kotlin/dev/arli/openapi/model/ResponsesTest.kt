@@ -17,9 +17,9 @@ internal class ResponsesTest {
                 Response(
                     responseClass = TestResponse::class,
                     statusCode = HttpStatusCode.OK,
-                    example = null,
-                    exampleJson = null,
-                    examples = Examples(
+                    mediaTypeExamples = MediaTypeExamples(
+                        example = null,
+                        exampleJson = null,
                         examples = mapOf(
                             "value-1" to Example(
                                 value = 1,
@@ -62,9 +62,11 @@ internal class ResponsesTest {
                 Response(
                     responseClass = TestResponse::class,
                     statusCode = null,
-                    example = "Example",
-                    exampleJson = JsonPrimitive("Example"),
-                    examples = Examples(emptyMap())
+                    mediaTypeExamples = MediaTypeExamples(
+                        example = "Example",
+                        exampleJson = JsonPrimitive("Example"),
+                        examples = emptyMap()
+                    )
                 )
             )
         )

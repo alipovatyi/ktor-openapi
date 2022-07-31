@@ -21,9 +21,11 @@ internal class ResponseTest {
 
         val expectedResponse = Response(
             statusCode = HttpStatusCode.Created,
-            example = givenExample,
-            exampleJson = JsonPrimitive(givenExample),
-            examples = Examples(emptyMap()),
+            mediaTypeExamples = MediaTypeExamples(
+                example = givenExample,
+                exampleJson = JsonPrimitive(givenExample),
+                examples = emptyMap()
+            ),
             responseClass = TestResponse::class
         )
 
@@ -45,9 +47,11 @@ internal class ResponseTest {
 
         val expectedResponse = Response(
             statusCode = HttpStatusCode.Created,
-            example = givenExample,
-            exampleJson = buildJsonObject { put("value", "Example") },
-            examples = Examples(emptyMap()),
+            mediaTypeExamples = MediaTypeExamples(
+                example = givenExample,
+                exampleJson = buildJsonObject { put("value", "Example") },
+                examples = emptyMap()
+            ),
             responseClass = TestResponse::class
         )
 
@@ -66,9 +70,9 @@ internal class ResponseTest {
     fun `Should create response with multiple primitive examples`() {
         val expectedResponse = Response(
             statusCode = HttpStatusCode.Created,
-            example = null,
-            exampleJson = null,
-            examples = Examples(
+            mediaTypeExamples = MediaTypeExamples(
+                example = null,
+                exampleJson = null,
                 examples = mapOf(
                     "example-1" to Example(
                         value = "Example 1",
@@ -105,9 +109,9 @@ internal class ResponseTest {
     fun `Should create response with multiple object examples`() {
         val expectedResponse = Response(
             statusCode = HttpStatusCode.Created,
-            example = null,
-            exampleJson = null,
-            examples = Examples(
+            mediaTypeExamples = MediaTypeExamples(
+                example = null,
+                exampleJson = null,
                 examples = mapOf(
                     "example-1" to Example(
                         value = TestContent("Example 1"),
@@ -145,9 +149,11 @@ internal class ResponseTest {
         val expectedResponse = Response(
             responseClass = TestResponse::class,
             statusCode = HttpStatusCode.Created,
-            example = null,
-            exampleJson = null,
-            examples = Examples(emptyMap())
+            mediaTypeExamples = MediaTypeExamples(
+                example = null,
+                exampleJson = null,
+                examples = emptyMap()
+            )
         )
 
         val actualResponse = Response.Builder<TestResponse, TestContent>(

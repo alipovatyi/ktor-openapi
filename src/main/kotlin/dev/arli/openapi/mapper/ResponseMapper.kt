@@ -38,9 +38,7 @@ class ResponseMapper(
                 }
                 val mediaTypeParams = MediaTypeMapper.Params(
                     kProperty = contentProperty,
-                    example = response.example,
-                    exampleJson = response.exampleJson,
-                    examples = response.examples
+                    mediaTypeExamples = response.mediaTypeExamples
                 )
                 content[contentAnnotation.mediaType] = mediaTypeMapper.map(mediaTypeParams)
             }
