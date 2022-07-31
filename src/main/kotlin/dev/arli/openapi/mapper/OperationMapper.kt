@@ -8,6 +8,7 @@ import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterComponent
+import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
@@ -57,7 +58,7 @@ class OperationMapper(
             externalDocs = params.externalDocs,
             operationId = params.operationId,
             parameters = parameters,
-            requestBody = requestBodyProperty?.let(requestBodyMapper::map),
+            requestBody = requestBodyProperty?.let { requestBodyMapper.map(it, params.requestBodyExamples) },
             responses = responses,
             deprecated = params.deprecated
         )
@@ -72,6 +73,7 @@ class OperationMapper(
         val description: String?,
         val externalDocs: ExternalDocumentationObject?,
         val operationId: String?,
+        val requestBodyExamples: RequestBodyExamples?,
         val responses: List<Response<*, *>>,
         val deprecated: Boolean
     )

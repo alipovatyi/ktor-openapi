@@ -5,11 +5,14 @@ import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
+import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
 import kotlin.reflect.KProperty
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -18,16 +21,18 @@ import org.junit.jupiter.params.provider.MethodSource
 
 internal class RequestBodyMapperTest {
 
+    private val json = Json
     private val mapper = RequestBodyMapper()
 
     @Test
     fun `Should map request body with default values to request body object`() {
         val givenProperty = TestClassWithDefaultValues::requestBody
+        val givenRequestBodyExamples: RequestBodyExamples? = null
 
-        val expectedRequestBodyObject = RequestBodyObject<String>(
+        val expectedRequestBodyObject = RequestBodyObject(
             description = null,
             content = mapOf(
-                MediaType.APPLICATION_JSON to MediaTypeObject(
+                MediaType.APPLICATION_JSON to MediaTypeObject<String>(
                     schema = SchemaObject(
                         type = DataType.STRING,
                         format = StringFormat.NO_FORMAT,
@@ -38,14 +43,21 @@ internal class RequestBodyMapperTest {
             required = false
         )
 
-        assertThat(mapper.map(givenProperty)).isEqualTo(expectedRequestBodyObject)
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
     }
 
     @Test
     fun `Should map request body to request body object with custom values`() {
         val givenProperty = TestClassWithCustomValues::requestBody
+        val givenRequestBodyExamples = RequestBodyExamples.Builder(json = json).apply {
+            applicationJson<String> {
+                example = "Example"
+            }
+        }.build()
 
-        val expectedRequestBodyObject = RequestBodyObject<String>(
+        val expectedRequestBodyObject = RequestBodyObject(
             description = null,
             content = mapOf(
                 MediaType.APPLICATION_JSON to MediaTypeObject(
@@ -53,23 +65,29 @@ internal class RequestBodyMapperTest {
                         type = DataType.STRING,
                         format = StringFormat.NO_FORMAT,
                         nullable = false
-                    )
+                    ),
+                    example = "Example",
+                    exampleJson = JsonPrimitive("Example"),
+                    examples = emptyMap()
                 )
             ),
             required = true
         )
 
-        assertThat(mapper.map(givenProperty)).isEqualTo(expectedRequestBodyObject)
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
     }
 
     @Test
     fun `Should map request body class to request body object with description`() {
         val givenProperty = TestClassWithDescription::requestBody
+        val givenRequestBodyExamples: RequestBodyExamples? = null
 
-        val expectedRequestBodyObject = RequestBodyObject<String>(
+        val expectedRequestBodyObject = RequestBodyObject(
             description = "Description",
             content = mapOf(
-                MediaType.APPLICATION_JSON to MediaTypeObject(
+                MediaType.APPLICATION_JSON to MediaTypeObject<String>(
                     schema = SchemaObject(
                         type = DataType.STRING,
                         format = StringFormat.NO_FORMAT,
@@ -81,7 +99,9 @@ internal class RequestBodyMapperTest {
             required = false
         )
 
-        assertThat(mapper.map(givenProperty)).isEqualTo(expectedRequestBodyObject)
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
     }
 
     @Test
@@ -89,7 +109,7 @@ internal class RequestBodyMapperTest {
         val givenProperty = TestClassWithoutAnnotation::requestBody
 
         assertThrows<IllegalArgumentException> {
-            mapper.map(givenProperty)
+            mapper.map(givenProperty, examples = null)
         }
     }
 
@@ -98,7 +118,7 @@ internal class RequestBodyMapperTest {
         val givenProperty = TestClassWithoutMediaType::requestBody
 
         assertThrows<IllegalArgumentException> {
-            mapper.map(givenProperty)
+            mapper.map(givenProperty, examples = null)
         }
     }
 
@@ -106,7 +126,7 @@ internal class RequestBodyMapperTest {
     @MethodSource
     fun `Should throw an exception if media type is not supported`(givenProperty: KProperty<*>) {
         assertThrows<IllegalArgumentException> {
-            mapper.map(givenProperty)
+            mapper.map(givenProperty, examples = null)
         }
     }
 

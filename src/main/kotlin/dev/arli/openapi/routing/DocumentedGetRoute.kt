@@ -39,6 +39,7 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
             description = description,
             externalDocs = externalDocs,
             operationId = operationId,
+            requestBodyExamples = null,
             responses = Responses.Builder(plugin.json).apply(responses).build(),
             deprecated = deprecated
         )

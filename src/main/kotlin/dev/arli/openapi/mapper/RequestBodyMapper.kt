@@ -1,9 +1,9 @@
 package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.RequestBody
-import dev.arli.openapi.model.Examples
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.RequestBodyComponent
+import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.parser.DescriptionParser
 import kotlin.reflect.KProperty
@@ -14,7 +14,7 @@ class RequestBodyMapper(
     private val mediaTypeMapper: MediaTypeMapper = MediaTypeMapper()
 ) {
 
-    fun map(kProperty: KProperty<*>): RequestBodyComponent {
+    fun map(kProperty: KProperty<*>, examples: RequestBodyExamples?): RequestBodyComponent {
         val requestBodyAnnotation = requireNotNull(kProperty.findAnnotation<RequestBody>()) {
             "Request body must be annotated with @RequestBody annotation"
         }
@@ -26,9 +26,7 @@ class RequestBodyMapper(
         }
         val mediaTypeParams = MediaTypeMapper.Params(
             kProperty = kProperty,
-            example = null, // TODO
-            examples = Examples(), // TODO
-            exampleJson = null // TODO
+            mediaTypeExamples = examples?.get(mediaType)
         )
         val mediaTypes = mapOf(mediaType to mediaTypeMapper.map(mediaTypeParams)) // TODO: multiple types
         return RequestBodyObject(

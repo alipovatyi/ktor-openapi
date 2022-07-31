@@ -60,10 +60,10 @@ internal class OpenAPIJsonGeneratorTest {
                     description = "Add a new pet to the store",
                     externalDocs = null,
                     operationId = "addPet",
-                    requestBody = RequestBodyObject<Any>(
+                    requestBody = RequestBodyObject(
                         description = null,
                         content = mapOf(
-                            MediaType.APPLICATION_JSON to MediaTypeObject(
+                            MediaType.APPLICATION_JSON to MediaTypeObject<Any>(
                                 schema = SchemaObject(
                                     type = DataType.OBJECT,
                                     format = null,
@@ -107,7 +107,10 @@ internal class OpenAPIJsonGeneratorTest {
                                             enum = setOf("available", "pending", "sold")
                                         )
                                     )
-                                )
+                                ),
+                                example = null,
+                                exampleJson = null,
+                                examples = emptyMap()
                             )
                         ),
                         required = true

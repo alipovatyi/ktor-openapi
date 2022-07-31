@@ -13,7 +13,7 @@ class RequestBodyJsonGenerator(
 
     fun generateRequestBodyJson(requestBody: RequestBodyComponent): JsonObject {
         return buildJsonObject {
-            if (requestBody is RequestBodyObject<*>) {
+            if (requestBody is RequestBodyObject) {
                 requestBody.description?.let { description ->
                     put("description", description)
                 }

@@ -6,6 +6,7 @@ import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
+import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.annotation.Response
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.MediaType
@@ -13,6 +14,8 @@ import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
+import dev.arli.openapi.model.RequestBodyExamples
+import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.Responses
 import dev.arli.openapi.model.SchemaObject
@@ -26,6 +29,7 @@ import io.ktor.server.routing.RootRouteSelector
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.route
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.Test
 
 internal class OperationMapperTest {
@@ -46,6 +50,11 @@ internal class OperationMapperTest {
                 url = Url("http://localhost/external-docs")
             ),
             operationId = "operation-id",
+            requestBodyExamples = RequestBodyExamples.Builder(json = json).apply {
+                applicationJson<String> {
+                    example = "Example"
+                }
+            }.build(),
             responses = Responses.Builder(json = json).apply {
                 defaultResponse<TestResponse, Int>()
                 response<TestResponseNotFound, String>(HttpStatusCode.NotFound)
@@ -145,7 +154,21 @@ internal class OperationMapperTest {
                     )
                 )
             ),
-            requestBody = null,
+            requestBody = RequestBodyObject(
+                description = null,
+                content = mapOf(
+                    MediaType.APPLICATION_JSON to MediaTypeObject(
+                        schema = SchemaObject(
+                            type = DataType.STRING,
+                            format = StringFormat.NO_FORMAT,
+                            nullable = false
+                        ),
+                        example = "Example",
+                        exampleJson = JsonPrimitive("Example"),
+                        examples = emptyMap()
+                    )
+                )
+            ),
             responses = mapOf(
                 null to ResponseObject<Int>(
                     description = "Successful operation",
@@ -196,7 +219,8 @@ internal class OperationMapperTest {
         @Header val headerParam1: String,
         @Header val headerParam2: String?,
         @Cookie val cookieParam1: String?,
-        @Cookie val cookieParam2: String
+        @Cookie val cookieParam2: String,
+        @RequestBody val content: String
     )
 
     @Response(description = "Successful operation")

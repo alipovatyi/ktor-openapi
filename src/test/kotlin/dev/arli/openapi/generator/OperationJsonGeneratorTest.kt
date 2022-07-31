@@ -57,10 +57,10 @@ internal class OperationJsonGeneratorTest {
                     `in` = ParameterLocation.QUERY
                 )
             ),
-            requestBody = RequestBodyObject<Any>(
+            requestBody = RequestBodyObject(
                 description = null,
                 content = mapOf(
-                    MediaType.APPLICATION_JSON to MediaTypeObject(
+                    MediaType.APPLICATION_JSON to MediaTypeObject<Any>(
                         schema = SchemaObject(
                             type = DataType.OBJECT,
                             format = null,

@@ -4,6 +4,7 @@ import dev.arli.openapi.generator.OpenAPIJsonGenerator
 import dev.arli.openapi.mapper.OperationMapper
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
+import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.ApplicationCallPipeline
@@ -34,6 +35,7 @@ class OpenAPIGen(
         description: String?,
         externalDocs: ExternalDocumentationObject?,
         operationId: String?,
+        requestBodyExamples: RequestBodyExamples?,
         responses: List<Response<*, *>>,
         deprecated: Boolean
     ) {
@@ -49,6 +51,7 @@ class OpenAPIGen(
             description = description,
             externalDocs = externalDocs,
             operationId = operationId,
+            requestBodyExamples = requestBodyExamples,
             responses = responses,
             deprecated = deprecated
         )
