@@ -2,11 +2,11 @@ package dev.arli.openapi
 
 import dev.arli.openapi.generator.OpenAPIJsonGenerator
 import dev.arli.openapi.mapper.OperationMapper
+import dev.arli.openapi.mapper.RoutePathMapper
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
-import dev.arli.openapi.util.getPath
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
@@ -21,6 +21,7 @@ import kotlinx.serialization.json.Json
 class OpenAPIGen(
     private val configuration: OpenAPIGenConfiguration,
     private val openAPIJsonGenerator: OpenAPIJsonGenerator = OpenAPIJsonGenerator(),
+    private val routePathMapper: RoutePathMapper = RoutePathMapper(),
     private val operationMapper: OperationMapper = OperationMapper(),
     val json: Json = configuration.json
 ) {
@@ -40,7 +41,7 @@ class OpenAPIGen(
         responses: List<Response<*, *>>,
         deprecated: Boolean
     ) {
-        val path = route.getPath()
+        val path = routePathMapper.map(route)
         val pathItem = pathItems.getOrDefault(path, PathItemObject())
         val method = (route.selector as HttpMethodRouteSelector).method
         val routeToOperationParams = OperationMapper.Params(

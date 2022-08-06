@@ -12,7 +12,6 @@ import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.parser.PathParametersParser
-import dev.arli.openapi.util.getPath
 import io.ktor.server.routing.Route
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -20,6 +19,7 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 
 class OperationMapper(
+    private val routePathMapper: RoutePathMapper = RoutePathMapper(),
     private val pathParametersParser: PathParametersParser = PathParametersParser(),
     private val pathParametersMapper: PathParametersMapper = PathParametersMapper(),
     private val queryParametersMapper: QueryParametersMapper = QueryParametersMapper(),
@@ -30,7 +30,7 @@ class OperationMapper(
 ) {
 
     fun map(params: Params): OperationObject {
-        val path = params.route.getPath()
+        val path = routePathMapper.map(params.route)
         val pathParameters = pathParametersParser.parse(path)
 
         val tags = params.tags.map { TagObject(name = it) }.toSet()
