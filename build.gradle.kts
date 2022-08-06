@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.kotlin.dateTime)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.serialization)
+    implementation(libs.ktor.server.auth.jvm)
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.ktor.server.test)
     testImplementation(libs.truth)

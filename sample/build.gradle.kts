@@ -20,5 +20,6 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.contentNegotiation)
     implementation(libs.ktor.server.serialization)
+    implementation(libs.ktor.server.auth.jvm)
     implementation(libs.logback)
 }
