@@ -3,6 +3,7 @@ package dev.arli.openapi.generator
 import dev.arli.openapi.model.OperationObject
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.add
+import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
@@ -47,6 +48,15 @@ class OperationJsonGenerator(
                 }
             }
             put("deprecated", operation.deprecated)
+            if (operation.security.isNotEmpty()) {
+                putJsonArray("security") {
+                    addJsonObject {
+                        operation.security.forEach { securityRequirement ->
+                            putJsonArray(securityRequirement.value) {}
+                        }
+                    }
+                }
+            }
         }
     }
 }

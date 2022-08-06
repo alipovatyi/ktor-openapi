@@ -26,7 +26,8 @@ class OperationMapper(
     private val headerParametersMapper: HeaderParametersMapper = HeaderParametersMapper(),
     private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper(),
     private val requestBodyMapper: RequestBodyMapper = RequestBodyMapper(),
-    private val responseMapper: ResponseMapper = ResponseMapper()
+    private val responseMapper: ResponseMapper = ResponseMapper(),
+    private val securityRequirementsMapper: SecurityRequirementsMapper = SecurityRequirementsMapper()
 ) {
 
     fun map(params: Params): OperationObject {
@@ -61,7 +62,8 @@ class OperationMapper(
             parameters = parameters,
             requestBody = requestBodyProperty?.let { requestBodyMapper.map(it, params.requestBodyExamples) },
             responses = responses,
-            deprecated = params.deprecated
+            deprecated = params.deprecated,
+            security = securityRequirementsMapper.map(params.route)
         )
     }
 

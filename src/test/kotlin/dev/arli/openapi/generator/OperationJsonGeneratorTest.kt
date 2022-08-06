@@ -11,6 +11,7 @@ import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.ResponseComponent
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
+import dev.arli.openapi.model.SecurityRequirementObject
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
@@ -103,7 +104,8 @@ internal class OperationJsonGeneratorTest {
                     )
                 ),
             ),
-            deprecated = true
+            deprecated = true,
+            security = listOf(SecurityRequirementObject("basic"))
         )
         val expectedJsonObject = buildJsonObject {
             putJsonArray("tags") {
@@ -176,6 +178,11 @@ internal class OperationJsonGeneratorTest {
                 }
             }
             put("deprecated", true)
+            putJsonArray("security") {
+                addJsonObject {
+                    putJsonArray("basic") {}
+                }
+            }
         }
 
         assertThat(generator.generateOperationJson(givenOperation)).isEqualTo(expectedJsonObject)
@@ -184,11 +191,16 @@ internal class OperationJsonGeneratorTest {
     @Test
     fun `Should exclude null values`() {
         val givenOperation = OperationObject(
+            tags = emptySet(),
             summary = null,
             description = null,
             externalDocs = null,
             operationId = null,
-            requestBody = null
+            parameters = emptyList(),
+            requestBody = null,
+            responses = emptyMap(),
+            deprecated = false,
+            security = emptyList()
         )
         val expectedJsonObject = buildJsonObject {
             putJsonArray("tags") {}

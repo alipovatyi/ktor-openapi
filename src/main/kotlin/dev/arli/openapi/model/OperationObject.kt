@@ -13,6 +13,6 @@ data class OperationObject(
     val responses: Map<HttpStatusCode?, ResponseComponent> = emptyMap(), // REQUIRED
 //    val callbacks: Map<String, CallbackComponent> = emptyMap(), // TODO
     val deprecated: Boolean = false,
-//    val security: List<SecurityRequirementObject> = emptyList(), // TODO
+    val security: List<SecurityRequirementObject> = emptyList(),
 //    val servers: List<ServerObject> = emptyList() // TODO
 )

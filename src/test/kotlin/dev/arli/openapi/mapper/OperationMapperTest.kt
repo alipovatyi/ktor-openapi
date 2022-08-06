@@ -19,12 +19,14 @@ import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.Responses
 import dev.arli.openapi.model.SchemaObject
+import dev.arli.openapi.model.SecurityRequirementObject
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.StringFormat
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
+import io.ktor.server.auth.AuthenticationRouteSelector
 import io.ktor.server.routing.RootRouteSelector
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.route
@@ -199,14 +201,18 @@ internal class OperationMapperTest {
                     links = emptyMap()
                 )
             ),
-            deprecated = false
+            deprecated = false,
+            security = listOf(SecurityRequirementObject("basic"))
         )
 
         assertThat(mapper.map(givenParams)).isEqualTo(expectedParameterObject)
     }
 
     private fun createRoute(path: String): Route {
-        val root = Route(null, RootRouteSelector())
+        val root = Route(
+            selector = RootRouteSelector(),
+            parent = Route(null, AuthenticationRouteSelector(listOf("basic")))
+        )
         val normalizedPath = path + "/".takeIf { path.endsWith("/").not() }.orEmpty()
         return root.route(normalizedPath) {}
     }

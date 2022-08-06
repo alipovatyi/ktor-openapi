@@ -22,7 +22,6 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedGet(
 //    callbacks: Map<String, CallbackComponent>? = null,
     responses: ResponsesBuilder = {},
     deprecated: Boolean = false,
-//    security: List<SecurityRequirementObject> = emptyList(),
 //    servers: List<ServerObject> = emptyList()
     noinline body: PipelineInterceptor<Unit, ApplicationCall>
 ): Route {

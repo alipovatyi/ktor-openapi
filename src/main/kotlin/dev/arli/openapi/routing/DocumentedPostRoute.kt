@@ -25,7 +25,6 @@ inline fun <reified Request : Any, reified Response : Any> Route.documentedPost(
     requestBodyExamples: RequestBodyExamplesBuilder = {},
     responses: ResponsesBuilder = {},
     deprecated: Boolean = false,
-//    security: List<SecurityRequirementObject> = emptyList(),
 //    servers: List<ServerObject> = emptyList()
     noinline body: PipelineInterceptor<Unit, ApplicationCall>
 ): Route {
