@@ -57,6 +57,22 @@ internal class ResponseJsonGeneratorTest {
     }
 
     @Test
+    fun `Should exclude null values`() {
+        val givenResponseObject = ResponseObject<Any>(
+            description = "Description",
+            headers = emptyMap(),
+            content = emptyMap(),
+            links = emptyMap() // TODO
+        )
+
+        val expectedJsonObject = buildJsonObject {
+            put("description", "Description")
+        }
+
+        assertThat(generator.generateResponseJson(givenResponseObject)).isEqualTo(expectedJsonObject)
+    }
+
+    @Test
     fun `Should convert reference object to json object`() {
         // TODO
     }
