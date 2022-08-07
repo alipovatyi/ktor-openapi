@@ -7,6 +7,7 @@ import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
+import dev.arli.openapi.model.SecuritySchemeComponent
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
@@ -69,6 +70,9 @@ class OpenAPIGen(
 
     companion object Plugin : BaseApplicationPlugin<ApplicationCallPipeline, OpenAPIGenConfiguration, OpenAPIGen> {
 
+        // TODO: consider moving to the class instead of object
+        private val securitySchemes = mutableMapOf<String, SecuritySchemeComponent>()
+
         private val ApplicationStartedEvent = MonitoringEvent(ApplicationStarted)
 
         override val key: AttributeKey<OpenAPIGen> = AttributeKey("OpenAPIGen")
@@ -90,6 +94,10 @@ class OpenAPIGen(
             }
 
             return plugin
+        }
+
+        fun registerSecurityScheme(name: String, securityScheme: SecuritySchemeComponent) {
+            securitySchemes[name] = securityScheme
         }
     }
 }
