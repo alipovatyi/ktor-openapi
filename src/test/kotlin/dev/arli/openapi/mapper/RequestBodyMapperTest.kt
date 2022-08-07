@@ -153,6 +153,30 @@ internal class RequestBodyMapperTest {
     }
 
     @Test
+    fun `Should map multipart form request body class to request body`() {
+        val givenProperty = TestClassWithMultipartForm::requestBody
+        val givenRequestBodyExamples: RequestBodyExamples? = null
+
+        val expectedRequestBodyObject = RequestBodyObject(
+            description = null,
+            content = mapOf(
+                MediaType.MULTIPART_FORM to MediaTypeObject<String>(
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                )
+            ),
+            required = false
+        )
+
+        val actualRequestBodyObject = mapper.map(givenProperty, givenRequestBodyExamples)
+
+        assertThat(actualRequestBodyObject).isEqualTo(expectedRequestBodyObject)
+    }
+
+    @Test
     fun `Should throw an exception if RequestBody annotation is not found`() {
         val givenProperty = TestClassWithoutAnnotation::requestBody
 
@@ -204,7 +228,6 @@ internal class RequestBodyMapperTest {
         fun `Should throw an exception if media type is not supported`() = listOf(
             arguments(TestClassWithApplicationXml::requestBody),
             arguments(TestClassWithApplicationPdf::requestBody),
-            arguments(TestClassWithMultipartForm::requestBody),
             arguments(TestClassWithImagePng::requestBody),
             arguments(TestClassWithTextPlain::requestBody),
             arguments(TestClassWithTextHtml::requestBody)

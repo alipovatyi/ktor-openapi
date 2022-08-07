@@ -39,7 +39,8 @@ class RequestBodyMapper(
     private companion object {
         val supportedMediaTypes = listOf(
             MediaType.APPLICATION_JSON,
-            MediaType.APPLICATION_FORM
+            MediaType.APPLICATION_FORM,
+            MediaType.MULTIPART_FORM
         )
     }
 }
