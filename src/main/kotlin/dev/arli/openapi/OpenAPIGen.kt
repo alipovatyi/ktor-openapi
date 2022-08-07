@@ -87,7 +87,8 @@ class OpenAPIGen(
             ApplicationStartedEvent.install(pipeline) {
                 val openAPIJson = plugin.openAPIJsonGenerator.generate(
                     configuration = configuration,
-                    pathItems = plugin.pathItems.toMap()
+                    pathItems = plugin.pathItems.toMap(),
+                    securitySchemes = securitySchemes
                 )
                 // TODO: generate JSON & write to openapi.json
                 println(openAPIJson)

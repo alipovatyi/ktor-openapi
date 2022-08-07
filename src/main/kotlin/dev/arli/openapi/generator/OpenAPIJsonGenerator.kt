@@ -2,6 +2,7 @@ package dev.arli.openapi.generator
 
 import dev.arli.openapi.OpenAPIGenConfiguration
 import dev.arli.openapi.model.PathItemObject
+import dev.arli.openapi.model.SecuritySchemeComponent
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -11,12 +12,14 @@ import kotlinx.serialization.json.putJsonObject
 class OpenAPIJsonGenerator(
     private val infoJsonGenerator: InfoJsonGenerator = InfoJsonGenerator(),
     private val serverJsonGenerator: ServerJsonGenerator = ServerJsonGenerator(),
-    private val pathItemJsonGenerator: PathItemJsonGenerator = PathItemJsonGenerator()
+    private val pathItemJsonGenerator: PathItemJsonGenerator = PathItemJsonGenerator(),
+    private val securitySchemeJsonGenerator: SecuritySchemeJsonGenerator = SecuritySchemeJsonGenerator()
 ) {
 
     fun generate(
         configuration: OpenAPIGenConfiguration,
-        pathItems: Map<String, PathItemObject>
+        pathItems: Map<String, PathItemObject>,
+        securitySchemes: Map<String, SecuritySchemeComponent>
     ): JsonObject {
         return buildJsonObject {
             put("openapi", configuration.openAPIVersion)
@@ -29,6 +32,15 @@ class OpenAPIJsonGenerator(
             putJsonObject("paths") {
                 pathItems.forEach { (path, pathItem) ->
                     put(path, pathItemJsonGenerator.generatePathItemJson(pathItem))
+                }
+            }
+            putJsonObject("components") {
+                if (securitySchemes.isNotEmpty()) {
+                    putJsonObject("securitySchemes") {
+                        securitySchemes.forEach { (name, securityScheme) ->
+                            put(name, securitySchemeJsonGenerator.generateSecuritySchemeJson(securityScheme))
+                        }
+                    }
                 }
             }
         }

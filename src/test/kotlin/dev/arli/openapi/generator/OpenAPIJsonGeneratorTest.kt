@@ -2,6 +2,7 @@ package dev.arli.openapi.generator
 
 import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.OpenAPIGenConfiguration
+import dev.arli.openapi.model.HttpSecurityScheme
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
 import dev.arli.openapi.model.OperationObject
@@ -15,6 +16,7 @@ import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.StringFormat
+import dev.arli.openapi.model.security.HttpSecuritySchemeType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
 import kotlinx.serialization.json.add
@@ -307,6 +309,12 @@ internal class OpenAPIJsonGeneratorTest {
                 )
             )
         )
+        val givenSecuritySchemes = mapOf(
+            "basic" to HttpSecurityScheme(
+                description = "Basic auth security scheme",
+                scheme = HttpSecuritySchemeType.BASIC
+            )
+        )
 
         val expectedJsonObject = buildJsonObject {
             put("openapi", "3.0.3")
@@ -589,11 +597,70 @@ internal class OpenAPIJsonGeneratorTest {
                     }
                 }
             }
+            putJsonObject("components") {
+                putJsonObject("securitySchemes") {
+                    putJsonObject("basic") {
+                        put("type", "http")
+                        put("description", "Basic auth security scheme")
+                        put("scheme", "basic")
+                    }
+                }
+            }
         }
 
         val actualJsonObject = generator.generate(
             configuration = givenConfiguration,
-            pathItems = givenPathItems
+            pathItems = givenPathItems,
+            securitySchemes = givenSecuritySchemes
+        )
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
+    }
+
+    @Test
+    fun `Should exclude null values`() {
+        val givenConfiguration = OpenAPIGenConfiguration().apply {
+            info {
+                title = "Swagger Petstore - OpenAPI 3.0"
+                description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification."
+                version = "1.0.11"
+                termsOfService = Url("https://swagger.io/terms/")
+
+                contact {
+                    email = "apiteam@swagger.io"
+                }
+
+                license {
+                    name = "Apache 2.0"
+                    url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
+                }
+            }
+        }
+
+        val expectedJsonObject = buildJsonObject {
+            put("openapi", "3.0.3")
+            putJsonObject("info") {
+                put("title", "Swagger Petstore - OpenAPI 3.0")
+                put("description", "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.")
+                put("version", "1.0.11")
+                put("termsOfService", "https://swagger.io/terms/")
+                putJsonObject("contact") {
+                    put("email", "apiteam@swagger.io")
+                }
+                putJsonObject("license") {
+                    put("name", "Apache 2.0")
+                    put("url", "https://www.apache.org/licenses/LICENSE-2.0.html")
+                }
+            }
+            putJsonArray("servers") {}
+            putJsonObject("paths") {}
+            putJsonObject("components") {}
+        }
+
+        val actualJsonObject = generator.generate(
+            configuration = givenConfiguration,
+            pathItems = emptyMap(),
+            securitySchemes = emptyMap()
         )
 
         assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
