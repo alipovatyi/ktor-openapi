@@ -1,5 +1,6 @@
 package dev.arli.openapi.model.property
 
+import java.io.File
 import kotlin.reflect.KType
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -18,6 +19,7 @@ fun KType.getStringFormat(): StringFormat {
         String::class -> StringFormat.NO_FORMAT
         LocalDate::class -> StringFormat.DATE
         LocalDateTime::class -> StringFormat.DATE_TIME
+        File::class -> StringFormat.BINARY
         else -> throw IllegalArgumentException("Unsupported string type [$this]")
     }
 }

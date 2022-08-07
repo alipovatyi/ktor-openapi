@@ -1,9 +1,10 @@
 package dev.arli.openapi.model.property
 
+import com.google.common.truth.Truth.assertThat
+import java.io.File
 import java.math.BigDecimal
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
-import kotlin.test.assertEquals
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.params.ParameterizedTest
@@ -15,13 +16,13 @@ internal class DataTypeTest {
     @ParameterizedTest
     @MethodSource
     fun `Should return correct key for data type`(givenDataType: DataType, expectedKey: String) {
-        assertEquals(expectedKey, givenDataType.key)
+        assertThat(givenDataType.key).isEqualTo(expectedKey)
     }
 
     @ParameterizedTest
     @MethodSource
     fun `Should return data type`(given: KProperty<*>, expected: DataType) {
-        assertEquals(expected, getDataType(given.returnType.jvmErasure))
+        assertThat(getDataType(given.returnType.jvmErasure)).isEqualTo(expected)
     }
 
     private companion object {
@@ -45,11 +46,13 @@ internal class DataTypeTest {
             arguments(TestClassWithNullableLocalDate::value, DataType.STRING),
             arguments(TestClassWithLocalDateTime::value, DataType.STRING),
             arguments(TestClassWithNullableLocalDateTime::value, DataType.STRING),
+            arguments(TestClassWithFile::value, DataType.STRING),
+            arguments(TestClassWithNullableFile::value, DataType.STRING),
             arguments(TestClassWithFloat::value, DataType.NUMBER),
             arguments(TestClassWithNullableFloat::value, DataType.NUMBER),
-            arguments(TestClassWithLocalDouble::value, DataType.NUMBER),
+            arguments(TestClassWithDouble::value, DataType.NUMBER),
             arguments(TestClassWithNullableDouble::value, DataType.NUMBER),
-            arguments(TestClassWithLocalBigDecimal::value, DataType.NUMBER),
+            arguments(TestClassWithBigDecimal::value, DataType.NUMBER),
             arguments(TestClassWithNullableBigDecimal::value, DataType.NUMBER),
             arguments(TestClassWithInt::value, DataType.INTEGER),
             arguments(TestClassWithNullableInt::value, DataType.INTEGER),
@@ -78,11 +81,13 @@ internal class DataTypeTest {
     private data class TestClassWithNullableLocalDate(val value: LocalDate?)
     private data class TestClassWithLocalDateTime(val value: LocalDateTime)
     private data class TestClassWithNullableLocalDateTime(val value: LocalDateTime?)
+    private data class TestClassWithFile(val value: File)
+    private data class TestClassWithNullableFile(val value: File?)
     private data class TestClassWithFloat(val value: Float)
     private data class TestClassWithNullableFloat(val value: Float?)
-    private data class TestClassWithLocalDouble(val value: Double)
+    private data class TestClassWithDouble(val value: Double)
     private data class TestClassWithNullableDouble(val value: Double?)
-    private data class TestClassWithLocalBigDecimal(val value: BigDecimal)
+    private data class TestClassWithBigDecimal(val value: BigDecimal)
     private data class TestClassWithNullableBigDecimal(val value: BigDecimal?)
     private data class TestClassWithInt(val value: Int)
     private data class TestClassWithNullableInt(val value: Int?)

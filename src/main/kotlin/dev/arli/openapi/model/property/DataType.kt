@@ -1,5 +1,6 @@
 package dev.arli.openapi.model.property
 
+import java.io.File
 import java.math.BigDecimal
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
@@ -35,6 +36,7 @@ fun <T : Any> getDataType(clazz: KClass<T>): DataType {
         String::class -> DataType.STRING
         LocalDate::class -> DataType.STRING
         LocalDateTime::class -> DataType.STRING
+        File::class -> DataType.STRING
         // Array
         Array::class -> DataType.ARRAY
         List::class -> DataType.ARRAY
