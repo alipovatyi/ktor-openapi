@@ -96,6 +96,7 @@ class OpenAPIGen(
         ): OpenAPIGen {
             val configuration = OpenAPIGenConfiguration().apply(configure)
             val plugin = OpenAPIGen(configuration)
+            val logger = requireNotNull(pipeline.environment?.log) { "Logger must be initialized" }
 
             ApplicationStartedEvent.install(pipeline) {
                 val openAPIJson = plugin.openAPIJsonGenerator.generate(
@@ -103,6 +104,7 @@ class OpenAPIGen(
                     pathItems = plugin.pathItems.toMap(),
                     securitySchemes = securitySchemes
                 )
+                logger.info("OpenAPI specification generated successfully: {}", openAPIJson.toString())
                 writeOpenAPIJson(
                     outputDirName = configuration.outputDir,
                     outputFileName = configuration.outputFileName,
