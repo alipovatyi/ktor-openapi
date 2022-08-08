@@ -3,12 +3,12 @@ package dev.arli.openapi.mapper
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.property.StringFormat
 import dev.arli.openapi.model.property.StringProperty
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class StringPropertyMapperTest {
 

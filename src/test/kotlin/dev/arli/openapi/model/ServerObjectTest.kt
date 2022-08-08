@@ -1,8 +1,8 @@
 package dev.arli.openapi.model
 
 import io.ktor.http.Url
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class ServerObjectTest {
 

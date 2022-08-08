@@ -1,9 +1,9 @@
 package dev.arli.openapi.model
 
-import kotlin.test.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.test.assertEquals
 
 internal class MediaTypeTest {
 

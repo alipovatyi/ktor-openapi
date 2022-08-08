@@ -6,9 +6,9 @@ import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import org.junit.jupiter.api.Test
 
 internal class CookieParameterMapperTest {
 

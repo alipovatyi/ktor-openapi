@@ -1,11 +1,11 @@
 package dev.arli.openapi.model.property
 
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.math.BigDecimal
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 
 enum class DataType(val key: String) {
     STRING("string"),

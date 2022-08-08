@@ -15,7 +15,7 @@ class PathParameterMapper(
 
     fun map(property: KProperty<*>): ParameterComponent {
         val name = pathParameterNameParser.parse(property)
-        val pathAnnotation = requireNotNull(property.findAnnotation<Path>() ) {
+        val pathAnnotation = requireNotNull(property.findAnnotation<Path>()) {
             "Path parameter [$name] must be annotated with @Path annotation"
         }
 

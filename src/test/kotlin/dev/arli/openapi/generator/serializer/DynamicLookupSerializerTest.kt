@@ -2,11 +2,11 @@ package dev.arli.openapi.generator.serializer
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.junit.jupiter.api.Test
-import kotlinx.serialization.Serializable
 
 internal class DynamicLookupSerializerTest {
 

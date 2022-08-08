@@ -2,11 +2,11 @@ package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.property.EnumProperty
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class EnumPropertyMapperTest {
 

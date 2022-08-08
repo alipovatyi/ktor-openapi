@@ -4,13 +4,13 @@ import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class SchemaJsonGeneratorTest {
 
@@ -66,12 +66,15 @@ internal class SchemaJsonGeneratorTest {
             put("nullable", false)
             put("description", "Description")
             putJsonObject("properties") {
-                put("date", buildJsonObject {
-                    put("type", "string")
-                    put("format", "date")
-                    put("nullable", true)
-                    put("description", "Date")
-                })
+                put(
+                    "date",
+                    buildJsonObject {
+                        put("type", "string")
+                        put("format", "date")
+                        put("nullable", true)
+                        put("description", "Date")
+                    }
+                )
             }
         }
 
@@ -136,12 +139,15 @@ internal class SchemaJsonGeneratorTest {
             put("type", "integer")
             put("nullable", false)
             putJsonObject("properties") {
-                put("date", buildJsonObject {
-                    put("type", "string")
-                    put("format", "date")
-                    put("nullable", true)
-                    put("description", "Date")
-                })
+                put(
+                    "date",
+                    buildJsonObject {
+                        put("type", "string")
+                        put("format", "date")
+                        put("nullable", true)
+                        put("description", "Date")
+                    }
+                )
             }
             putJsonArray("enum") {
                 add("100")
@@ -178,12 +184,15 @@ internal class SchemaJsonGeneratorTest {
             put("nullable", false)
             put("description", "Description")
             putJsonObject("properties") {
-                put("date", buildJsonObject {
-                    put("type", "string")
-                    put("format", "date")
-                    put("nullable", true)
-                    put("description", "Date")
-                })
+                put(
+                    "date",
+                    buildJsonObject {
+                        put("type", "string")
+                        put("format", "date")
+                        put("nullable", true)
+                        put("description", "Date")
+                    }
+                )
             }
         }
 

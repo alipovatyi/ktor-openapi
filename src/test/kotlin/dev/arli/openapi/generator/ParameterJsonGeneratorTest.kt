@@ -5,11 +5,11 @@ import dev.arli.openapi.model.ParameterObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class ParameterJsonGeneratorTest {
 

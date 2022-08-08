@@ -1,12 +1,12 @@
 package dev.arli.openapi.generator
 
 import dev.arli.openapi.model.ServerVariableObject
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class ServerVariableJsonGeneratorTest {
 

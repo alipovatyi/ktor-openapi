@@ -4,11 +4,11 @@ import dev.arli.openapi.model.HeaderObject
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class HeaderJsonGeneratorTest {
 

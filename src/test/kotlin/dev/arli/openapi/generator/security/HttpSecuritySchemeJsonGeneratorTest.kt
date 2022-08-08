@@ -50,7 +50,7 @@ internal class HttpSecuritySchemeJsonGeneratorTest {
     }
 
     @Test
-    fun `Should exclude null values`()  {
+    fun `Should exclude null values`() {
         val givenHttpSecurityScheme = HttpSecurityScheme(
             description = null,
             scheme = HttpSecuritySchemeType.BEARER,

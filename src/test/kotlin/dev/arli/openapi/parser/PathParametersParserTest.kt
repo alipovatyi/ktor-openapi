@@ -1,7 +1,7 @@
 package dev.arli.openapi.parser
 
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class PathParametersParserTest {
 

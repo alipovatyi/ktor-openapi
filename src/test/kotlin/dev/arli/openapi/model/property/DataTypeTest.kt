@@ -1,15 +1,15 @@
 package dev.arli.openapi.model.property
 
 import com.google.common.truth.Truth.assertThat
-import java.io.File
-import java.math.BigDecimal
-import kotlin.reflect.KProperty
-import kotlin.reflect.jvm.jvmErasure
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.io.File
+import java.math.BigDecimal
+import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.jvmErasure
 
 internal class DataTypeTest {
 

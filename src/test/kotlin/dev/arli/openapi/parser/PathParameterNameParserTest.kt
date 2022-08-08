@@ -1,9 +1,9 @@
 package dev.arli.openapi.parser
 
 import dev.arli.openapi.annotation.Path
+import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import org.junit.jupiter.api.Test
 
 internal class PathParameterNameParserTest {
 

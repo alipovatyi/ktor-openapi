@@ -10,8 +10,8 @@ import dev.arli.openapi.model.property.NumberProperty
 import dev.arli.openapi.model.property.ObjectProperty
 import dev.arli.openapi.model.property.StringFormat
 import dev.arli.openapi.model.property.StringProperty
-import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class PropertyMapperTest {
 

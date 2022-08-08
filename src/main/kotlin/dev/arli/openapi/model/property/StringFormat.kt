@@ -1,9 +1,9 @@
 package dev.arli.openapi.model.property
 
-import java.io.File
-import kotlin.reflect.KType
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import java.io.File
+import kotlin.reflect.KType
 
 enum class StringFormat(override val key: String) : DataFormat {
     NO_FORMAT(""),

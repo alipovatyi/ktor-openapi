@@ -2,10 +2,10 @@ package dev.arli.openapi.generator
 
 import dev.arli.openapi.model.ExternalDocumentationObject
 import io.ktor.http.Url
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class ExternalDocumentationJsonGeneratorTest {
 

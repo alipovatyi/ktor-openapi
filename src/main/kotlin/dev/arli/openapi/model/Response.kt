@@ -1,9 +1,9 @@
 package dev.arli.openapi.model
 
 import io.ktor.http.HttpStatusCode
-import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlin.reflect.KClass
 
 typealias ResponseBuilder<RESPONSE, CONTENT> = Response.Builder<RESPONSE, CONTENT>.() -> Unit
 

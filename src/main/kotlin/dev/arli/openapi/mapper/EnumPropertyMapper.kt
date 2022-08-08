@@ -5,9 +5,9 @@ import dev.arli.openapi.model.property.EnumProperty
 import dev.arli.openapi.model.property.getDataType
 import dev.arli.openapi.parser.DescriptionParser
 import dev.arli.openapi.parser.PropertyNameParser
+import kotlinx.serialization.SerialName
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
-import kotlinx.serialization.SerialName
 
 class EnumPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),

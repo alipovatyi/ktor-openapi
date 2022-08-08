@@ -27,10 +27,10 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.webjars.Webjars
 import io.ktor.util.AttributeKey
-import java.io.File
-import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import java.io.File
+import kotlin.reflect.KClass
 
 class OpenAPIGen(
     val configuration: OpenAPIGenConfiguration,

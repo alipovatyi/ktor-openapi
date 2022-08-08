@@ -2,12 +2,12 @@ package dev.arli.openapi.generator
 
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.PathItemObject
-import kotlin.test.assertEquals
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class PathItemJsonGeneratorTest {
 

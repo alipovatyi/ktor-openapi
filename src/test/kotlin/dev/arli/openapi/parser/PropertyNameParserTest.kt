@@ -1,8 +1,8 @@
 package dev.arli.openapi.parser
 
-import kotlin.test.assertEquals
 import kotlinx.serialization.SerialName
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class PropertyNameParserTest {
 

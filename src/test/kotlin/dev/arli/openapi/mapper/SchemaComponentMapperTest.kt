@@ -6,9 +6,9 @@ import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
 import dev.arli.openapi.model.property.NumberFormat
 import dev.arli.openapi.model.property.StringFormat
-import kotlin.test.assertEquals
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class SchemaComponentMapperTest {
 

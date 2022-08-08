@@ -2,10 +2,10 @@ package dev.arli.openapi.mapper
 
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.property.ArrayProperty
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlinx.serialization.SerialName
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class ArrayPropertyMapperTest {
 
