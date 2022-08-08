@@ -2,12 +2,15 @@ plugins {
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.serialization") version "1.7.10"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("com.diffplug.spotless") version "6.7.2"
 }
 
 allprojects {
     repositories {
         mavenCentral()
     }
+
+    apply(plugin = "com.diffplug.spotless")
 }
 
 kover {
@@ -20,6 +23,17 @@ tasks.withType<Test> {
     extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
         includes = listOf("dev.arli.openapi.*")
         excludes = listOf("dev.arli.openapi.sample.*")
+    }
+}
+
+spotless {
+    kotlin {
+        ktlint()
+        target("**/*.kt")
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint()
     }
 }
 
