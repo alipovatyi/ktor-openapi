@@ -1,9 +1,11 @@
 package dev.arli.openapi
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.InfoObject
 import dev.arli.openapi.model.ServerObject
+import dev.arli.openapi.swagger.SwaggerUIConfiguration
 import io.ktor.http.Url
-import kotlin.test.assertEquals
+import io.ktor.serialization.kotlinx.json.DefaultJson
 import org.junit.jupiter.api.Test
 
 internal class OpenAPIGenConfigurationTest {
@@ -11,12 +13,50 @@ internal class OpenAPIGenConfigurationTest {
     @Test
     fun `Should return configuration with default values`() {
         val expectedConfiguration = OpenAPIGenConfiguration(
+            json = DefaultJson,
             openAPIVersion = "3.0.3",
-            info = null
+            info = null,
+            servers = emptyList(),
+            outputDir = "openapi",
+            outputFileName = "openapi.json",
+            swaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = "openapi.json")
         )
         val actualConfiguration = OpenAPIGenConfiguration()
 
-        assertEquals(expectedConfiguration, actualConfiguration)
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
+    }
+
+    @Test
+    fun `Should update output file configuration`() {
+        val expectedConfiguration = OpenAPIGenConfiguration(
+            outputDir = "docs",
+            outputFileName = "openapi.json",
+            swaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = "openapi.json")
+        )
+        val actualConfiguration = OpenAPIGenConfiguration().apply {
+            outputDir = "docs"
+        }
+
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
+    }
+
+    @Test
+    fun `Should update swagger ui configuration`() {
+        val expectedConfiguration = OpenAPIGenConfiguration(
+            swaggerUIConfiguration = SwaggerUIConfiguration(
+                path = "/documentation",
+                webjarsPath = "/assets",
+                specificationFileName = "openapi.json"
+            )
+        )
+        val actualConfiguration = OpenAPIGenConfiguration().apply {
+            swaggerUI {
+                path = "/documentation"
+                webjarsPath = "/assets"
+            }
+        }
+
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
     }
 
     @Test
@@ -36,7 +76,7 @@ internal class OpenAPIGenConfigurationTest {
             }
         }
 
-        assertEquals(expectedConfiguration, actualConfiguration)
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
     }
 
     @Test
@@ -55,6 +95,6 @@ internal class OpenAPIGenConfigurationTest {
             }
         }
 
-        assertEquals(expectedConfiguration, actualConfiguration)
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
     }
 }

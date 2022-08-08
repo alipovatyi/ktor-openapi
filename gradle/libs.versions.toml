@@ -4,6 +4,7 @@ ktor = "2.0.3"
 logback = "1.2.11"
 dateTime = "0.4.0"
 serialization = "1.4.0-RC"
+swaggerUi = "4.13.2"
 junit = "5.8.2"
 truth = "1.1.3"
 
@@ -18,7 +19,11 @@ ktor-server-contentNegotiation = { group = "io.ktor", name = "ktor-server-conten
 ktor-server-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-auth = { group = "io.ktor", name = "ktor-server-auth", version.ref = "ktor" }
 ktor-server-auth-jwt = { group = "io.ktor", name = "ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-webjars = { group = "io.ktor", name = "ktor-server-webjars", version.ref = "ktor" }
+ktor-server-htmlBuilder = { group = "io.ktor", name = "ktor-server-html-builder", version.ref = "ktor" }
 ktor-server-test = { group = "io.ktor", name = "ktor-server-test-host", version.ref = "ktor" }
+
+swaggerUi = { group = "org.webjars", name = "swagger-ui", version.ref = "swaggerUi" }
 
 logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 

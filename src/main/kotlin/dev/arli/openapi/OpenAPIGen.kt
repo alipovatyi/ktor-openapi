@@ -8,19 +8,32 @@ import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.SecuritySchemeComponent
+import dev.arli.openapi.swagger.SwaggerUI
 import io.ktor.http.HttpMethod
+import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.BaseApplicationPlugin
+import io.ktor.server.application.call
 import io.ktor.server.application.hooks.MonitoringEvent
+import io.ktor.server.application.install
+import io.ktor.server.application.pluginOrNull
+import io.ktor.server.html.respondHtmlTemplate
+import io.ktor.server.http.content.file
+import io.ktor.server.http.content.static
 import io.ktor.server.routing.HttpMethodRouteSelector
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
+import io.ktor.server.webjars.Webjars
 import io.ktor.util.AttributeKey
+import java.io.File
 import kotlin.reflect.KClass
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 
 class OpenAPIGen(
-    private val configuration: OpenAPIGenConfiguration,
+    val configuration: OpenAPIGenConfiguration,
     private val openAPIJsonGenerator: OpenAPIJsonGenerator = OpenAPIJsonGenerator(),
     private val routePathMapper: RoutePathMapper = RoutePathMapper(),
     private val operationMapper: OperationMapper = OperationMapper(),
@@ -90,8 +103,11 @@ class OpenAPIGen(
                     pathItems = plugin.pathItems.toMap(),
                     securitySchemes = securitySchemes
                 )
-                // TODO: generate JSON & write to openapi.json
-                println(openAPIJson)
+                writeOpenAPIJson(
+                    outputDirName = configuration.outputDir,
+                    outputFileName = configuration.outputFileName,
+                    openAPIJson = openAPIJson
+                )
             }
 
             return plugin
@@ -99,6 +115,36 @@ class OpenAPIGen(
 
         fun registerSecurityScheme(name: String, securityScheme: SecuritySchemeComponent) {
             securitySchemes[name] = securityScheme
+        }
+
+        private fun writeOpenAPIJson(
+            outputDirName: String,
+            outputFileName: String,
+            openAPIJson: JsonElement
+        ) {
+            val outputDir = File(outputDirName)
+            if (outputDir.exists().not()) {
+                outputDir.mkdirs()
+            }
+            val outputFile = File(outputDir, outputFileName)
+            outputFile.writeText(openAPIJson.toString())
+        }
+    }
+}
+
+fun Application.openAPIGen(block: OpenAPIGenConfiguration.() -> Unit) {
+    val openAPIGen = pluginOrNull(OpenAPIGen) ?: install(OpenAPIGen, block)
+    pluginOrNull(Webjars) ?: install(Webjars)
+    val configuration = openAPIGen.configuration
+    val swaggerUIConfiguration = openAPIGen.configuration.swaggerUIConfiguration
+    val openAPIFile = File(configuration.outputDir, configuration.outputFileName)
+    routing {
+        static("/") {
+            file(remotePath = configuration.outputFileName, localPath = openAPIFile)
+        }
+        get(swaggerUIConfiguration.path) {
+            val swaggerUI = SwaggerUI(swaggerUIConfiguration = swaggerUIConfiguration)
+            call.respondHtmlTemplate(swaggerUI) {}
         }
     }
 }
