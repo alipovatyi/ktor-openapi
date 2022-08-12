@@ -1,0 +1,33 @@
+name: Verification
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: Spotless check
+        run: ./gradlew spotlessCheck
+
+      - name: Unit tests
+        run: ./gradlew test

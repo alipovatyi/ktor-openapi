@@ -32,8 +32,8 @@ spotless {
         target("**/*.kt")
     }
     kotlinGradle {
-        target("*.gradle.kts")
         ktlint()
+        target("*.gradle.kts")
     }
 }
 
