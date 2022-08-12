@@ -1,5 +1,6 @@
 package dev.arli.openapi.generator
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
@@ -10,7 +11,6 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 internal class SchemaJsonGeneratorTest {
 
@@ -39,7 +39,9 @@ internal class SchemaJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -66,19 +68,56 @@ internal class SchemaJsonGeneratorTest {
             put("nullable", false)
             put("description", "Description")
             putJsonObject("properties") {
-                put(
-                    "date",
-                    buildJsonObject {
-                        put("type", "string")
-                        put("format", "date")
-                        put("nullable", true)
-                        put("description", "Date")
-                    }
-                )
+                putJsonObject("date") {
+                    put("type", "string")
+                    put("format", "date")
+                    put("nullable", true)
+                    put("description", "Date")
+                }
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
+    }
+
+    @Test
+    fun `Should convert schema object with additional properties to json object`() {
+        val givenAdditionalPropertiesSchema = SchemaObject(
+            type = DataType.STRING,
+            format = StringFormat.NO_FORMAT,
+            nullable = false,
+            description = "String",
+            properties = emptyMap(),
+            enum = emptySet()
+        )
+        val givenSchemaObject = SchemaObject(
+            type = DataType.OBJECT,
+            format = null,
+            nullable = false,
+            description = "Description",
+            properties = emptyMap(),
+            additionalProperties = givenAdditionalPropertiesSchema,
+            enum = emptySet(),
+            items = null
+        )
+
+        val expectedJsonObject = buildJsonObject {
+            put("type", "object")
+            put("nullable", false)
+            put("description", "Description")
+            putJsonObject("additionalProperties") {
+                put("type", "string")
+                put("format", "")
+                put("nullable", false)
+                put("description", "String")
+            }
+        }
+
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -113,7 +152,9 @@ internal class SchemaJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -139,15 +180,12 @@ internal class SchemaJsonGeneratorTest {
             put("type", "integer")
             put("nullable", false)
             putJsonObject("properties") {
-                put(
-                    "date",
-                    buildJsonObject {
-                        put("type", "string")
-                        put("format", "date")
-                        put("nullable", true)
-                        put("description", "Date")
-                    }
-                )
+                putJsonObject("date") {
+                    put("type", "string")
+                    put("format", "date")
+                    put("nullable", true)
+                    put("description", "Date")
+                }
             }
             putJsonArray("enum") {
                 add("100")
@@ -156,7 +194,9 @@ internal class SchemaJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -184,19 +224,18 @@ internal class SchemaJsonGeneratorTest {
             put("nullable", false)
             put("description", "Description")
             putJsonObject("properties") {
-                put(
-                    "date",
-                    buildJsonObject {
-                        put("type", "string")
-                        put("format", "date")
-                        put("nullable", true)
-                        put("description", "Date")
-                    }
-                )
+                putJsonObject("date") {
+                    put("type", "string")
+                    put("format", "date")
+                    put("nullable", true)
+                    put("description", "Date")
+                }
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 
     @Test
@@ -222,6 +261,8 @@ internal class SchemaJsonGeneratorTest {
             }
         }
 
-        assertEquals(expectedJsonObject, generator.generateSchemaJson(givenSchemaObject))
+        val actualJsonObject = generator.generateSchemaJson(givenSchemaObject)
+
+        assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
     }
 }

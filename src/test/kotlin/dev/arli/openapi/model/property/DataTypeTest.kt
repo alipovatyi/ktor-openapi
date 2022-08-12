@@ -68,8 +68,8 @@ internal class DataTypeTest {
             arguments(TestClassWithNullableList::value, DataType.ARRAY),
             arguments(TestClassWithSet::value, DataType.ARRAY),
             arguments(TestClassWithNullableSet::value, DataType.ARRAY),
-            arguments(TestClassWithMap::value, DataType.OBJECT),
-            arguments(TestClassWithNullableMap::value, DataType.OBJECT),
+            arguments(TestClassWithMap::value, DataType.MAP),
+            arguments(TestClassWithNullableMap::value, DataType.MAP),
             arguments(TestClassWithAny::value, DataType.OBJECT),
             arguments(TestClassWithNullableAny::value, DataType.OBJECT)
         )

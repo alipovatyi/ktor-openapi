@@ -39,6 +39,12 @@ data class ArrayProperty(
     override val nullable: Boolean
 ) : Property(DataType.ARRAY)
 
+data class MapProperty(
+    override val name: String,
+    override val description: String?,
+    override val nullable: Boolean
+) : Property(DataType.MAP)
+
 data class ObjectProperty(
     override val name: String,
     override val description: String?,

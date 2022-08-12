@@ -29,6 +29,9 @@ class SchemaJsonGenerator {
                         }
                     }
                 }
+                schema.additionalProperties?.let { additionalProperties ->
+                    put("additionalProperties", generateSchemaJson(additionalProperties))
+                }
                 if (schema.enum.isNotEmpty()) {
                     putJsonArray("enum") {
                         schema.enum.forEach { enum -> add(enum) }

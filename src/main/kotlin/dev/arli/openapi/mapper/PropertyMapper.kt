@@ -13,6 +13,7 @@ class PropertyMapper(
     private val booleanPropertyMapper: BooleanPropertyMapper = BooleanPropertyMapper(),
     private val arrayPropertyMapper: ArrayPropertyMapper = ArrayPropertyMapper(),
     private val objectPropertyMapper: ObjectPropertyMapper = ObjectPropertyMapper(),
+    private val mapPropertyMapper: MapPropertyMapper = MapPropertyMapper(),
     private val enumPropertyMapper: EnumPropertyMapper = EnumPropertyMapper()
 ) {
 
@@ -23,6 +24,7 @@ class PropertyMapper(
             DataType.INTEGER -> integerPropertyMapper.map(property)
             DataType.BOOLEAN -> booleanPropertyMapper.map(property)
             DataType.ARRAY -> arrayPropertyMapper.map(property)
+            DataType.MAP -> mapPropertyMapper.map(property)
             DataType.OBJECT -> objectPropertyMapper.map(property)
             DataType.ENUM -> enumPropertyMapper.map(property)
         }

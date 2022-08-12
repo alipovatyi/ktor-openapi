@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.SchemaObject
 import dev.arli.openapi.model.property.DataType
@@ -8,7 +9,6 @@ import dev.arli.openapi.model.property.NumberFormat
 import dev.arli.openapi.model.property.StringFormat
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 internal class SchemaComponentMapperTest {
 
@@ -27,7 +27,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -43,7 +43,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -59,7 +59,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -75,7 +75,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -96,7 +96,7 @@ internal class SchemaComponentMapperTest {
             )
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -137,7 +137,32 @@ internal class SchemaComponentMapperTest {
             )
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
+    }
+
+    @Test
+    fun `Should map map property to schema object`() {
+        val givenProperty = TestClassWithMap::value
+
+        val expectedSchemaObject = SchemaObject(
+            type = DataType.MAP,
+            format = null,
+            nullable = false,
+            description = null,
+            properties = emptyMap(),
+            additionalProperties = SchemaObject(
+                type = DataType.INTEGER,
+                format = IntegerFormat.INT_32,
+                nullable = false,
+                description = null,
+                properties = emptyMap(),
+                enum = emptySet()
+            ),
+            enum = emptySet(),
+            items = null
+        )
+
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -170,7 +195,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -195,7 +220,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -220,7 +245,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -261,7 +286,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -302,7 +327,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -318,7 +343,7 @@ internal class SchemaComponentMapperTest {
             enum = setOf("VALUE_1", "VALUE_2")
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -334,7 +359,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     @Test
@@ -350,7 +375,7 @@ internal class SchemaComponentMapperTest {
             enum = emptySet()
         )
 
-        assertEquals(expectedSchemaObject, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedSchemaObject)
     }
 
     private data class TestClassWithString(val value: String)
@@ -364,6 +389,8 @@ internal class SchemaComponentMapperTest {
     private data class TestClassWithPrimitiveArray(val value: List<String>)
 
     private data class TestClassWithObjectArray(val value: List<TestObject>)
+
+    private data class TestClassWithMap(val value: Map<String, Int>)
 
     private data class TestClassWithObject(val value: TestObject)
 

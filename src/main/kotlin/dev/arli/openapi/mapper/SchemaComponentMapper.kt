@@ -7,6 +7,7 @@ import dev.arli.openapi.model.property.BooleanProperty
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.EnumProperty
 import dev.arli.openapi.model.property.IntegerProperty
+import dev.arli.openapi.model.property.MapProperty
 import dev.arli.openapi.model.property.NumberProperty
 import dev.arli.openapi.model.property.ObjectProperty
 import dev.arli.openapi.model.property.StringProperty
@@ -58,6 +59,7 @@ class SchemaComponentMapper(
                 enum = emptySet()
             )
             is ArrayProperty -> mapArray(property, kProperty)
+            is MapProperty -> mapMap(property, kProperty)
             is ObjectProperty -> mapObject(property, kProperty)
             is EnumProperty -> SchemaObject(
                 type = property.type,
@@ -100,6 +102,38 @@ class SchemaComponentMapper(
             properties = emptyMap(),
             enum = emptySet(),
             items = items
+        )
+    }
+
+    private fun mapMap(mapProperty: MapProperty, kProperty: KProperty<*>): SchemaComponent {
+        val returnType = kProperty.returnType
+        val arguments = returnType.arguments
+        val valueType = requireNotNull(arguments[1].type) { "Value type must not be null" }
+        val valueDataType = getDataType(valueType.jvmErasure)
+        val valueFormat = when (valueDataType) {
+            DataType.INTEGER -> valueType.getIntegerFormat()
+            DataType.NUMBER -> valueType.getNumberFormat()
+            DataType.STRING -> valueType.getStringFormat()
+            else -> null
+        }
+        val additionalProperties = SchemaObject(
+            type = valueDataType,
+            format = valueFormat,
+            nullable = valueType.isMarkedNullable,
+            description = null,
+            properties = mapPropertiesIfNeeded(valueType.jvmErasure),
+            enum = emptySet(),
+            items = null
+        )
+        return SchemaObject(
+            type = mapProperty.type,
+            format = null,
+            nullable = mapProperty.nullable,
+            description = mapProperty.description,
+            enum = emptySet(),
+            properties = emptyMap(),
+            additionalProperties = additionalProperties,
+            items = null
         )
     }
 

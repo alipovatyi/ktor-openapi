@@ -1,5 +1,6 @@
 package dev.arli.openapi.mapper
 
+import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.annotation.Description
 import dev.arli.openapi.model.property.ObjectProperty
 import kotlinx.serialization.SerialName
@@ -12,8 +13,8 @@ internal class ObjectPropertyMapperTest {
     private val mapper = ObjectPropertyMapper()
 
     @Test
-    fun `Should map Map property to object property`() {
-        val givenProperty = TestClassWithMap::value
+    fun `Should map Object property to object property`() {
+        val givenProperty = TestClassWithObject::value
 
         val expectedObjectProperty = ObjectProperty(
             name = "value",
@@ -21,12 +22,12 @@ internal class ObjectPropertyMapperTest {
             nullable = false
         )
 
-        assertEquals(expectedObjectProperty, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedObjectProperty)
     }
 
     @Test
-    fun `Should map nullable Map property to object property`() {
-        val givenProperty = TestClassWithNullableMap::value
+    fun `Should map nullable Object property to object property`() {
+        val givenProperty = TestClassWithNullableObject::value
 
         val expectedObjectProperty = ObjectProperty(
             name = "value",
@@ -34,7 +35,7 @@ internal class ObjectPropertyMapperTest {
             nullable = true
         )
 
-        assertEquals(expectedObjectProperty, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedObjectProperty)
     }
 
     @Test
@@ -47,7 +48,7 @@ internal class ObjectPropertyMapperTest {
             nullable = false
         )
 
-        assertEquals(expectedObjectProperty, mapper.map(givenProperty))
+        assertThat(mapper.map(givenProperty)).isEqualTo(expectedObjectProperty)
     }
 
     @Test
@@ -72,13 +73,15 @@ internal class ObjectPropertyMapperTest {
         }
     }
 
-    private data class TestClassWithMap(val value: Map<String, Any>)
+    private data class TestClassWithObject(val value: TestObject)
 
-    private data class TestClassWithNullableMap(val value: Map<String, Any>?)
+    private data class TestClassWithNullableObject(val value: TestObject?)
 
-    private data class TestClassWithCustomSerialName(@SerialName("custom-value") val value: Map<String, Any>)
+    private data class TestClassWithCustomSerialName(@SerialName("custom-value") val value: TestObject)
 
-    private data class TestClassWithDescription(@Description("Description") val value: Map<String, Any>)
+    private data class TestClassWithDescription(@Description("Description") val value: TestObject)
 
     private data class TestClassWithInvalidType(val value: List<Any>)
+
+    private data class TestObject(val property1: String, val property2: Int)
 }

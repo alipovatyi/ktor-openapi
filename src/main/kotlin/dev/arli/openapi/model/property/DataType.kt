@@ -13,6 +13,7 @@ enum class DataType(val key: String) {
     INTEGER("integer"),
     BOOLEAN("boolean"),
     ARRAY("array"),
+    MAP("object"),
     OBJECT("object"),
     ENUM("string")
 }
@@ -41,8 +42,9 @@ fun <T : Any> getDataType(clazz: KClass<T>): DataType {
         Array::class -> DataType.ARRAY
         List::class -> DataType.ARRAY
         Set::class -> DataType.ARRAY
+        // Map
+        Map::class -> DataType.MAP
         // Object
-        Map::class -> DataType.OBJECT
         else -> DataType.OBJECT
     }
 }
