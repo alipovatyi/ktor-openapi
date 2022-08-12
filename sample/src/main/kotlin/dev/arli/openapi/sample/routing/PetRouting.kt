@@ -42,9 +42,9 @@ internal fun Routing.petRouting() = route("/pet") {
             description = "Update an existing pet by Id",
             responses = {
                 response<UpdatePetResponse, Pet>(HttpStatusCode.OK)
-                response<InvalidIdSuppliedResponse, Unit>(HttpStatusCode.BadRequest)
-                response<PetNotFoundResponse, Unit>(HttpStatusCode.NotFound)
-                response<ValidationExceptionResponse, Unit>(HttpStatusCode.MethodNotAllowed)
+                response<InvalidIdSuppliedResponse>(HttpStatusCode.BadRequest)
+                response<PetNotFoundResponse>(HttpStatusCode.NotFound)
+                response<ValidationExceptionResponse>(HttpStatusCode.MethodNotAllowed)
             }
         ) {}
     }
@@ -57,7 +57,7 @@ internal fun Routing.petRouting() = route("/pet") {
             description = "Add a new pet to the store",
             responses = {
                 response<AddPetResponse, Pet>(HttpStatusCode.OK)
-                response<InvalidInputResponse, Unit>(HttpStatusCode.MethodNotAllowed)
+                response<InvalidInputResponse>(HttpStatusCode.MethodNotAllowed)
             }
         ) {}
     }
@@ -70,7 +70,7 @@ internal fun Routing.petRouting() = route("/pet") {
             description = "Multiple status values can be provided with comma separated strings",
             responses = {
                 response<FindPetsByStatusResponse, List<Pet>>(HttpStatusCode.OK)
-                response<InvalidStatusValueResponse, Unit>(HttpStatusCode.BadRequest)
+                response<InvalidStatusValueResponse>(HttpStatusCode.BadRequest)
             }
         ) {}
     }
@@ -83,7 +83,7 @@ internal fun Routing.petRouting() = route("/pet") {
             description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
             responses = {
                 response<FindPetsByTagsResponse, List<Pet>>(HttpStatusCode.OK)
-                response<InvalidTagValueResponse, Unit>(HttpStatusCode.BadRequest)
+                response<InvalidTagValueResponse>(HttpStatusCode.BadRequest)
             }
         ) {}
     }
@@ -96,8 +96,8 @@ internal fun Routing.petRouting() = route("/pet") {
             description = "Returns a single pet",
             responses = {
                 response<GetPetByIdResponse, Pet>(HttpStatusCode.OK)
-                response<InvalidIdSuppliedResponse, Unit>(HttpStatusCode.BadRequest)
-                response<PetNotFoundResponse, Unit>(HttpStatusCode.NotFound)
+                response<InvalidIdSuppliedResponse>(HttpStatusCode.BadRequest)
+                response<PetNotFoundResponse>(HttpStatusCode.NotFound)
             }
         ) {}
     }
@@ -108,7 +108,7 @@ internal fun Routing.petRouting() = route("/pet") {
             tags = setOf(Tags.Pet),
             summary = "Updates a pet in the store with form data",
             responses = {
-                response<InvalidInputResponse, Unit>(HttpStatusCode.MethodNotAllowed)
+                response<InvalidInputResponse>(HttpStatusCode.MethodNotAllowed)
             }
         ) {}
     }
@@ -119,7 +119,7 @@ internal fun Routing.petRouting() = route("/pet") {
             tags = setOf(Tags.Pet),
             summary = "Deletes a pet",
             responses = {
-                response<InvalidPetIdValueResponse, Unit>(HttpStatusCode.BadRequest)
+                response<InvalidPetIdValueResponse>(HttpStatusCode.BadRequest)
             }
         ) {}
     }
@@ -130,7 +130,7 @@ internal fun Routing.petRouting() = route("/pet") {
             tags = setOf(Tags.Pet),
             summary = "Uploads an image",
             responses = {
-                response<UploadPetImageResponse, Unit>(HttpStatusCode.OK)
+                response<UploadPetImageResponse>(HttpStatusCode.OK)
             }
         ) {}
     }

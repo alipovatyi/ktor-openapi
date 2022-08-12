@@ -26,6 +26,10 @@ data class Responses(
             responses.add(response)
         }
 
+        inline fun <reified RESPONSE : Any> defaultResponse() {
+            defaultResponse<RESPONSE, Unit>()
+        }
+
         inline fun <reified RESPONSE : Any, reified CONTENT> response(
             statusCode: HttpStatusCode,
             builder: ResponseBuilder<RESPONSE, CONTENT> = {}
@@ -38,6 +42,10 @@ data class Responses(
             val exampleJson = responseBuilder.example?.let(json::encodeToJsonElement)
             val response = responseBuilder.build(exampleJson)
             responses.add(response)
+        }
+
+        inline fun <reified RESPONSE : Any> response(statusCode: HttpStatusCode) {
+            response<RESPONSE, Unit>(statusCode = statusCode)
         }
 
         fun build(): Responses {

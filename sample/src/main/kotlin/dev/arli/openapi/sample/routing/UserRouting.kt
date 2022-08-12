@@ -59,7 +59,7 @@ internal fun Routing.userRouting() = route("/user") {
         tags = setOf(Tags.User),
         summary = "Logs out current logged in user session",
         responses = {
-            defaultResponse<LogOutResponse, Unit>()
+            defaultResponse<LogOutResponse>()
         }
     ) {}
     documentedGet<GetUserByUsernameRequest, GetUserByUsernameResponse>(
@@ -78,7 +78,7 @@ internal fun Routing.userRouting() = route("/user") {
         summary = "Update user",
         description = "This can only be done by the logged in user.",
         responses = {
-            defaultResponse<UpdateUserByUsernameResponse, Unit>()
+            defaultResponse<UpdateUserByUsernameResponse>()
         }
     ) {}
     documentedDelete<DeleteUserRequest, DeleteUserResponse>(
@@ -87,8 +87,8 @@ internal fun Routing.userRouting() = route("/user") {
         summary = "Delete user",
         description = "This can only be done by the logged in user.",
         responses = {
-            response<InvalidUsernameSuppliedResponse, Unit>(HttpStatusCode.BadRequest)
-            response<UserNotFoundResponse, Unit>(HttpStatusCode.NotFound)
+            response<InvalidUsernameSuppliedResponse>(HttpStatusCode.BadRequest)
+            response<UserNotFoundResponse>(HttpStatusCode.NotFound)
         }
     ) {}
 }

@@ -16,19 +16,22 @@ import dev.arli.openapi.sample.model.request.store.GetInventoryResponse
 import dev.arli.openapi.sample.model.request.store.GetOrderByIdRequest
 import dev.arli.openapi.sample.model.request.store.GetOrderByIdResponse
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.auth.authenticate
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.route
 
 internal fun Routing.storeRouting() = route("/store") {
-    documentedGet<GetInventoryRequest, GetInventoryResponse>(
-        path = "/inventory",
-        tags = setOf(Tags.Store),
-        summary = "Returns pet inventories by status",
-        description = "Returns a map of status codes to quantities",
-        responses = {
-            response<GetInventoryResponse, Map<String, Int>>(HttpStatusCode.OK)
-        }
-    ) {}
+    authenticate("apiKey") {
+        documentedGet<GetInventoryRequest, GetInventoryResponse>(
+            path = "/inventory",
+            tags = setOf(Tags.Store),
+            summary = "Returns pet inventories by status",
+            description = "Returns a map of status codes to quantities",
+            responses = {
+                response<GetInventoryResponse, Map<String, Int>>(HttpStatusCode.OK)
+            }
+        ) {}
+    }
     documentedPost<AddOrderRequest, AddOrderResponse>(
         path = "/order",
         tags = setOf(Tags.Store),
@@ -46,8 +49,8 @@ internal fun Routing.storeRouting() = route("/store") {
         description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.",
         responses = {
             response<GetOrderByIdResponse, Order>(HttpStatusCode.OK)
-            response<InvalidIdSuppliedResponse, Unit>(HttpStatusCode.BadRequest)
-            response<OrderNotFoundResponse, Unit>(HttpStatusCode.NotFound)
+            response<InvalidIdSuppliedResponse>(HttpStatusCode.BadRequest)
+            response<OrderNotFoundResponse>(HttpStatusCode.NotFound)
         }
     ) {}
     documentedDelete<DeleteOrderRequest, DeleteOrderResponse>(
@@ -56,8 +59,8 @@ internal fun Routing.storeRouting() = route("/store") {
         summary = "Delete purchase order by ID",
         description = "For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors",
         responses = {
-            response<InvalidIdSuppliedResponse, Unit>(HttpStatusCode.BadRequest)
-            response<OrderNotFoundResponse, Unit>(HttpStatusCode.NotFound)
+            response<InvalidIdSuppliedResponse>(HttpStatusCode.BadRequest)
+            response<OrderNotFoundResponse>(HttpStatusCode.NotFound)
         }
     ) {}
 }

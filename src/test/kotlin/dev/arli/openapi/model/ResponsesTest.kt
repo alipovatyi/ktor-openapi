@@ -56,6 +56,25 @@ internal class ResponsesTest {
     }
 
     @Test
+    fun `Should create responses with empty response`() {
+        val expectedResponses = Responses(
+            responses = listOf(
+                Response(
+                    responseClass = TestResponse::class,
+                    statusCode = HttpStatusCode.OK,
+                    mediaTypeExamples = MediaTypeExamples<Any>()
+                )
+            )
+        )
+
+        val actualResponses = Responses.Builder(json = json).apply {
+            response<TestResponse>(HttpStatusCode.OK)
+        }.build()
+
+        assertThat(actualResponses).isEqualTo(expectedResponses)
+    }
+
+    @Test
     fun `Should create responses with default response`() {
         val expectedResponses = Responses(
             responses = listOf(
@@ -75,6 +94,25 @@ internal class ResponsesTest {
             defaultResponse<TestResponse, String> {
                 example = "Example"
             }
+        }.build()
+
+        assertThat(actualResponses).isEqualTo(expectedResponses)
+    }
+
+    @Test
+    fun `Should create responses with default empty response`() {
+        val expectedResponses = Responses(
+            responses = listOf(
+                Response(
+                    responseClass = TestResponse::class,
+                    statusCode = null,
+                    mediaTypeExamples = MediaTypeExamples<Any>()
+                )
+            )
+        )
+
+        val actualResponses = Responses.Builder(json = json).apply {
+            defaultResponse<TestResponse>()
         }.build()
 
         assertThat(actualResponses).isEqualTo(expectedResponses)
