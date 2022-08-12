@@ -25,3 +25,15 @@ object InvalidTagValueResponse
 
 @Response(description = "Order not found")
 object OrderNotFoundResponse
+
+@Response(description = "Invalid username supplied")
+object InvalidUsernameSuppliedResponse
+
+@Response(description = "User not found")
+object UserNotFoundResponse
+
+@Response(
+    description = "\t\n" +
+        "Invalid username/password supplied"
+)
+object InvalidUsernameOrPasswordSuppliedResponse
