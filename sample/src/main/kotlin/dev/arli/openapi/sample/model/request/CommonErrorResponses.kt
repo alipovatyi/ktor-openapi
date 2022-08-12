@@ -22,3 +22,6 @@ object InvalidStatusValueResponse
 
 @Response(description = "Invalid tag value")
 object InvalidTagValueResponse
+
+@Response(description = "Order not found")
+object OrderNotFoundResponse

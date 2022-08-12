@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class Order(
     val id: Long?,
     val petId: Long?,
+    val quantity: Int?,
     val shipDate: LocalDate?,
     val status: OrderStatus?,
     val complete: Boolean?
