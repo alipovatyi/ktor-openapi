@@ -24,7 +24,10 @@ data class OpenAPIGenConfiguration(
         info = InfoObject().apply(configure)
     }
 
+    // TODO: should it be just path without base url?
     inline fun server(url: Url, crossinline configure: ServerObject.() -> Unit) {
         servers = servers + ServerObject(url).apply(configure)
     }
+
+    // TODO: external documentation
 }
