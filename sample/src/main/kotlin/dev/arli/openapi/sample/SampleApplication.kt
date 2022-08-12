@@ -1,23 +1,30 @@
 package dev.arli.openapi.sample
 
-import dev.arli.openapi.OpenAPIGen
+import dev.arli.openapi.authentication.documentedBasic
+import dev.arli.openapi.authentication.documentedJWT
+import dev.arli.openapi.openAPIGen
 import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
+import io.ktor.server.auth.authentication
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import kotlinx.serialization.json.Json
 
 fun main() {
+    val json = Json {
+        prettyPrint = true
+        isLenient = true
+    }
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
+        install(ContentNegotiation) { json(json) }
+        authentication {
+            documentedBasic("basic") {}
+            documentedJWT("bearer") {}
         }
-        install(OpenAPIGen) {
+        openAPIGen {
+            this.json = json
             info {
                 title = "Swagger Petstore - OpenAPI 3.0"
                 version = "1.0.11"
@@ -46,6 +53,11 @@ fun main() {
             }
 
             server(Url("/v3")) {}
+
+            swaggerUI {
+                path = "/documentation"
+            }
         }
+        installRouting()
     }.start(wait = true)
 }
