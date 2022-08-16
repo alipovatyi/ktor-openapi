@@ -19,6 +19,7 @@ class SwaggerUI(
     override fun HTML.apply() {
         val specificationFileName = swaggerUIConfiguration.specificationFileName
         val webjarsPath = swaggerUIConfiguration.webjarsPath
+        val oauth2RedirectPath = swaggerUIConfiguration.oauth2RedirectPath
         head {
             title = "Swagger UI"
             meta(charset = "UTF-8")
@@ -69,7 +70,8 @@ class SwaggerUI(
                         window.onload = function() {
                             // Begin Swagger UI call region
                             const ui = SwaggerUIBundle({
-                                url: "/$specificationFileName",
+                                url: "$specificationFileName",
+                                oauth2RedirectUrl: window.location.protocol + "//" + window.location.host + "/" + "${oauth2RedirectPath.removePrefix("/")}",
                                 dom_id: '#swagger-ui',
                                 deepLinking: true,
                                 presets: [

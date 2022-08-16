@@ -8,6 +8,7 @@ import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.SecuritySchemeComponent
+import dev.arli.openapi.swagger.OAuth2Redirect
 import dev.arli.openapi.swagger.SwaggerUI
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.Application
@@ -147,6 +148,10 @@ fun Application.openAPIGen(block: OpenAPIGenConfiguration.() -> Unit) {
         get(swaggerUIConfiguration.path) {
             val swaggerUI = SwaggerUI(swaggerUIConfiguration = swaggerUIConfiguration)
             call.respondHtmlTemplate(swaggerUI) {}
+        }
+        get(swaggerUIConfiguration.oauth2RedirectPath) {
+            val oAuth2Redirect = OAuth2Redirect()
+            call.respondHtmlTemplate(oAuth2Redirect) {}
         }
     }
 }

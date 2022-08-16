@@ -14,7 +14,10 @@ data class OpenAPIGenConfiguration(
     var servers: List<ServerObject> = emptyList(),
     var outputDir: String = "openapi",
     val outputFileName: String = "openapi.json",
-    var swaggerUIConfiguration: SwaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = outputFileName)
+    val oauth2RedirectPath: String = "oauth2-redirect",
+    var swaggerUIConfiguration: SwaggerUIConfiguration = SwaggerUIConfiguration(
+        specificationFileName = outputFileName
+    )
 ) {
     inline fun swaggerUI(crossinline configure: SwaggerUIConfiguration.() -> Unit) {
         swaggerUIConfiguration = swaggerUIConfiguration.apply(configure)
