@@ -4,7 +4,7 @@ import dev.arli.openapi.annotation.Header
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class HeaderNameParser {
+internal class HeaderNameParser {
 
     fun parse(property: KProperty<*>): String {
         val propertyName = property.name

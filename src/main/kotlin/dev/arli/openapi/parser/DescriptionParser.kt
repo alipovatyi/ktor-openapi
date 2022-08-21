@@ -4,7 +4,7 @@ import dev.arli.openapi.annotation.Description
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class DescriptionParser {
+internal class DescriptionParser {
 
     fun parse(property: KProperty<*>): String? {
         return property.findAnnotation<Description>()?.value

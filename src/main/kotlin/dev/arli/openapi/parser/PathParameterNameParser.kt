@@ -4,7 +4,7 @@ import dev.arli.openapi.annotation.Path
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class PathParameterNameParser {
+internal class PathParameterNameParser {
 
     fun parse(property: KProperty<*>): String {
         val propertyName = property.name

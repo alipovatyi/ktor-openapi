@@ -4,7 +4,7 @@ import dev.arli.openapi.annotation.Query
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class QueryParameterNameParser {
+internal class QueryParameterNameParser {
 
     fun parse(property: KProperty<*>): String {
         val propertyName = property.name

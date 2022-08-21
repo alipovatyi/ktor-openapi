@@ -4,7 +4,7 @@ import dev.arli.openapi.annotation.Cookie
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class CookieParameterNameParser {
+internal class CookieParameterNameParser {
 
     fun parse(property: KProperty<*>): String {
         val propertyName = property.name
