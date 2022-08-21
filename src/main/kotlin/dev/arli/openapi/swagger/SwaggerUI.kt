@@ -12,7 +12,7 @@ import kotlinx.html.script
 import kotlinx.html.title
 import kotlinx.html.unsafe
 
-class SwaggerUI(
+internal class SwaggerUI(
     private val swaggerUIConfiguration: SwaggerUIConfiguration
 ) : Template<HTML> {
 
