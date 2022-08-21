@@ -13,6 +13,9 @@ import io.ktor.server.auth.oauth
 
 private const val DEFAULT_SCHEME_NAME = "oauth2"
 
+/**
+ * Authorization code flow
+ */
 fun AuthenticationConfig.documentedOAuth2(
     name: String? = null,
     description: String? = null,
@@ -40,6 +43,9 @@ fun AuthenticationConfig.documentedOAuth2(
     )
 }
 
+/**
+ * Implicit flow
+ */
 fun AuthenticationConfig.documentedImplicitOAuth2(
     name: String? = null,
     description: String? = null,
