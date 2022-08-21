@@ -25,13 +25,35 @@ fun AuthenticationConfig.documentedOAuth2(
     val securityScheme = OAuth2SecurityScheme(
         description = description,
         flows = OAuthFlowsObject(
-//            implicit = null, // TODO
-//            password = null, // TODO
-//            clientCredentials = null, // TODO
             authorizationCode = OAuthFlowObject(
                 authorizationUrl = requireNotNull(authorizeUrl) { "Authorization URL must not be null" },
                 tokenUrl = requireNotNull(accessTokenUrl) { "Token URL must not be null" },
                 refreshUrl = refreshTokenUrl,
+                scopes = OAuth2Scopes.Builder().apply(scopes).build()
+            )
+        )
+    )
+    oauth(name = name, configure = configure)
+    OpenAPIGen.registerSecurityScheme(
+        name = name ?: DEFAULT_SCHEME_NAME,
+        securityScheme = securityScheme
+    )
+}
+
+fun AuthenticationConfig.documentedImplicitOAuth2(
+    name: String? = null,
+    description: String? = null,
+    authorizeUrl: Url? = null,
+    scopes: OAuth2ScopesBuilder = {},
+    configure: OAuthAuthenticationProvider.Config.() -> Unit
+) {
+    val securityScheme = OAuth2SecurityScheme(
+        description = description,
+        flows = OAuthFlowsObject(
+            implicit = OAuthFlowObject(
+                authorizationUrl = requireNotNull(authorizeUrl) { "Authorization URL must not be null" },
+                tokenUrl = null,
+                refreshUrl = null,
                 scopes = OAuth2Scopes.Builder().apply(scopes).build()
             )
         )

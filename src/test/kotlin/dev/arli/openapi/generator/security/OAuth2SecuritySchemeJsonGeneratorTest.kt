@@ -20,6 +20,12 @@ internal class OAuth2SecuritySchemeJsonGeneratorTest {
         val givenOAuth2SecurityScheme = OAuth2SecurityScheme(
             description = "OAuth2 description",
             flows = OAuthFlowsObject(
+                implicit = OAuthFlowObject(
+                    authorizationUrl = Url("http://localhost/auth"),
+                    tokenUrl = null,
+                    refreshUrl = null,
+                    scopes = OAuth2Scopes()
+                ),
                 authorizationCode = OAuthFlowObject(
                     authorizationUrl = Url("http://localhost/auth"),
                     tokenUrl = Url("http://localhost/token"),
@@ -33,6 +39,10 @@ internal class OAuth2SecuritySchemeJsonGeneratorTest {
             put("type", "oauth2")
             put("description", "OAuth2 description")
             putJsonObject("flows") {
+                putJsonObject("implicit") {
+                    put("authorizationUrl", "http://localhost/auth")
+                    putJsonObject("scopes") {}
+                }
                 putJsonObject("authorizationCode") {
                     put("authorizationUrl", "http://localhost/auth")
                     put("tokenUrl", "http://localhost/token")
