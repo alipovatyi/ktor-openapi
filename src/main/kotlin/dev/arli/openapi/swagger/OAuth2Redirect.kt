@@ -8,7 +8,7 @@ import kotlinx.html.lang
 import kotlinx.html.title
 import kotlinx.html.unsafe
 
-class OAuth2Redirect : Template<HTML> {
+internal class OAuth2Redirect : Template<HTML> {
 
     override fun HTML.apply() {
         lang = "en-US"
