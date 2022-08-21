@@ -10,7 +10,7 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-class OpenAPIJsonGenerator(
+internal class OpenAPIJsonGenerator(
     private val infoJsonGenerator: InfoJsonGenerator = InfoJsonGenerator(),
     private val serverJsonGenerator: ServerJsonGenerator = ServerJsonGenerator(),
     private val pathItemJsonGenerator: PathItemJsonGenerator = PathItemJsonGenerator(),

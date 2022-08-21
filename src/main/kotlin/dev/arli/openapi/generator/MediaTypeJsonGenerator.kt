@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.putJsonObject
 
-class MediaTypeJsonGenerator(
+internal class MediaTypeJsonGenerator(
     private val schemaJsonGenerator: SchemaJsonGenerator = SchemaJsonGenerator(),
     private val exampleJsonGenerator: ExampleJsonGenerator = ExampleJsonGenerator()
 ) {

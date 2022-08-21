@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class ExternalDocumentationJsonGenerator {
+internal class ExternalDocumentationJsonGenerator {
 
     fun generateExternalDocumentationJson(externalDocumentation: ExternalDocumentationObject): JsonObject {
         return buildJsonObject {

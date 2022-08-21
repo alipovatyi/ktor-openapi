@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class HttpSecuritySchemeJsonGenerator {
+internal class HttpSecuritySchemeJsonGenerator {
 
     fun generateHttpSecuritySchemeJson(httpSecurityScheme: HttpSecurityScheme): JsonObject {
         return buildJsonObject {

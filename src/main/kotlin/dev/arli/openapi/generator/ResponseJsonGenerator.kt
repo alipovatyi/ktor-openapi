@@ -7,7 +7,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 
-class ResponseJsonGenerator(
+internal class ResponseJsonGenerator(
     private val headerJsonGenerator: HeaderJsonGenerator = HeaderJsonGenerator(),
     private val mediaTypeJsonGenerator: MediaTypeJsonGenerator = MediaTypeJsonGenerator()
 ) {

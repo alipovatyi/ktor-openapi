@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class HeaderJsonGenerator(
+internal class HeaderJsonGenerator(
     private val schemaJsonGenerator: SchemaJsonGenerator = SchemaJsonGenerator()
 ) {
 

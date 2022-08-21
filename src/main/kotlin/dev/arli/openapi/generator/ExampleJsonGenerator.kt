@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class ExampleJsonGenerator {
+internal class ExampleJsonGenerator {
 
     fun generateExampleJson(mediaType: MediaType, example: ExampleComponent): JsonObject {
         return buildJsonObject {

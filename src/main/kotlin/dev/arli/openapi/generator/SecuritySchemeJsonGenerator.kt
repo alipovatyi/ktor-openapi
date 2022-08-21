@@ -9,7 +9,7 @@ import dev.arli.openapi.model.SecuritySchemeObject
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 
-class SecuritySchemeJsonGenerator(
+internal class SecuritySchemeJsonGenerator(
     private val httpSecuritySchemeJsonGenerator: HttpSecuritySchemeJsonGenerator = HttpSecuritySchemeJsonGenerator(),
     private val oAuth2SecuritySchemeJsonGenerator: OAuth2SecuritySchemeJsonGenerator = OAuth2SecuritySchemeJsonGenerator()
 ) {

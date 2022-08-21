@@ -7,7 +7,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 
-class ServerVariableJsonGenerator {
+internal class ServerVariableJsonGenerator {
 
     fun generateServerVariableJson(serverVariable: ServerVariableObject): JsonObject {
         return buildJsonObject {

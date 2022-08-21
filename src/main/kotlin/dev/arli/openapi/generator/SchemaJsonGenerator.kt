@@ -9,7 +9,7 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-class SchemaJsonGenerator {
+internal class SchemaJsonGenerator {
 
     fun generateSchemaJson(schema: SchemaComponent): JsonObject {
         return buildJsonObject {

@@ -6,7 +6,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 
-class OAuthImplicitFlowJsonGenerator {
+internal class OAuthImplicitFlowJsonGenerator {
 
     fun generateOAuthImplicitFlowJson(oAuthFlowObject: OAuthFlowObject): JsonObject {
         val authorizationUrl = requireNotNull(oAuthFlowObject.authorizationUrl) {

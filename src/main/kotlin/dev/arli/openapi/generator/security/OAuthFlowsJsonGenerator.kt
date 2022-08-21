@@ -4,7 +4,7 @@ import dev.arli.openapi.model.security.OAuthFlowsObject
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 
-class OAuthFlowsJsonGenerator(
+internal class OAuthFlowsJsonGenerator(
     private val oAuthAuthorizationCodeFlowJsonGenerator: OAuthAuthorizationCodeFlowJsonGenerator = OAuthAuthorizationCodeFlowJsonGenerator(),
     private val oAuthImplicitFlowJsonGenerator: OAuthImplicitFlowJsonGenerator = OAuthImplicitFlowJsonGenerator(),
 ) {

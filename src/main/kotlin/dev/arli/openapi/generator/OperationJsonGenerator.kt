@@ -9,7 +9,7 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonArray
 import kotlinx.serialization.json.putJsonObject
 
-class OperationJsonGenerator(
+internal class OperationJsonGenerator(
     private val externalDocumentationJsonGenerator: ExternalDocumentationJsonGenerator = ExternalDocumentationJsonGenerator(),
     private val parameterJsonGenerator: ParameterJsonGenerator = ParameterJsonGenerator(),
     private val requestBodyJsonGenerator: RequestBodyJsonGenerator = RequestBodyJsonGenerator(),

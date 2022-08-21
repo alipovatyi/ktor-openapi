@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class PathItemJsonGenerator(
+internal class PathItemJsonGenerator(
     private val operationJsonGenerator: OperationJsonGenerator = OperationJsonGenerator()
 ) {
 

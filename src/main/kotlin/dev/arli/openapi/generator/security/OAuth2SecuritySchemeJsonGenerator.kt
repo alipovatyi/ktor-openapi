@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-class OAuth2SecuritySchemeJsonGenerator(
+internal class OAuth2SecuritySchemeJsonGenerator(
     private val oAuthFlowsJsonGenerator: OAuthFlowsJsonGenerator = OAuthFlowsJsonGenerator()
 ) {
 
