@@ -16,7 +16,7 @@ import io.ktor.util.pipeline.PipelineInterceptor
 // TODO: handle more parameters
 inline fun <reified Request : Any, reified Response : Any> Route.documentedPut(
     path: String = "",
-    tags: Set<String> = emptySet(), // TODO tag object
+    tags: Set<String> = emptySet(),
     summary: String? = null,
     description: String? = null,
     externalDocs: ExternalDocumentationObject? = null,
