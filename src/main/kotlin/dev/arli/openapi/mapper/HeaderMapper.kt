@@ -7,7 +7,7 @@ import dev.arli.openapi.parser.HeaderNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class HeaderMapper(
+internal class HeaderMapper(
     private val headerNameParser: HeaderNameParser = HeaderNameParser(),
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper()
 ) {

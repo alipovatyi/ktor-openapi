@@ -4,7 +4,7 @@ import dev.arli.openapi.model.MediaTypeExamples
 import dev.arli.openapi.model.MediaTypeObject
 import kotlin.reflect.KProperty
 
-class MediaTypeMapper(
+internal class MediaTypeMapper(
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper(),
     private val exampleMapper: ExampleMapper = ExampleMapper()
 ) {

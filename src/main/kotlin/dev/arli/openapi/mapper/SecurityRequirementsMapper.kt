@@ -4,7 +4,7 @@ import dev.arli.openapi.model.SecurityRequirementObject
 import io.ktor.server.auth.AuthenticationRouteSelector
 import io.ktor.server.routing.Route
 
-class SecurityRequirementsMapper {
+internal class SecurityRequirementsMapper {
 
     fun map(route: Route): List<SecurityRequirementObject> {
         return getAuthProviders(route)

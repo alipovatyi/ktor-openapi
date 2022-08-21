@@ -4,7 +4,7 @@ import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.parser.PathParameterNameParser
 import kotlin.reflect.KProperty
 
-class PathParametersMapper(
+internal class PathParametersMapper(
     private val pathParameterNameParser: PathParameterNameParser = PathParameterNameParser(),
     private val pathParameterMapper: PathParameterMapper = PathParameterMapper()
 ) {

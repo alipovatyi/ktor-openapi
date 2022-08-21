@@ -4,7 +4,7 @@ import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.parser.CookieParameterNameParser
 import kotlin.reflect.KProperty
 
-class CookieParametersMapper(
+internal class CookieParametersMapper(
     private val cookieParameterNameParser: CookieParameterNameParser = CookieParameterNameParser(),
     private val cookieParameterMapper: CookieParameterMapper = CookieParameterMapper()
 ) {

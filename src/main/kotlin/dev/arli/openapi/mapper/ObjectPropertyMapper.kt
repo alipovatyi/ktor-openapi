@@ -8,7 +8,7 @@ import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
 
-class ObjectPropertyMapper(
+internal class ObjectPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
     private val descriptionParser: DescriptionParser = DescriptionParser()
 ) {

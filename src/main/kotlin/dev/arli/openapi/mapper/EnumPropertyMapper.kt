@@ -9,7 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
 
-class EnumPropertyMapper(
+internal class EnumPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
     private val descriptionParser: DescriptionParser = DescriptionParser()
 ) {

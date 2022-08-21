@@ -9,7 +9,7 @@ import dev.arli.openapi.parser.PropertyNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
 
-class NumberPropertyMapper(
+internal class NumberPropertyMapper(
     private val propertyNameParser: PropertyNameParser = PropertyNameParser(),
     private val descriptionParser: DescriptionParser = DescriptionParser()
 ) {

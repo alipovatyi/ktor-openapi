@@ -9,7 +9,7 @@ import dev.arli.openapi.parser.DescriptionParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class RequestBodyMapper(
+internal class RequestBodyMapper(
     private val descriptionParser: DescriptionParser = DescriptionParser(),
     private val mediaTypeMapper: MediaTypeMapper = MediaTypeMapper()
 ) {

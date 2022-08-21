@@ -4,7 +4,7 @@ import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.parser.HeaderNameParser
 import kotlin.reflect.KProperty
 
-class HeaderParametersMapper(
+internal class HeaderParametersMapper(
     private val headerNameParser: HeaderNameParser = HeaderNameParser(),
     private val headerParameterMapper: HeaderParameterMapper = HeaderParameterMapper()
 ) {

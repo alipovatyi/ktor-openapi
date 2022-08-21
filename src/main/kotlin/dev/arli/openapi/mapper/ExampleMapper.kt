@@ -4,7 +4,7 @@ import dev.arli.openapi.model.Example
 import dev.arli.openapi.model.ExampleComponent
 import dev.arli.openapi.model.ExampleObject
 
-class ExampleMapper {
+internal class ExampleMapper {
 
     fun <T> map(example: Example<T>): ExampleComponent {
         return ExampleObject(

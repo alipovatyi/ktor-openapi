@@ -6,7 +6,7 @@ import io.ktor.server.routing.HttpMethodRouteSelector
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.TrailingSlashRouteSelector
 
-class RoutePathMapper {
+internal class RoutePathMapper {
 
     fun map(route: Route?): String {
         if (route == null) return "/"

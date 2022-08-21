@@ -20,7 +20,7 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.jvmErasure
 
-class SchemaComponentMapper(
+internal class SchemaComponentMapper(
     private val propertyMapper: PropertyMapper = PropertyMapper()
 ) {
 

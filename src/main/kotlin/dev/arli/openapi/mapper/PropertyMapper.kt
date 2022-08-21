@@ -6,7 +6,7 @@ import dev.arli.openapi.model.property.getDataType
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
 
-class PropertyMapper(
+internal class PropertyMapper(
     private val stringPropertyMapper: StringPropertyMapper = StringPropertyMapper(),
     private val numberPropertyMapper: NumberPropertyMapper = NumberPropertyMapper(),
     private val integerPropertyMapper: IntegerPropertyMapper = IntegerPropertyMapper(),

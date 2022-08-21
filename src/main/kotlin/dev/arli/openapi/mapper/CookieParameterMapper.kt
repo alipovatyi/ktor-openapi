@@ -8,7 +8,7 @@ import dev.arli.openapi.parser.CookieParameterNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class CookieParameterMapper(
+internal class CookieParameterMapper(
     private val cookieParameterNameParser: CookieParameterNameParser = CookieParameterNameParser(),
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper()
 ) {

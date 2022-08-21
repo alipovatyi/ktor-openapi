@@ -13,7 +13,7 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 import dev.arli.openapi.model.Response as ResponseModel
 
-class ResponseMapper(
+internal class ResponseMapper(
     private val headersMapper: HeadersMapper = HeadersMapper(),
     private val mediaTypeMapper: MediaTypeMapper = MediaTypeMapper()
 ) {

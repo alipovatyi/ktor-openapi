@@ -18,7 +18,7 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.hasAnnotation
 
-class OperationMapper(
+internal class OperationMapper(
     private val routePathMapper: RoutePathMapper = RoutePathMapper(),
     private val pathParametersParser: PathParametersParser = PathParametersParser(),
     private val pathParametersMapper: PathParametersMapper = PathParametersMapper(),

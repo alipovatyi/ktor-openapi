@@ -8,7 +8,7 @@ import dev.arli.openapi.parser.PathParameterNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class PathParameterMapper(
+internal class PathParameterMapper(
     private val pathParameterNameParser: PathParameterNameParser = PathParameterNameParser(),
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper()
 ) {

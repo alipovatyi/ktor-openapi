@@ -8,7 +8,7 @@ import dev.arli.openapi.parser.QueryParameterNameParser
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.findAnnotation
 
-class QueryParameterMapper(
+internal class QueryParameterMapper(
     private val queryParameterNameParser: QueryParameterNameParser = QueryParameterNameParser(),
     private val schemaComponentMapper: SchemaComponentMapper = SchemaComponentMapper()
 ) {
