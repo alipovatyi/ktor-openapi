@@ -2,6 +2,8 @@ package dev.arli.openapi
 
 import dev.arli.openapi.model.InfoObject
 import dev.arli.openapi.model.ServerObject
+import dev.arli.openapi.model.Tags
+import dev.arli.openapi.model.TagsBuilder
 import dev.arli.openapi.swagger.SwaggerUIConfiguration
 import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.DefaultJson
@@ -15,6 +17,7 @@ data class OpenAPIGenConfiguration(
     var outputDir: String = "openapi",
     val outputFileName: String = "openapi.json",
     val oauth2RedirectPath: String = "oauth2-redirect",
+    var tags: Tags = Tags(),
     var swaggerUIConfiguration: SwaggerUIConfiguration = SwaggerUIConfiguration(
         specificationFileName = outputFileName
     )
@@ -30,6 +33,10 @@ data class OpenAPIGenConfiguration(
     // TODO: should it be just path without base url?
     inline fun server(url: Url, crossinline configure: ServerObject.() -> Unit) {
         servers = servers + ServerObject(url).apply(configure)
+    }
+
+    inline fun tags(crossinline configure: TagsBuilder) {
+        tags = Tags.Builder().apply(configure).build()
     }
 
     // TODO: external documentation

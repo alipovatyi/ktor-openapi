@@ -87,6 +87,12 @@ fun main() {
 
             server(Url("/v3")) {}
 
+            tags {
+                tag("pet") { description = "Everything about your Pets" }
+                tag("store") { description = "Access to Petstore orders" }
+                tag("user") { description = "Operations about user" }
+            }
+
             swaggerUI {
                 path = "/documentation"
             }

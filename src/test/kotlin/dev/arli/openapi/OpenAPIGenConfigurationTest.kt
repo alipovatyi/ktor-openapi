@@ -3,6 +3,8 @@ package dev.arli.openapi
 import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.InfoObject
 import dev.arli.openapi.model.ServerObject
+import dev.arli.openapi.model.Tag
+import dev.arli.openapi.model.Tags
 import dev.arli.openapi.swagger.SwaggerUIConfiguration
 import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.DefaultJson
@@ -92,6 +94,22 @@ internal class OpenAPIGenConfigurationTest {
         val actualConfiguration = OpenAPIGenConfiguration().apply {
             server(Url("http://localhost/server")) {
                 description = "Server description"
+            }
+        }
+
+        assertThat(actualConfiguration).isEqualTo(expectedConfiguration)
+    }
+
+    @Test
+    fun `Should add tag object`() {
+        val expectedConfiguration = OpenAPIGenConfiguration(
+            tags = Tags(listOf(Tag(name = "Tag", description = "Description", externalDocs = null)))
+        )
+        val actualConfiguration = OpenAPIGenConfiguration().apply {
+            tags {
+                tag(name = "Tag") {
+                    description = "Description"
+                }
             }
         }
 

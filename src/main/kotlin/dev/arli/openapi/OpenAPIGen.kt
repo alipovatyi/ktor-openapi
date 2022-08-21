@@ -3,6 +3,7 @@ package dev.arli.openapi
 import dev.arli.openapi.generator.OpenAPIJsonGenerator
 import dev.arli.openapi.mapper.OperationMapper
 import dev.arli.openapi.mapper.RoutePathMapper
+import dev.arli.openapi.mapper.TagMapper
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
@@ -96,6 +97,7 @@ class OpenAPIGen(
             configure: OpenAPIGenConfiguration.() -> Unit
         ): OpenAPIGen {
             val configuration = OpenAPIGenConfiguration().apply(configure)
+            val tagMapper = TagMapper()
             val plugin = OpenAPIGen(configuration)
             val logger = requireNotNull(pipeline.environment?.log) { "Logger must be initialized" }
 
@@ -103,7 +105,8 @@ class OpenAPIGen(
                 val openAPIJson = plugin.openAPIJsonGenerator.generate(
                     configuration = configuration,
                     pathItems = plugin.pathItems.toMap(),
-                    securitySchemes = securitySchemes
+                    securitySchemes = securitySchemes,
+                    tags = configuration.tags.map(tagMapper::map)
                 )
                 logger.info("OpenAPI specification generated successfully: {}", openAPIJson.toString())
                 writeOpenAPIJson(

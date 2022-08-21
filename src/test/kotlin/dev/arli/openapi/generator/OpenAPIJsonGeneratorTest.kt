@@ -315,6 +315,11 @@ internal class OpenAPIJsonGeneratorTest {
                 scheme = HttpSecuritySchemeType.BASIC
             )
         )
+        val givenTags = listOf(
+            TagObject(name = "pet", description = "Everything about your Pets"),
+            TagObject(name = "store", description = "Access to Petstore orders"),
+            TagObject(name = "user", description = "Operations about user")
+        )
 
         val expectedJsonObject = buildJsonObject {
             put("openapi", "3.0.3")
@@ -606,12 +611,27 @@ internal class OpenAPIJsonGeneratorTest {
                     }
                 }
             }
+            putJsonArray("tags") {
+                addJsonObject {
+                    put("name", "pet")
+                    put("description", "Everything about your Pets")
+                }
+                addJsonObject {
+                    put("name", "store")
+                    put("description", "Access to Petstore orders")
+                }
+                addJsonObject {
+                    put("name", "user")
+                    put("description", "Operations about user")
+                }
+            }
         }
 
         val actualJsonObject = generator.generate(
             configuration = givenConfiguration,
             pathItems = givenPathItems,
-            securitySchemes = givenSecuritySchemes
+            securitySchemes = givenSecuritySchemes,
+            tags = givenTags
         )
 
         assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
@@ -655,12 +675,14 @@ internal class OpenAPIJsonGeneratorTest {
             putJsonArray("servers") {}
             putJsonObject("paths") {}
             putJsonObject("components") {}
+            putJsonArray("tags") {}
         }
 
         val actualJsonObject = generator.generate(
             configuration = givenConfiguration,
             pathItems = emptyMap(),
-            securitySchemes = emptyMap()
+            securitySchemes = emptyMap(),
+            tags = emptyList()
         )
 
         assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
