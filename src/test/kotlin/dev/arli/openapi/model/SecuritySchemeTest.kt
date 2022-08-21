@@ -2,6 +2,7 @@ package dev.arli.openapi.model
 
 import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.model.security.HttpSecuritySchemeType
+import dev.arli.openapi.model.security.OAuthFlowsObject
 import dev.arli.openapi.model.security.SecuritySchemeType
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -22,7 +23,8 @@ internal class SecuritySchemeTest {
 
         @JvmStatic
         fun `Should set correct security scheme type`() = listOf(
-            arguments(HttpSecurityScheme(null, HttpSecuritySchemeType.BASIC), SecuritySchemeType.HTTP)
+            arguments(HttpSecurityScheme(null, HttpSecuritySchemeType.BASIC), SecuritySchemeType.HTTP),
+            arguments(OAuth2SecurityScheme(null, OAuthFlowsObject(null)), SecuritySchemeType.OAUTH2)
         )
     }
 }
