@@ -30,7 +30,7 @@ data class OpenAPIGenConfiguration(
         ).apply(configure).build()
     }
 
-    inline fun info(title: String, version: String, crossinline builder: InfoBuilder) {
+    inline fun info(title: String, version: String, crossinline builder: InfoBuilder = {}) {
         info = Info.Builder(title = title, version = version).apply(builder).build()
     }
 

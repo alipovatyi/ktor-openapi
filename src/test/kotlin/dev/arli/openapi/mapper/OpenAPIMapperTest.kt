@@ -17,8 +17,8 @@ import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.Tags
 import dev.arli.openapi.model.security.HttpSecuritySchemeType
 import io.ktor.http.Url
-import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 internal class OpenAPIMapperTest {
 
