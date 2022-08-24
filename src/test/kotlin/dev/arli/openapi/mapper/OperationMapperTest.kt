@@ -8,6 +8,7 @@ import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.annotation.Response
+import dev.arli.openapi.model.ExternalDocumentation
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
@@ -48,7 +49,7 @@ internal class OperationMapperTest {
             tags = setOf("tag-1", "tag-2"),
             summary = "Summary",
             description = "Description",
-            externalDocs = ExternalDocumentationObject(
+            externalDocs = ExternalDocumentation(
                 url = Url("http://localhost/external-docs")
             ),
             operationId = "operation-id",

@@ -1,6 +1,6 @@
 package dev.arli.openapi.model
 
-data class ParameterObject(
+internal data class ParameterObject(
     val name: String, // REQUIRED
     val `in`: ParameterLocation, // REQUIRED
     val description: String? = null,

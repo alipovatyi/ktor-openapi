@@ -5,7 +5,7 @@ import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
 import dev.arli.openapi.annotation.RequestBody
-import dev.arli.openapi.model.ExternalDocumentationObject
+import dev.arli.openapi.model.ExternalDocumentation
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterComponent
 import dev.arli.openapi.model.RequestBodyExamples
@@ -27,7 +27,8 @@ internal class OperationMapper(
     private val cookieParametersMapper: CookieParametersMapper = CookieParametersMapper(),
     private val requestBodyMapper: RequestBodyMapper = RequestBodyMapper(),
     private val responseMapper: ResponseMapper = ResponseMapper(),
-    private val securityRequirementsMapper: SecurityRequirementsMapper = SecurityRequirementsMapper()
+    private val securityRequirementsMapper: SecurityRequirementsMapper = SecurityRequirementsMapper(),
+    private val externalDocumentationMapper: ExternalDocumentationMapper = ExternalDocumentationMapper()
 ) {
 
     fun map(params: Params): OperationObject {
@@ -57,7 +58,7 @@ internal class OperationMapper(
             tags = tags,
             summary = params.summary,
             description = params.description,
-            externalDocs = params.externalDocs,
+            externalDocs = params.externalDocs?.let(externalDocumentationMapper::map),
             operationId = params.operationId,
             parameters = parameters,
             requestBody = requestBodyProperty?.let { requestBodyMapper.map(it, params.requestBodyExamples) },
@@ -74,7 +75,7 @@ internal class OperationMapper(
         val tags: Set<String>,
         val summary: String?,
         val description: String?,
-        val externalDocs: ExternalDocumentationObject?,
+        val externalDocs: ExternalDocumentation?,
         val operationId: String?,
         val requestBodyExamples: RequestBodyExamples?,
         val responses: List<Response<*, *>>,

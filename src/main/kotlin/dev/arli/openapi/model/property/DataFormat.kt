@@ -1,5 +1,5 @@
 package dev.arli.openapi.model.property
 
-interface DataFormat {
+internal interface DataFormat {
     val key: String
 }

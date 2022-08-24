@@ -33,7 +33,6 @@ internal class LicenseJsonGeneratorTest {
         )
         val expectedJsonObject = buildJsonObject {
             put("name", "License")
-            put("url", "null")
         }
 
         assertEquals(expectedJsonObject, generator.generateLicenseJson(givenLicense))

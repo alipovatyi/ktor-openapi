@@ -1,10 +1,10 @@
 package dev.arli.openapi
 
 import dev.arli.openapi.generator.OpenAPIJsonGenerator
+import dev.arli.openapi.mapper.OpenAPIMapper
 import dev.arli.openapi.mapper.OperationMapper
 import dev.arli.openapi.mapper.RoutePathMapper
-import dev.arli.openapi.mapper.TagMapper
-import dev.arli.openapi.model.ExternalDocumentationObject
+import dev.arli.openapi.model.ExternalDocumentation
 import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
@@ -35,12 +35,12 @@ import java.io.File
 import kotlin.reflect.KClass
 
 class OpenAPIGen(
-    val configuration: OpenAPIGenConfiguration,
-    private val openAPIJsonGenerator: OpenAPIJsonGenerator = OpenAPIJsonGenerator(),
-    private val routePathMapper: RoutePathMapper = RoutePathMapper(),
-    private val operationMapper: OperationMapper = OperationMapper(),
+    internal val configuration: OpenAPIGenConfiguration,
     val json: Json = configuration.json
 ) {
+    private val openAPIJsonGenerator: OpenAPIJsonGenerator = OpenAPIJsonGenerator()
+    private val routePathMapper: RoutePathMapper = RoutePathMapper()
+    private val operationMapper: OperationMapper = OperationMapper()
 
     private val pathItems = mutableMapOf<String, PathItemObject>()
 
@@ -51,7 +51,7 @@ class OpenAPIGen(
         tags: Set<String>,
         summary: String?,
         description: String?,
-        externalDocs: ExternalDocumentationObject?,
+        externalDocs: ExternalDocumentation?,
         operationId: String?,
         requestBodyExamples: RequestBodyExamples?,
         responses: List<Response<*, *>>,
@@ -97,17 +97,18 @@ class OpenAPIGen(
             configure: OpenAPIGenConfiguration.() -> Unit
         ): OpenAPIGen {
             val configuration = OpenAPIGenConfiguration().apply(configure)
-            val tagMapper = TagMapper()
+            val openAPIMapper = OpenAPIMapper()
             val plugin = OpenAPIGen(configuration)
             val logger = requireNotNull(pipeline.environment?.log) { "Logger must be initialized" }
 
             ApplicationStartedEvent.install(pipeline) {
-                val openAPIJson = plugin.openAPIJsonGenerator.generate(
-                    configuration = configuration,
+                val openAPIObject = openAPIMapper.map(
+                    openAPIGenConfiguration = configuration,
                     pathItems = plugin.pathItems.toMap(),
-                    securitySchemes = securitySchemes,
-                    tags = configuration.tags.map(tagMapper::map)
+                    securitySchemes = securitySchemes.toMap(),
+                    tags = configuration.tags
                 )
+                val openAPIJson = plugin.openAPIJsonGenerator.generate(openAPIObject)
                 logger.info("OpenAPI specification generated successfully: {}", openAPIJson.toString())
                 writeOpenAPIJson(
                     outputDirName = configuration.outputDir,
@@ -119,7 +120,7 @@ class OpenAPIGen(
             return plugin
         }
 
-        fun registerSecurityScheme(name: String, securityScheme: SecuritySchemeComponent) {
+        internal fun registerSecurityScheme(name: String, securityScheme: SecuritySchemeComponent) {
             securitySchemes[name] = securityScheme
         }
 

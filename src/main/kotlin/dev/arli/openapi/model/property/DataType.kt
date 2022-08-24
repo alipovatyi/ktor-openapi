@@ -7,7 +7,7 @@ import java.math.BigDecimal
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 
-enum class DataType(val key: String) {
+internal enum class DataType(val key: String) {
     STRING("string"),
     NUMBER("number"),
     INTEGER("integer"),
@@ -18,7 +18,7 @@ enum class DataType(val key: String) {
     ENUM("string")
 }
 
-fun <T : Any> getDataType(clazz: KClass<T>): DataType {
+internal fun <T : Any> getDataType(clazz: KClass<T>): DataType {
     return if (clazz.isSubclassOf(Enum::class)) {
         DataType.ENUM
     } else when (clazz) {

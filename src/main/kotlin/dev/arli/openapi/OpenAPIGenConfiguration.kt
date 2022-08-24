@@ -1,19 +1,21 @@
 package dev.arli.openapi
 
-import dev.arli.openapi.model.InfoObject
-import dev.arli.openapi.model.ServerObject
+import dev.arli.openapi.model.Info
+import dev.arli.openapi.model.InfoBuilder
+import dev.arli.openapi.model.Servers
+import dev.arli.openapi.model.ServersBuilder
 import dev.arli.openapi.model.Tags
 import dev.arli.openapi.model.TagsBuilder
 import dev.arli.openapi.swagger.SwaggerUIConfiguration
-import io.ktor.http.Url
+import dev.arli.openapi.swagger.SwaggerUIConfigurationBuilder
 import io.ktor.serialization.kotlinx.json.DefaultJson
 import kotlinx.serialization.json.Json
 
 data class OpenAPIGenConfiguration(
     var json: Json = DefaultJson,
     val openAPIVersion: String = "3.0.3",
-    var info: InfoObject? = null,
-    var servers: List<ServerObject> = emptyList(),
+    var info: Info? = null,
+    var servers: Servers = Servers(),
     var outputDir: String = "openapi",
     val outputFileName: String = "openapi.json",
     val oauth2RedirectPath: String = "oauth2-redirect",
@@ -22,21 +24,22 @@ data class OpenAPIGenConfiguration(
         specificationFileName = outputFileName
     )
 ) {
-    inline fun swaggerUI(crossinline configure: SwaggerUIConfiguration.() -> Unit) {
-        swaggerUIConfiguration = swaggerUIConfiguration.apply(configure)
+    inline fun swaggerUI(crossinline configure: SwaggerUIConfigurationBuilder) {
+        swaggerUIConfiguration = SwaggerUIConfiguration.Builder(
+            specificationFileName = outputFileName
+        ).apply(configure).build()
     }
 
-    inline fun info(crossinline configure: InfoObject.() -> Unit) {
-        info = InfoObject().apply(configure)
+    inline fun info(title: String, version: String, crossinline builder: InfoBuilder) {
+        info = Info.Builder(title = title, version = version).apply(builder).build()
     }
 
-    // TODO: should it be just path without base url?
-    inline fun server(url: Url, crossinline configure: ServerObject.() -> Unit) {
-        servers = servers + ServerObject(url).apply(configure)
+    inline fun servers(crossinline builder: ServersBuilder) {
+        servers = Servers.Builder().apply(builder).build()
     }
 
-    inline fun tags(crossinline configure: TagsBuilder) {
-        tags = Tags.Builder().apply(configure).build()
+    inline fun tags(crossinline builder: TagsBuilder) {
+        tags = Tags.Builder().apply(builder).build()
     }
 
     // TODO: external documentation

@@ -1,8 +1,10 @@
 package dev.arli.openapi
 
 import com.google.common.truth.Truth.assertThat
-import dev.arli.openapi.model.InfoObject
-import dev.arli.openapi.model.ServerObject
+import dev.arli.openapi.model.Info
+import dev.arli.openapi.model.Server
+import dev.arli.openapi.model.ServerVariables
+import dev.arli.openapi.model.Servers
 import dev.arli.openapi.model.Tag
 import dev.arli.openapi.model.Tags
 import dev.arli.openapi.swagger.SwaggerUIConfiguration
@@ -18,9 +20,11 @@ internal class OpenAPIGenConfigurationTest {
             json = DefaultJson,
             openAPIVersion = "3.0.3",
             info = null,
-            servers = emptyList(),
+            servers = Servers(),
             outputDir = "openapi",
             outputFileName = "openapi.json",
+            oauth2RedirectPath = "oauth2-redirect",
+            tags = Tags(),
             swaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = "openapi.json")
         )
         val actualConfiguration = OpenAPIGenConfiguration()
@@ -64,15 +68,20 @@ internal class OpenAPIGenConfigurationTest {
     @Test
     fun `Should update info object`() {
         val expectedConfiguration = OpenAPIGenConfiguration(
-            info = InfoObject(
-                title = "Title",
+            info = Info(
+                title = "Swagger Petstore - OpenAPI 3.0",
                 description = "Description",
-                termsOfService = Url("http://localhost/")
+                termsOfService = Url("http://localhost/"),
+                contact = null,
+                license = null,
+                version = "1.0.11"
             )
         )
         val actualConfiguration = OpenAPIGenConfiguration().apply {
-            info {
-                title = "Title"
+            info(
+                title = "Swagger Petstore - OpenAPI 3.0",
+                version = "1.0.11"
+            ) {
                 description = "Description"
                 termsOfService = Url("http://localhost/")
             }
@@ -84,16 +93,21 @@ internal class OpenAPIGenConfigurationTest {
     @Test
     fun `Should add server object`() {
         val expectedConfiguration = OpenAPIGenConfiguration(
-            servers = listOf(
-                ServerObject(
-                    url = Url("http://localhost/server"),
-                    description = "Server description"
+            servers = Servers(
+                servers = listOf(
+                    Server(
+                        url = Url("http://localhost/server"),
+                        description = "Server description",
+                        variables = ServerVariables()
+                    )
                 )
             )
         )
         val actualConfiguration = OpenAPIGenConfiguration().apply {
-            server(Url("http://localhost/server")) {
-                description = "Server description"
+            servers {
+                server(Url("http://localhost/server")) {
+                    description = "Server description"
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 package dev.arli.openapi.model
 
-data class HeaderObject(
+internal data class HeaderObject(
     val description: String? = null,
     val required: Boolean = false,
     val deprecated: Boolean = false,

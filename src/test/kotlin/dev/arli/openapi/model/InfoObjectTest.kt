@@ -1,61 +1,25 @@
 package dev.arli.openapi.model
 
-import io.ktor.http.Url
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 internal class InfoObjectTest {
 
     @Test
     fun `Should return info with default values`() {
         val expectedInfo = InfoObject(
-            title = null,
+            title = "Swagger Petstore - OpenAPI 3.0",
             description = null,
             termsOfService = null,
             contact = null,
             license = null,
-            version = null
+            version = "1.0.11"
         )
-        val actualInfo = InfoObject()
-
-        assertEquals(expectedInfo, actualInfo)
-    }
-
-    @Test
-    fun `Should update contact object`() {
-        val expectedInfo = InfoObject(
-            contact = ContactObject(
-                name = "Contact",
-                url = Url("http://localhost/contact"),
-                email = "contact@mail.com"
-            )
+        val actualInfo = InfoObject(
+            title = "Swagger Petstore - OpenAPI 3.0",
+            version = "1.0.11"
         )
-        val actualInfo = InfoObject().apply {
-            contact {
-                name = "Contact"
-                url = Url("http://localhost/contact")
-                email = "contact@mail.com"
-            }
-        }
 
-        assertEquals(expectedInfo, actualInfo)
-    }
-
-    @Test
-    fun `Should update license object`() {
-        val expectedInfo = InfoObject(
-            license = LicenseObject(
-                name = "License",
-                url = Url("http://localhost/license")
-            )
-        )
-        val actualInfo = InfoObject().apply {
-            license {
-                name = "License"
-                url = Url("http://localhost/license")
-            }
-        }
-
-        assertEquals(expectedInfo, actualInfo)
+        assertThat(actualInfo).isEqualTo(expectedInfo)
     }
 }

@@ -1,6 +1,7 @@
 package dev.arli.openapi.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.arli.openapi.model.ExternalDocumentation
 import dev.arli.openapi.model.ExternalDocumentationObject
 import dev.arli.openapi.model.Tag
 import dev.arli.openapi.model.TagObject
@@ -16,7 +17,7 @@ internal class TagMapperTest {
         val givenTag = Tag(
             name = "Tag",
             description = "Description",
-            externalDocs = ExternalDocumentationObject(
+            externalDocs = ExternalDocumentation(
                 url = Url("http://localhost/external-docs")
             )
         )

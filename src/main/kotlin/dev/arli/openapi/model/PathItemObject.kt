@@ -1,6 +1,6 @@
 package dev.arli.openapi.model
 
-data class PathItemObject(
+internal data class PathItemObject(
 //    val ref: ReferenceObject? = null, // TODO
     val summary: String? = null,
     val description: String? = null,

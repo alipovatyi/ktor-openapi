@@ -1,4 +1,4 @@
 package dev.arli.openapi.model
 
 @JvmInline
-value class SecurityRequirementObject(val value: String)
+internal value class SecurityRequirementObject(val value: String)

@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalDateTime
 import java.io.File
 import kotlin.reflect.KType
 
-enum class StringFormat(override val key: String) : DataFormat {
+internal enum class StringFormat(override val key: String) : DataFormat {
     NO_FORMAT(""),
     DATE("date"),
     DATE_TIME("date-time"),
@@ -14,7 +14,7 @@ enum class StringFormat(override val key: String) : DataFormat {
     BINARY("binary")
 }
 
-fun KType.getStringFormat(): StringFormat {
+internal fun KType.getStringFormat(): StringFormat {
     return when (classifier) {
         String::class -> StringFormat.NO_FORMAT
         LocalDate::class -> StringFormat.DATE

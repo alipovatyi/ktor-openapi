@@ -2,9 +2,14 @@ package dev.arli.openapi.generator
 
 import com.google.common.truth.Truth.assertThat
 import dev.arli.openapi.OpenAPIGenConfiguration
+import dev.arli.openapi.model.ComponentsObject
+import dev.arli.openapi.model.ContactObject
 import dev.arli.openapi.model.HttpSecurityScheme
+import dev.arli.openapi.model.InfoObject
+import dev.arli.openapi.model.LicenseObject
 import dev.arli.openapi.model.MediaType
 import dev.arli.openapi.model.MediaTypeObject
+import dev.arli.openapi.model.OpenAPIObject
 import dev.arli.openapi.model.OperationObject
 import dev.arli.openapi.model.ParameterLocation
 import dev.arli.openapi.model.ParameterObject
@@ -12,6 +17,7 @@ import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyObject
 import dev.arli.openapi.model.ResponseObject
 import dev.arli.openapi.model.SchemaObject
+import dev.arli.openapi.model.ServerObject
 import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.property.DataType
 import dev.arli.openapi.model.property.IntegerFormat
@@ -34,23 +40,26 @@ internal class OpenAPIJsonGeneratorTest {
     @Test
     fun `Should generate OpenAPI json correctly`() {
         val givenConfiguration = OpenAPIGenConfiguration().apply {
-            info {
-                title = "Swagger Petstore - OpenAPI 3.0"
-                description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification."
+            info(
+                title = "Swagger Petstore - OpenAPI 3.0",
                 version = "1.0.11"
+            ) {
+                description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification."
+
                 termsOfService = Url("https://swagger.io/terms/")
 
                 contact {
                     email = "apiteam@swagger.io"
                 }
 
-                license {
-                    name = "Apache 2.0"
+                license(name = "Apache 2.0") {
                     url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
                 }
             }
 
-            server(Url("/v3")) {}
+            servers {
+                server(Url("/v3"))
+            }
         }
         val givenPathItems = mapOf(
             "/pet" to PathItemObject(
@@ -628,10 +637,24 @@ internal class OpenAPIJsonGeneratorTest {
         }
 
         val actualJsonObject = generator.generate(
-            configuration = givenConfiguration,
-            pathItems = givenPathItems,
-            securitySchemes = givenSecuritySchemes,
-            tags = givenTags
+            openAPIObject = OpenAPIObject(
+                openapi = "3.0.3",
+                info = InfoObject(
+                    title = "Swagger Petstore - OpenAPI 3.0",
+                    description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.",
+                    termsOfService = Url("https://swagger.io/terms/"),
+                    contact = ContactObject(email = "apiteam@swagger.io"),
+                    license = LicenseObject(
+                        name = "Apache 2.0",
+                        url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
+                    ),
+                    version = "1.0.11"
+                ),
+                servers = listOf(ServerObject(url = Url("http://localhost/v3"))),
+                paths = givenPathItems,
+                components = ComponentsObject(securitySchemes = givenSecuritySchemes),
+                tags = givenTags
+            )
         )
 
         assertThat(actualJsonObject).isEqualTo(expectedJsonObject)
@@ -639,24 +662,6 @@ internal class OpenAPIJsonGeneratorTest {
 
     @Test
     fun `Should exclude null values`() {
-        val givenConfiguration = OpenAPIGenConfiguration().apply {
-            info {
-                title = "Swagger Petstore - OpenAPI 3.0"
-                description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification."
-                version = "1.0.11"
-                termsOfService = Url("https://swagger.io/terms/")
-
-                contact {
-                    email = "apiteam@swagger.io"
-                }
-
-                license {
-                    name = "Apache 2.0"
-                    url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
-                }
-            }
-        }
-
         val expectedJsonObject = buildJsonObject {
             put("openapi", "3.0.3")
             putJsonObject("info") {
@@ -669,7 +674,6 @@ internal class OpenAPIJsonGeneratorTest {
                 }
                 putJsonObject("license") {
                     put("name", "Apache 2.0")
-                    put("url", "https://www.apache.org/licenses/LICENSE-2.0.html")
                 }
             }
             putJsonArray("servers") {}
@@ -679,10 +683,23 @@ internal class OpenAPIJsonGeneratorTest {
         }
 
         val actualJsonObject = generator.generate(
-            configuration = givenConfiguration,
-            pathItems = emptyMap(),
-            securitySchemes = emptyMap(),
-            tags = emptyList()
+            openAPIObject = OpenAPIObject(
+                openapi = "3.0.3",
+                info = InfoObject(
+                    title = "Swagger Petstore - OpenAPI 3.0",
+                    description = "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.",
+                    termsOfService = Url("https://swagger.io/terms/"),
+                    contact = ContactObject(email = "apiteam@swagger.io"),
+                    license = LicenseObject(name = "Apache 2.0"),
+                    version = "1.0.11"
+                ),
+                servers = emptyList(),
+                paths = emptyMap(),
+                components = ComponentsObject(
+                    securitySchemes = emptyMap()
+                ),
+                tags = emptyList()
+            )
         )
 
         assertThat(actualJsonObject).isEqualTo(expectedJsonObject)

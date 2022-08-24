@@ -1,57 +1,57 @@
 package dev.arli.openapi.model.property
 
-sealed class Property(val type: DataType) {
+internal sealed class Property(val type: DataType) {
     abstract val name: String
     abstract val description: String?
     abstract val nullable: Boolean
 }
 
-data class StringProperty(
+internal data class StringProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean,
     val format: StringFormat
 ) : Property(DataType.STRING)
 
-data class NumberProperty(
+internal data class NumberProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean,
     val format: NumberFormat
 ) : Property(DataType.NUMBER)
 
-data class IntegerProperty(
+internal data class IntegerProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean,
     val format: IntegerFormat
 ) : Property(DataType.INTEGER)
 
-data class BooleanProperty(
+internal data class BooleanProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean
 ) : Property(DataType.BOOLEAN)
 
-data class ArrayProperty(
+internal data class ArrayProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean
 ) : Property(DataType.ARRAY)
 
-data class MapProperty(
+internal data class MapProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean
 ) : Property(DataType.MAP)
 
-data class ObjectProperty(
+internal data class ObjectProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean
 ) : Property(DataType.OBJECT)
 
-data class EnumProperty(
+internal data class EnumProperty(
     override val name: String,
     override val description: String?,
     override val nullable: Boolean,

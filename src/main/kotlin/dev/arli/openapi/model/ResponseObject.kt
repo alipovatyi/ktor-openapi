@@ -1,6 +1,6 @@
 package dev.arli.openapi.model
 
-data class ResponseObject<CONTENT>(
+internal data class ResponseObject<CONTENT>(
     val description: String, // REQUIRED
     val headers: Map<String, HeaderComponent> = emptyMap(),
     val content: Map<MediaType, MediaTypeObject<CONTENT>> = emptyMap(),

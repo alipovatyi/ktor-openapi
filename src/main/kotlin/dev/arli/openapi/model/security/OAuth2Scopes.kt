@@ -14,7 +14,7 @@ data class OAuth2Scopes(
         }
 
         fun build(): OAuth2Scopes {
-            return OAuth2Scopes(scopes = scopes)
+            return OAuth2Scopes(scopes = scopes.toList())
         }
     }
 }

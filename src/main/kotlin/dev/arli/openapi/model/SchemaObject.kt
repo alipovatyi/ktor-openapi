@@ -4,7 +4,7 @@ import dev.arli.openapi.model.property.DataFormat
 import dev.arli.openapi.model.property.DataType
 
 // TODO: add more properties
-data class SchemaObject(
+internal data class SchemaObject(
     val type: DataType,
     val format: DataFormat?,
     val nullable: Boolean,

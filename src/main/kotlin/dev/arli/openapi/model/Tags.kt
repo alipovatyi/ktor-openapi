@@ -17,7 +17,7 @@ data class Tags(
         }
 
         fun build(): Tags {
-            return Tags(tags = tags)
+            return Tags(tags = tags.toList())
         }
     }
 }

@@ -2,7 +2,7 @@ package dev.arli.openapi.model
 
 import kotlinx.serialization.json.JsonElement
 
-data class MediaTypeObject<T>(
+internal data class MediaTypeObject<T>(
     val schema: SchemaComponent? = null,
     val example: T? = null,
     val examples: Map<String, ExampleComponent> = emptyMap(),

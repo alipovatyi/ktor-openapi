@@ -58,9 +58,10 @@ fun main() {
         }
         openAPIGen {
             this.json = json
-            info {
-                title = "Swagger Petstore - OpenAPI 3.0"
+            info(
+                title = "Swagger Petstore - OpenAPI 3.0",
                 version = "1.0.11"
+            ) {
                 description = """
                     This is a sample Pet Store Server based on the OpenAPI 3.0 specification. You can find out more
                     about Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store,
@@ -79,13 +80,14 @@ fun main() {
                     email = "apiteam@swagger.io"
                 }
 
-                license {
-                    name = "Apache 2.0"
+                license(name = "Apache 2.0") {
                     url = Url("https://www.apache.org/licenses/LICENSE-2.0.html")
                 }
             }
 
-            server(Url("/v3")) {}
+            servers {
+                server(Url("/v3"))
+            }
 
             tags {
                 tag("pet") { description = "Everything about your Pets" }

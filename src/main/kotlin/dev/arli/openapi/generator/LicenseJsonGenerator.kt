@@ -10,7 +10,7 @@ internal class LicenseJsonGenerator {
     fun generateLicenseJson(license: LicenseObject): JsonObject {
         return buildJsonObject {
             put("name", license.name)
-            put("url", license.url?.toString().toString())
+            license.url?.let { url -> put("url", url.toString()) }
         }
     }
 }

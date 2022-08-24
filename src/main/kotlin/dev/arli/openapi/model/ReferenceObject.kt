@@ -1,7 +1,7 @@
 package dev.arli.openapi.model
 
 @JvmInline
-value class ReferenceObject(
+internal value class ReferenceObject(
     val value: String
 ) : SchemaComponent,
     ResponseComponent,

@@ -1,18 +1,18 @@
 package dev.arli.openapi.model
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 internal class LicenseObjectTest {
 
     @Test
     fun `Should return license with default values`() {
         val expectedLicense = LicenseObject(
-            name = null,
+            name = "Apache 2.0",
             url = null
         )
-        val actualLicense = LicenseObject()
+        val actualLicense = LicenseObject(name = "Apache 2.0")
 
-        assertEquals(expectedLicense, actualLicense)
+        assertThat(actualLicense).isEqualTo(expectedLicense)
     }
 }
