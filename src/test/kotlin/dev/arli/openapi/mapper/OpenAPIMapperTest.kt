@@ -17,6 +17,7 @@ import dev.arli.openapi.model.TagObject
 import dev.arli.openapi.model.Tags
 import dev.arli.openapi.model.security.HttpSecuritySchemeType
 import io.ktor.http.Url
+import kotlin.test.assertFailsWith
 import org.junit.jupiter.api.Test
 
 internal class OpenAPIMapperTest {
@@ -65,7 +66,7 @@ internal class OpenAPIMapperTest {
                             description = null,
                             variables = ServerVariables()
                         )
-                    ),
+                    )
                 )
             ),
             pathItems = givenPathItems,
@@ -74,5 +75,20 @@ internal class OpenAPIMapperTest {
         )
 
         assertThat(actualOpenAPIObject).isEqualTo(expectedOpenAPIObject)
+    }
+
+    @Test
+    fun `Should throw exception if info is null`() {
+        assertFailsWith<IllegalArgumentException> {
+            mapper.map(
+                openAPIGenConfiguration = OpenAPIGenConfiguration(
+                    info = null,
+                    servers = Servers()
+                ),
+                pathItems = emptyMap(),
+                securitySchemes = emptyMap(),
+                tags = Tags()
+            )
+        }
     }
 }

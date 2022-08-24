@@ -19,9 +19,12 @@ internal class OpenAPIMapper(
         securitySchemes: Map<String, SecuritySchemeComponent>,
         tags: Tags
     ): OpenAPIObject {
+        val info = requireNotNull(openAPIGenConfiguration.info) {
+            "Info must not be null"
+        }
         return OpenAPIObject(
             openapi = openAPIGenConfiguration.openAPIVersion,
-            info = infoMapper.map(openAPIGenConfiguration.info!!),
+            info = infoMapper.map(info),
             servers = openAPIGenConfiguration.servers.map(serverMapper::map),
             paths = pathItems,
             components = ComponentsObject(
