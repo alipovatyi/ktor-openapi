@@ -24,9 +24,5 @@ jobs:
       - name: Check dependency updates
         run: ./gradlew dependencyUpdates -D revision=release
 
-      - name: Save dependency updates report
-        uses: actions/upload-artifact@v3
-        with:
-          name: dependency-updates-report.txt
-          path: build/dependencyUpdates/report.txt
-          retention-days: 1
+      - name: Add summary
+        run: echo "$(cat build/dependencyUpdates/report.txt)" >> $GITHUB_STEP_SUMMARY
