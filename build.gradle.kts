@@ -54,8 +54,35 @@ dependencies {
 }
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
-    rejectVersionIf {
-        isNonStableDependency(candidate.version)
+    rejectVersionIf { isNonStableDependency(candidate.version) }
+
+    gradleReleaseChannel = "current"
+
+    outputFormatter = closureOf<com.github.benmanes.gradle.versions.reporter.result.Result> {
+        if (outdated.dependencies.isNotEmpty()) {
+            val markdown = StringBuilder().apply {
+                append("|Dependency|Old version|New version|")
+                append("\n")
+                append("|--|--|--|")
+                append("\n")
+                outdated.dependencies.forEach { outdatedDependency ->
+                    with(outdatedDependency) {
+                        append("|")
+                        append(if (projectUrl != null) "[$group:$name]($projectUrl)" else "$group:$name")
+                        append("|")
+                        append(version)
+                        append("|")
+                        append(available.release ?: available.milestone)
+                        append("|")
+                        append("\n")
+                    }
+                }
+            }.toString()
+
+            project.file(outputDir).mkdirs()
+
+            File(outputDir, "$reportfileName.txt").let(project::file).writeText(markdown)
+        }
     }
 }
 
