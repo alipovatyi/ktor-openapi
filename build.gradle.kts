@@ -52,3 +52,16 @@ dependencies {
     testImplementation(libs.ktor.server.test)
     testImplementation(libs.truth)
 }
+
+tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStableDependency(candidate.version)
+    }
+}
+
+fun isNonStableDependency(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
