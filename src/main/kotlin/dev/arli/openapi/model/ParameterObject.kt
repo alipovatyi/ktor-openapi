@@ -10,7 +10,7 @@ internal data class ParameterObject(
 //    val style: String, // TODO
 //    val explode: Boolean, // TODO
 //    val allowReserved: Boolean, // TODO
-    val schema: SchemaComponent? = null,
+    val schema: SchemaComponent? = null
 //    val example: Any? = null, // TODO
 //    val examples: Map<String, ExampleComponent> = emptyMap(), // TODO
     // CONTENT

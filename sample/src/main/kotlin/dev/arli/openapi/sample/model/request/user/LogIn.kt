@@ -19,5 +19,5 @@ data class LogInResponse(
     @Header(name = "X-Expires-After")
     val expiresAfter: String,
     @Content
-    val token: String,
+    val token: String
 )

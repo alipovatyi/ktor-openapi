@@ -7,6 +7,6 @@ internal data class OpenAPIObject(
     val paths: Map<String, PathItemObject>, // REQUIRED
     val components: ComponentsObject,
 //    val security: List<SecurityRequirementObject>, // TODO
-    val tags: List<TagObject>,
+    val tags: List<TagObject>
 //    val externalDocs: ExternalDocumentationObject? // TODO
 )

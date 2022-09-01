@@ -11,10 +11,10 @@ internal sealed class SecuritySchemeObject(val type: SecuritySchemeType) : Secur
 internal data class HttpSecurityScheme(
     override val description: String?,
     val scheme: HttpSecuritySchemeType, // REQUIRED
-    val bearerFormat: String? = null,
+    val bearerFormat: String? = null
 ) : SecuritySchemeObject(SecuritySchemeType.HTTP)
 
 internal data class OAuth2SecurityScheme(
     override val description: String?,
-    val flows: OAuthFlowsObject, // REQUIRED
+    val flows: OAuthFlowsObject // REQUIRED
 ) : SecuritySchemeObject(SecuritySchemeType.OAUTH2)

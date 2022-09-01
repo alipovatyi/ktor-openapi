@@ -7,8 +7,10 @@ import kotlinx.serialization.Serializable
 enum class PetStatus {
     @SerialName("available")
     AVAILABLE,
+
     @SerialName("pending")
     PENDING,
+
     @SerialName("sold")
     SOLD
 }

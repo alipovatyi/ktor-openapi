@@ -21,7 +21,7 @@ internal class RoutePathMapperTest {
 
         @JvmStatic
         fun `Should return full route path`() = listOf<Arguments>(
-            arguments(null, "/"),
+            arguments(null, "/")
             // TODO: add more cases
         )
     }

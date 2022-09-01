@@ -102,7 +102,7 @@ internal class OperationJsonGeneratorTest {
                             )
                         )
                     )
-                ),
+                )
             ),
             deprecated = true,
             security = listOf(SecurityRequirementObject("basic"))

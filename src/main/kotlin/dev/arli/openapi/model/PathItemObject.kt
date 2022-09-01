@@ -7,7 +7,7 @@ internal data class PathItemObject(
     val get: OperationObject? = null,
     val put: OperationObject? = null,
     val post: OperationObject? = null,
-    val delete: OperationObject? = null,
+    val delete: OperationObject? = null
 //    val options: OperationObject? = null, // TODO
 //    val head: OperationObject? = null, // TODO
 //    val patch: OperationObject? = null, // TODO

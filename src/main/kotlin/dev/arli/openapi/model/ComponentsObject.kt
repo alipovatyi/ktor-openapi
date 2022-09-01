@@ -7,7 +7,7 @@ internal data class ComponentsObject(
 //    val examples: Map<String, ExampleComponent>, // TODO
 //    val requestBodies: Map<String, RequestBodyComponent>, // TODO
 //    val headers: Map<String, HeaderComponent>, // TODO
-    val securitySchemes: Map<String, SecuritySchemeComponent>,
+    val securitySchemes: Map<String, SecuritySchemeComponent>
 //    val links: Map<String, LinkComponent>, // TODO
 //    val callbacks: Map<String, CallbackComponent> // TODO
 )
