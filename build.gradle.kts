@@ -59,12 +59,14 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
     gradleReleaseChannel = "current"
 
     outputFormatter = closureOf<com.github.benmanes.gradle.versions.reporter.result.Result> {
-        if (outdated.dependencies.isNotEmpty()) {
-            val markdown = StringBuilder().apply {
+        val markdown = StringBuilder().apply {
+            if (outdated.dependencies.isNotEmpty()) {
+                append("### Available dependency updates")
+                appendLine()
                 append("|Dependency|Old version|New version|")
-                append("\n")
+                appendLine()
                 append("|--|--|--|")
-                append("\n")
+                appendLine()
                 outdated.dependencies.forEach { outdatedDependency ->
                     with(outdatedDependency) {
                         append("|")
@@ -74,15 +76,18 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
                         append("|")
                         append(available.release ?: available.milestone)
                         append("|")
-                        append("\n")
+                        appendLine()
                     }
                 }
-            }.toString()
+            } else {
+                append("### All dependencies are up-to-date")
+                appendLine()
+            }
+        }.toString()
 
-            project.file(outputDir).mkdirs()
+        project.file(outputDir).mkdirs()
 
-            File(outputDir, "$reportfileName.txt").let(project::file).writeText(markdown)
-        }
+        File(outputDir, "$reportfileName.txt").let(project::file).writeText(markdown)
     }
 }
 
