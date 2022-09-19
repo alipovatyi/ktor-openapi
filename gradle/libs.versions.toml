@@ -1,7 +1,7 @@
 [versions]
 library = "0.1.0"
 kotlin = "1.7.10"
-ktor = "2.1.0"
+ktor = "2.1.1"
 logback = "1.2.11"
 dateTime = "0.4.0"
 serialization = "1.4.0"
