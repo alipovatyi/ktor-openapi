@@ -4,6 +4,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("com.diffplug.spotless") version "6.10.0"
+    id("maven-publish")
 }
 
 allprojects {
@@ -38,6 +39,18 @@ spotless {
     }
 }
 
+publishing {
+    publications {
+        register<MavenPublication>("maven") {
+            groupId = "dev.arli"
+            artifactId = "ktor-openapi"
+            version = libs.versions.library.get()
+
+            from(components["kotlin"])
+        }
+    }
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(libs.kotlin.dateTime)
@@ -63,7 +76,7 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
             if (outdated.dependencies.isNotEmpty()) {
                 append("### Available dependency updates")
                 appendLine()
-                append("|Dependency|Old version|New version|")
+                append("|Dependency|Current version|New version|")
                 appendLine()
                 append("|--|--|--|")
                 appendLine()

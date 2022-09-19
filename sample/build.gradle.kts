@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "dev.arli"
-version = "0.0.1"
+version = libs.versions.library.get()
 
 application {
     mainClass.set("dev.arli.openapi.sample.SampleApplicationKt")
