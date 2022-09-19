@@ -21,30 +21,32 @@ internal enum class DataType(val key: String) {
 internal fun <T : Any> getDataType(clazz: KClass<T>): DataType {
     return if (clazz.isSubclassOf(Enum::class)) {
         DataType.ENUM
-    } else when (clazz) {
-        // Integer
-        Int::class -> DataType.INTEGER
-        Long::class -> DataType.INTEGER
-        // Number
-        Float::class -> DataType.NUMBER
-        Double::class -> DataType.NUMBER
-        BigDecimal::class -> DataType.NUMBER
-        // Boolean
-        Boolean::class -> DataType.BOOLEAN
-        // Enum
-        Enum::class -> DataType.ENUM
-        // String
-        String::class -> DataType.STRING
-        LocalDate::class -> DataType.STRING
-        LocalDateTime::class -> DataType.STRING
-        File::class -> DataType.STRING
-        // Array
-        Array::class -> DataType.ARRAY
-        List::class -> DataType.ARRAY
-        Set::class -> DataType.ARRAY
-        // Map
-        Map::class -> DataType.MAP
-        // Object
-        else -> DataType.OBJECT
+    } else {
+        when (clazz) {
+            // Integer
+            Int::class -> DataType.INTEGER
+            Long::class -> DataType.INTEGER
+            // Number
+            Float::class -> DataType.NUMBER
+            Double::class -> DataType.NUMBER
+            BigDecimal::class -> DataType.NUMBER
+            // Boolean
+            Boolean::class -> DataType.BOOLEAN
+            // Enum
+            Enum::class -> DataType.ENUM
+            // String
+            String::class -> DataType.STRING
+            LocalDate::class -> DataType.STRING
+            LocalDateTime::class -> DataType.STRING
+            File::class -> DataType.STRING
+            // Array
+            Array::class -> DataType.ARRAY
+            List::class -> DataType.ARRAY
+            Set::class -> DataType.ARRAY
+            // Map
+            Map::class -> DataType.MAP
+            // Object
+            else -> DataType.OBJECT
+        }
     }
 }

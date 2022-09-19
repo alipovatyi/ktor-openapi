@@ -17,9 +17,15 @@ internal class SecuritySchemeJsonGenerator(
     fun generateSecuritySchemeJson(securityScheme: SecuritySchemeComponent): JsonObject {
         return if (securityScheme !is SecuritySchemeObject) {
             buildJsonObject {} // TODO
-        } else when (securityScheme) {
-            is HttpSecurityScheme -> httpSecuritySchemeJsonGenerator.generateHttpSecuritySchemeJson(securityScheme)
-            is OAuth2SecurityScheme -> oAuth2SecuritySchemeJsonGenerator.generateOAuth2SecuritySchemeJson(securityScheme)
+        } else {
+            when (securityScheme) {
+                is HttpSecurityScheme -> {
+                    httpSecuritySchemeJsonGenerator.generateHttpSecuritySchemeJson(securityScheme)
+                }
+                is OAuth2SecurityScheme -> {
+                    oAuth2SecuritySchemeJsonGenerator.generateOAuth2SecuritySchemeJson(securityScheme)
+                }
+            }
         }
     }
 }
