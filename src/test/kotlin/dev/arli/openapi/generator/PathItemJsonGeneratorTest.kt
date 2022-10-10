@@ -41,6 +41,9 @@ internal class PathItemJsonGeneratorTest {
             ),
             delete = OperationObject(
                 description = "DELETE operation"
+            ),
+            head = OperationObject(
+                description = "HEAD operation"
             )
         )
         val expectedJsonObject = buildJsonObject {
@@ -70,6 +73,13 @@ internal class PathItemJsonGeneratorTest {
             putJsonObject("delete") {
                 putJsonArray("tags") {}
                 put("description", "DELETE operation")
+                putJsonArray("parameters") {}
+                putJsonObject("responses") {}
+                put("deprecated", false)
+            }
+            putJsonObject("head") {
+                putJsonArray("tags") {}
+                put("description", "HEAD operation")
                 putJsonArray("parameters") {}
                 putJsonObject("responses") {}
                 put("deprecated", false)

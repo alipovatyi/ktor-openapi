@@ -29,6 +29,9 @@ internal class PathItemJsonGenerator(
             pathItem.delete?.let { delete ->
                 put("delete", operationJsonGenerator.generateOperationJson(delete))
             }
+            pathItem.head?.let { head ->
+                put("head", operationJsonGenerator.generateOperationJson(head))
+            }
         }
     }
 }

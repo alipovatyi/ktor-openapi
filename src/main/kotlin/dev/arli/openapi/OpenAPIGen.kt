@@ -79,7 +79,8 @@ class OpenAPIGen(
             get = if (method == HttpMethod.Get) operation else pathItem.get,
             put = if (method == HttpMethod.Put) operation else pathItem.put,
             post = if (method == HttpMethod.Post) operation else pathItem.post,
-            delete = if (method == HttpMethod.Delete) operation else pathItem.delete
+            delete = if (method == HttpMethod.Delete) operation else pathItem.delete,
+            head = if (method == HttpMethod.Head) operation else pathItem.head
         )
     }
 
