@@ -48,14 +48,9 @@ class OpenAPIGen(
         route: Route,
         requestClass: KClass<*>,
         responseClass: KClass<*>,
-        tags: Set<String>,
-        summary: String?,
-        description: String?,
         externalDocs: ExternalDocumentation?,
-        operationId: String?,
         requestBodyExamples: RequestBodyExamples?,
-        responses: List<Response<*, *>>,
-        deprecated: Boolean
+        responses: List<Response<*, *>>
     ) {
         val path = routePathMapper.map(route)
         val pathItem = pathItems.getOrDefault(path, PathItemObject())
@@ -64,14 +59,9 @@ class OpenAPIGen(
             route = route,
             requestClass = requestClass,
             responseClass = responseClass,
-            tags = tags,
-            summary = summary,
-            description = description,
             externalDocs = externalDocs,
-            operationId = operationId,
             requestBodyExamples = requestBodyExamples,
-            responses = responses,
-            deprecated = deprecated
+            responses = responses
         )
         val operation = operationMapper.map(routeToOperationParams)
 

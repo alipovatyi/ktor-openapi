@@ -29,26 +29,18 @@ import io.ktor.server.routing.route
 internal fun Routing.userRouting() = route("/user") {
     documentedPost<CreateUserRequest, CreateUserResponse>(
         path = "/",
-        tags = setOf(Tags.User),
-        summary = "Create user",
-        description = "This can only be done by the logged in user.",
         responses = {
             defaultResponse<CreateUserResponse, User>()
         }
     ) {}
     documentedPost<CreateUsersRequest, CreateUsersResponse>(
         path = "/createWithList",
-        tags = setOf(Tags.User),
-        summary = "Creates list of users with given input array",
-        description = "Creates list of users with given input array",
         responses = {
             response<CreateUsersResponse, List<User>>(HttpStatusCode.OK)
         }
     ) {}
     documentedGet<LogInRequest, LogInResponse>(
         path = "/login",
-        tags = setOf(Tags.User),
-        summary = "Logs user into the system",
         responses = {
             response<LogInResponse, String>(HttpStatusCode.OK)
             response<InvalidUsernameOrPasswordSuppliedResponse, String>(HttpStatusCode.BadRequest)
@@ -56,16 +48,12 @@ internal fun Routing.userRouting() = route("/user") {
     ) {}
     documentedGet<LogOutRequest, LogOutResponse>(
         path = "/logout",
-        tags = setOf(Tags.User),
-        summary = "Logs out current logged in user session",
         responses = {
             defaultResponse<LogOutResponse>()
         }
     ) {}
     documentedGet<GetUserByUsernameRequest, GetUserByUsernameResponse>(
         path = "/{username}",
-        tags = setOf(Tags.User),
-        summary = "Get user by user name",
         responses = {
             response<GetUserByUsernameResponse, User>(HttpStatusCode.OK)
             response<InvalidUsernameSuppliedResponse, User>(HttpStatusCode.BadRequest)
@@ -74,18 +62,12 @@ internal fun Routing.userRouting() = route("/user") {
     ) {}
     documentedPut<UpdateUserByUsernameRequest, UpdateUserByUsernameResponse>(
         path = "/{username}",
-        tags = setOf(Tags.User),
-        summary = "Update user",
-        description = "This can only be done by the logged in user.",
         responses = {
             defaultResponse<UpdateUserByUsernameResponse>()
         }
     ) {}
     documentedDelete<DeleteUserRequest, DeleteUserResponse>(
         path = "/{username}",
-        tags = setOf(Tags.User),
-        summary = "Delete user",
-        description = "This can only be done by the logged in user.",
         responses = {
             response<InvalidUsernameSuppliedResponse>(HttpStatusCode.BadRequest)
             response<UserNotFoundResponse>(HttpStatusCode.NotFound)

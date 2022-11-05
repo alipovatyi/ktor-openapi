@@ -6,6 +6,7 @@ import dev.arli.openapi.annotation.Cookie
 import dev.arli.openapi.annotation.Header
 import dev.arli.openapi.annotation.Path
 import dev.arli.openapi.annotation.Query
+import dev.arli.openapi.annotation.Request
 import dev.arli.openapi.annotation.RequestBody
 import dev.arli.openapi.annotation.Response
 import dev.arli.openapi.model.ExternalDocumentation
@@ -41,18 +42,14 @@ internal class OperationMapperTest {
     private val mapper = OperationMapper()
 
     @Test
-    fun `Should map params to operation object`() {
+    fun `Should map params with default request values to operation object`() {
         val givenParams = OperationMapper.Params(
             route = createRoute("/test/{pathParam1}/test/{pathParam2}"),
-            requestClass = TestRequest::class,
+            requestClass = TestRequestWithDefaultValues::class,
             responseClass = TestResponse::class,
-            tags = setOf("tag-1", "tag-2"),
-            summary = "Summary",
-            description = "Description",
             externalDocs = ExternalDocumentation(
                 url = Url("http://localhost/external-docs")
             ),
-            operationId = "operation-id",
             requestBodyExamples = RequestBodyExamples.Builder(json = json).apply {
                 applicationJson<String> {
                     example = "Example"
@@ -61,8 +58,171 @@ internal class OperationMapperTest {
             responses = Responses.Builder(json = json).apply {
                 defaultResponse<TestResponse, Int>()
                 response<TestResponseNotFound, String>(HttpStatusCode.NotFound)
+            }.build()
+        )
+
+        val expectedParameterObject = OperationObject(
+            tags = emptySet(),
+            summary = "",
+            description = "",
+            externalDocs = ExternalDocumentationObject(
+                url = Url("http://localhost/external-docs")
+            ),
+            operationId = "",
+            parameters = listOf(
+                ParameterObject(
+                    name = "pathParam1",
+                    `in` = ParameterLocation.PATH,
+                    description = "",
+                    required = true,
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                ),
+                ParameterObject(
+                    name = "pathParam2",
+                    `in` = ParameterLocation.PATH,
+                    description = "",
+                    required = true,
+                    schema = SchemaObject(
+                        type = DataType.INTEGER,
+                        format = IntegerFormat.INT_64,
+                        nullable = false
+                    )
+                ),
+                ParameterObject(
+                    name = "queryParam1",
+                    `in` = ParameterLocation.QUERY,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.INTEGER,
+                        format = IntegerFormat.INT_32,
+                        nullable = true
+                    )
+                ),
+                ParameterObject(
+                    name = "queryParam2",
+                    `in` = ParameterLocation.QUERY,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.BOOLEAN,
+                        format = null,
+                        nullable = false
+                    )
+                ),
+                ParameterObject(
+                    name = "headerParam1",
+                    `in` = ParameterLocation.HEADER,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                ),
+                ParameterObject(
+                    name = "headerParam2",
+                    `in` = ParameterLocation.HEADER,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = true
+                    )
+                ),
+                ParameterObject(
+                    name = "cookieParam1",
+                    `in` = ParameterLocation.COOKIE,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = true
+                    )
+                ),
+                ParameterObject(
+                    name = "cookieParam2",
+                    `in` = ParameterLocation.COOKIE,
+                    description = "",
+                    schema = SchemaObject(
+                        type = DataType.STRING,
+                        format = StringFormat.NO_FORMAT,
+                        nullable = false
+                    )
+                )
+            ),
+            requestBody = RequestBodyObject(
+                description = null,
+                content = mapOf(
+                    MediaType.APPLICATION_JSON to MediaTypeObject(
+                        schema = SchemaObject(
+                            type = DataType.STRING,
+                            format = StringFormat.NO_FORMAT,
+                            nullable = false
+                        ),
+                        example = "Example",
+                        exampleJson = JsonPrimitive("Example"),
+                        examples = emptyMap()
+                    )
+                )
+            ),
+            responses = mapOf(
+                null to ResponseObject<Int>(
+                    description = "Successful operation",
+                    headers = emptyMap(),
+                    content = mapOf(
+                        MediaType.APPLICATION_JSON to MediaTypeObject(
+                            schema = SchemaObject(
+                                type = DataType.INTEGER,
+                                format = IntegerFormat.INT_32,
+                                nullable = false
+                            )
+                        )
+                    ),
+                    links = emptyMap()
+                ),
+                HttpStatusCode.NotFound to ResponseObject<String>(
+                    description = "Element not found",
+                    headers = emptyMap(),
+                    content = mapOf(
+                        MediaType.APPLICATION_JSON to MediaTypeObject(
+                            schema = SchemaObject(
+                                type = DataType.STRING,
+                                format = StringFormat.NO_FORMAT,
+                                nullable = false
+                            )
+                        )
+                    ),
+                    links = emptyMap()
+                )
+            ),
+            deprecated = false,
+            security = listOf(SecurityRequirementObject("basic"))
+        )
+
+        assertThat(mapper.map(givenParams)).isEqualTo(expectedParameterObject)
+    }
+
+    @Test
+    fun `Should map params with custom request values to operation object`() {
+        val givenParams = OperationMapper.Params(
+            route = createRoute("/test/{pathParam1}/test/{pathParam2}"),
+            requestClass = TestRequestWithCustomValues::class,
+            responseClass = TestResponse::class,
+            externalDocs = ExternalDocumentation(
+                url = Url("http://localhost/external-docs")
+            ),
+            requestBodyExamples = RequestBodyExamples.Builder(json = json).apply {
+                applicationJson<String> {
+                    example = "Example"
+                }
             }.build(),
-            deprecated = false
+            responses = Responses.Builder(json = json).apply {
+                defaultResponse<TestResponse, Int>()
+                response<TestResponseNotFound, String>(HttpStatusCode.NotFound)
+            }.build()
         )
 
         val expectedParameterObject = OperationObject(
@@ -202,7 +362,7 @@ internal class OperationMapperTest {
                     links = emptyMap()
                 )
             ),
-            deprecated = false,
+            deprecated = true,
             security = listOf(SecurityRequirementObject("basic"))
         )
 
@@ -218,7 +378,27 @@ internal class OperationMapperTest {
         return root.route(normalizedPath) {}
     }
 
-    private data class TestRequest(
+    @Request
+    private data class TestRequestWithDefaultValues(
+        @Path val pathParam1: String,
+        @Path val pathParam2: Long,
+        @Query val queryParam1: Int?,
+        @Query val queryParam2: Boolean,
+        @Header val headerParam1: String,
+        @Header val headerParam2: String?,
+        @Cookie val cookieParam1: String?,
+        @Cookie val cookieParam2: String,
+        @RequestBody val content: String
+    )
+
+    @Request(
+        tags = ["tag-1", "tag-2"],
+        summary = "Summary",
+        description = "Description",
+        operationId = "operation-id",
+        deprecated = true
+    )
+    private data class TestRequestWithCustomValues(
         @Path val pathParam1: String,
         @Path val pathParam2: Long,
         @Query val queryParam1: Int?,
