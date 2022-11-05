@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
     id("com.github.ben-manes.versions") version "0.43.0"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("com.diffplug.spotless") version "6.11.0"
