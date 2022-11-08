@@ -1,11 +1,15 @@
 package dev.arli.openapi.model.property
 
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.math.BigDecimal
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
+import java.time.LocalDate as JavaLocalDate
+import java.time.LocalDateTime as JavaLocalDateTime
+import java.time.LocalTime as JavaLocalTime
+import java.time.OffsetDateTime as JavaOffsetDateTime
+import kotlinx.datetime.LocalDate as KotlinLocalDate
+import kotlinx.datetime.LocalDateTime as KotlinLocalDateTime
 
 internal enum class DataType(val key: String) {
     STRING("string"),
@@ -36,8 +40,12 @@ internal fun <T : Any> getDataType(clazz: KClass<T>): DataType {
             Enum::class -> DataType.ENUM
             // String
             String::class -> DataType.STRING
-            LocalDate::class -> DataType.STRING
-            LocalDateTime::class -> DataType.STRING
+            JavaLocalDate::class -> DataType.STRING
+            JavaLocalTime::class -> DataType.STRING
+            JavaLocalDateTime::class -> DataType.STRING
+            JavaOffsetDateTime::class -> DataType.STRING
+            KotlinLocalDate::class -> DataType.STRING
+            KotlinLocalDateTime::class -> DataType.STRING
             File::class -> DataType.STRING
             // Array
             Array::class -> DataType.ARRAY

@@ -1,8 +1,6 @@
 package dev.arli.openapi.model.property
 
 import com.google.common.truth.Truth.assertThat
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -10,6 +8,12 @@ import java.io.File
 import java.math.BigDecimal
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmErasure
+import java.time.LocalDate as JavaLocalDate
+import java.time.LocalDateTime as JavaLocalDateTime
+import java.time.LocalTime as JavaLocalTime
+import java.time.OffsetDateTime as JavaOffsetDateTime
+import kotlinx.datetime.LocalDate as KotlinLocalDate
+import kotlinx.datetime.LocalDateTime as KotlinLocalDateTime
 
 internal class DataTypeTest {
 
@@ -42,10 +46,18 @@ internal class DataTypeTest {
         fun `Should return data type`() = listOf(
             arguments(TestClassWithString::value, DataType.STRING),
             arguments(TestClassWithNullableString::value, DataType.STRING),
-            arguments(TestClassWithLocalDate::value, DataType.STRING),
-            arguments(TestClassWithNullableLocalDate::value, DataType.STRING),
-            arguments(TestClassWithLocalDateTime::value, DataType.STRING),
-            arguments(TestClassWithNullableLocalDateTime::value, DataType.STRING),
+            arguments(TestClassWithJavaLocalDate::value, DataType.STRING),
+            arguments(TestClassWithNullableJavaLocalDate::value, DataType.STRING),
+            arguments(TestClassWithJavaLocalTime::value, DataType.STRING),
+            arguments(TestClassWithNullableJavaLocalTime::value, DataType.STRING),
+            arguments(TestClassWithJavaLocalDateTime::value, DataType.STRING),
+            arguments(TestClassWithNullableJavaLocalDateTime::value, DataType.STRING),
+            arguments(TestClassWithJavaOffsetDateTime::value, DataType.STRING),
+            arguments(TestClassWithNullableJavaOffsetDateTime::value, DataType.STRING),
+            arguments(TestClassWithKotlinLocalDate::value, DataType.STRING),
+            arguments(TestClassWithNullableKotlinLocalDate::value, DataType.STRING),
+            arguments(TestClassWithKotlinLocalDateTime::value, DataType.STRING),
+            arguments(TestClassWithNullableKotlinLocalDateTime::value, DataType.STRING),
             arguments(TestClassWithFile::value, DataType.STRING),
             arguments(TestClassWithNullableFile::value, DataType.STRING),
             arguments(TestClassWithFloat::value, DataType.NUMBER),
@@ -77,10 +89,18 @@ internal class DataTypeTest {
 
     private data class TestClassWithString(val value: String)
     private data class TestClassWithNullableString(val value: String?)
-    private data class TestClassWithLocalDate(val value: LocalDate)
-    private data class TestClassWithNullableLocalDate(val value: LocalDate?)
-    private data class TestClassWithLocalDateTime(val value: LocalDateTime)
-    private data class TestClassWithNullableLocalDateTime(val value: LocalDateTime?)
+    private data class TestClassWithJavaLocalDate(val value: JavaLocalDate)
+    private data class TestClassWithNullableJavaLocalDate(val value: JavaLocalDate?)
+    private data class TestClassWithJavaLocalTime(val value: JavaLocalTime)
+    private data class TestClassWithNullableJavaLocalTime(val value: JavaLocalTime?)
+    private data class TestClassWithJavaLocalDateTime(val value: JavaLocalDateTime)
+    private data class TestClassWithNullableJavaLocalDateTime(val value: JavaLocalDateTime?)
+    private data class TestClassWithJavaOffsetDateTime(val value: JavaOffsetDateTime)
+    private data class TestClassWithNullableJavaOffsetDateTime(val value: JavaOffsetDateTime?)
+    private data class TestClassWithKotlinLocalDate(val value: KotlinLocalDate)
+    private data class TestClassWithNullableKotlinLocalDate(val value: KotlinLocalDate?)
+    private data class TestClassWithKotlinLocalDateTime(val value: KotlinLocalDateTime)
+    private data class TestClassWithNullableKotlinLocalDateTime(val value: KotlinLocalDateTime?)
     private data class TestClassWithFile(val value: File)
     private data class TestClassWithNullableFile(val value: File?)
     private data class TestClassWithFloat(val value: Float)

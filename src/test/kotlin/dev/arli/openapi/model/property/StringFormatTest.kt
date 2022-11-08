@@ -1,7 +1,5 @@
 package dev.arli.openapi.model.property
 
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -10,6 +8,10 @@ import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import java.time.LocalDate as JavaLocalDate
+import java.time.LocalDateTime as JavaLocalDateTime
+import kotlinx.datetime.LocalDate as KotlinLocalDate
+import kotlinx.datetime.LocalDateTime as KotlinLocalDateTime
 
 internal class StringFormatTest {
 
@@ -50,10 +52,14 @@ internal class StringFormatTest {
         fun `Should return string format`() = listOf(
             arguments(typeOf<String>(), StringFormat.NO_FORMAT),
             arguments(typeOf<String?>(), StringFormat.NO_FORMAT),
-            arguments(typeOf<LocalDate>(), StringFormat.DATE),
-            arguments(typeOf<LocalDate?>(), StringFormat.DATE),
-            arguments(typeOf<LocalDateTime>(), StringFormat.DATE_TIME),
-            arguments(typeOf<LocalDateTime?>(), StringFormat.DATE_TIME)
+            arguments(typeOf<JavaLocalDate>(), StringFormat.DATE),
+            arguments(typeOf<JavaLocalDate?>(), StringFormat.DATE),
+            arguments(typeOf<JavaLocalDateTime>(), StringFormat.DATE_TIME),
+            arguments(typeOf<JavaLocalDateTime?>(), StringFormat.DATE_TIME),
+            arguments(typeOf<KotlinLocalDate>(), StringFormat.DATE),
+            arguments(typeOf<KotlinLocalDate?>(), StringFormat.DATE),
+            arguments(typeOf<KotlinLocalDateTime>(), StringFormat.DATE_TIME),
+            arguments(typeOf<KotlinLocalDateTime?>(), StringFormat.DATE_TIME)
         )
     }
 }
