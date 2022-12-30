@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.7.20"
     kotlin("plugin.serialization") version "1.7.20"
     id("com.github.ben-manes.versions") version "0.44.0"
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
     id("com.diffplug.spotless") version "6.12.0"
     id("maven-publish")
 }
@@ -15,17 +15,22 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 }
 
-kover {
-    coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO)
+koverMerged {
+    enable()
+
+    filters {
+        projects {
+            excludes += listOf("sample")
+        }
+    }
+
+    htmlReport {
+        reportDir.set(layout.buildDirectory.dir("reports/kover"))
+    }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
-
-    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
-        includes = listOf("dev.arli.openapi.*")
-        excludes = listOf("dev.arli.openapi.sample.*")
-    }
 }
 
 spotless {
