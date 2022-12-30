@@ -3,7 +3,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.github.ben-manes.versions") version "0.43.0"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
-    id("com.diffplug.spotless") version "6.11.0"
+    id("com.diffplug.spotless") version "6.12.0"
     id("maven-publish")
 }
 
@@ -30,7 +30,7 @@ tasks.withType<Test> {
 
 spotless {
     kotlin {
-        ktlint().editorConfigOverride(mapOf("disabled_rules" to "filename"))
+        ktlint().editorConfigOverride(mapOf("ktlint_disabled_rules" to "filename"))
         target("**/*.kt")
     }
     kotlinGradle {
