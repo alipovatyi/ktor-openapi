@@ -51,14 +51,12 @@ internal class OpenAPIGenConfigurationTest {
         val expectedConfiguration = OpenAPIGenConfiguration(
             swaggerUIConfiguration = SwaggerUIConfiguration(
                 path = "/documentation",
-                webjarsPath = "/assets",
                 specificationFileName = "openapi.json"
             )
         )
         val actualConfiguration = OpenAPIGenConfiguration().apply {
             swaggerUI {
                 path = "/documentation"
-                webjarsPath = "/assets"
             }
         }
 

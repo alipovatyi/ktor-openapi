@@ -9,29 +9,26 @@ import dev.arli.openapi.model.PathItemObject
 import dev.arli.openapi.model.RequestBodyExamples
 import dev.arli.openapi.model.Response
 import dev.arli.openapi.model.SecuritySchemeComponent
-import dev.arli.openapi.swagger.OAuth2Redirect
-import dev.arli.openapi.swagger.SwaggerUI
 import io.ktor.http.HttpMethod
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.BaseApplicationPlugin
-import io.ktor.server.application.call
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.install
 import io.ktor.server.application.pluginOrNull
-import io.ktor.server.html.respondHtmlTemplate
-import io.ktor.server.http.content.file
-import io.ktor.server.http.content.static
+import io.ktor.server.plugins.swagger.swaggerUI
 import io.ktor.server.routing.HttpMethodRouteSelector
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import io.ktor.server.webjars.Webjars
 import io.ktor.util.AttributeKey
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import java.io.File
+import kotlin.collections.List
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.collections.toMap
 import kotlin.reflect.KClass
 
 class OpenAPIGen(
@@ -132,21 +129,10 @@ class OpenAPIGen(
 
 fun Application.openAPIGen(block: OpenAPIGenConfiguration.() -> Unit) {
     val openAPIGen = pluginOrNull(OpenAPIGen) ?: install(OpenAPIGen, block)
-    pluginOrNull(Webjars) ?: install(Webjars)
     val configuration = openAPIGen.configuration
     val swaggerUIConfiguration = openAPIGen.configuration.swaggerUIConfiguration
     val openAPIFile = File(configuration.outputDir, configuration.outputFileName)
     routing {
-        static("/") {
-            file(remotePath = configuration.outputFileName, localPath = openAPIFile)
-        }
-        get(swaggerUIConfiguration.path) {
-            val swaggerUI = SwaggerUI(swaggerUIConfiguration = swaggerUIConfiguration)
-            call.respondHtmlTemplate(swaggerUI) {}
-        }
-        get(swaggerUIConfiguration.oauth2RedirectPath) {
-            val oAuth2Redirect = OAuth2Redirect()
-            call.respondHtmlTemplate(oAuth2Redirect) {}
-        }
+        swaggerUI(path = swaggerUIConfiguration.path, apiFile = openAPIFile)
     }
 }
