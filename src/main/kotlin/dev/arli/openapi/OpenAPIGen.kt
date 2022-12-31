@@ -25,10 +25,7 @@ import io.ktor.util.AttributeKey
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import java.io.File
-import kotlin.collections.List
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
-import kotlin.collections.toMap
 import kotlin.reflect.KClass
 
 class OpenAPIGen(
@@ -87,7 +84,6 @@ class OpenAPIGen(
             val configuration = OpenAPIGenConfiguration().apply(configure)
             val openAPIMapper = OpenAPIMapper()
             val plugin = OpenAPIGen(configuration)
-            val logger = requireNotNull(pipeline.environment?.log) { "Logger must be initialized" }
 
             ApplicationStartedEvent.install(pipeline) {
                 val openAPIObject = openAPIMapper.map(
@@ -97,7 +93,6 @@ class OpenAPIGen(
                     tags = configuration.tags
                 )
                 val openAPIJson = plugin.openAPIJsonGenerator.generate(openAPIObject)
-                logger.info("OpenAPI specification generated successfully: {}", openAPIJson.toString())
                 writeOpenAPIJson(
                     outputDirName = configuration.outputDir,
                     outputFileName = configuration.outputFileName,
