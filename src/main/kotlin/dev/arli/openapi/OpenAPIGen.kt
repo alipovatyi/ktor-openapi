@@ -127,7 +127,9 @@ fun Application.openAPIGen(block: OpenAPIGenConfiguration.() -> Unit) {
     val configuration = openAPIGen.configuration
     val swaggerUIConfiguration = openAPIGen.configuration.swaggerUIConfiguration
     val openAPIFile = File(configuration.outputDir, configuration.outputFileName)
-    routing {
-        swaggerUI(path = swaggerUIConfiguration.path, apiFile = openAPIFile)
+    if (swaggerUIConfiguration != null) {
+        routing {
+            swaggerUI(path = swaggerUIConfiguration.path, apiFile = openAPIFile)
+        }
     }
 }

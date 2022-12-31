@@ -25,7 +25,7 @@ internal class OpenAPIGenConfigurationTest {
             outputFileName = "openapi.json",
             oauth2RedirectPath = "oauth2-redirect",
             tags = Tags(),
-            swaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = "openapi.json")
+            swaggerUIConfiguration = null
         )
         val actualConfiguration = OpenAPIGenConfiguration()
 
@@ -37,7 +37,7 @@ internal class OpenAPIGenConfigurationTest {
         val expectedConfiguration = OpenAPIGenConfiguration(
             outputDir = "docs",
             outputFileName = "openapi.json",
-            swaggerUIConfiguration = SwaggerUIConfiguration(specificationFileName = "openapi.json")
+            swaggerUIConfiguration = null
         )
         val actualConfiguration = OpenAPIGenConfiguration().apply {
             outputDir = "docs"
