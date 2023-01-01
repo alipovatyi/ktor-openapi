@@ -13,6 +13,6 @@ repositories {
 ```
 ```kotlin
 dependencies {
-    implementation ("com.github.alipovatyi:ktor-openapi:0.1.0")
+    implementation ("com.github.alipovatyi:ktor-openapi:0.1.1")
 }
 ```
